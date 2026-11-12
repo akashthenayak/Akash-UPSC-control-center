@@ -130,7 +130,7 @@ export default function RoadmapTab({ phases, milestones, scorecard, stats }: Roa
             </h3>
           </div>
           <p className="mt-1 text-xs text-stone-500 leading-relaxed">
-            Live accuracy tracked from your SQLite PYQ attempts (spanning 2013–2026).
+            Live accuracy tracked from your browser-stored PYQ attempts (spanning 2013–2026).
           </p>
 
           <div className="mt-4 space-y-2.5">

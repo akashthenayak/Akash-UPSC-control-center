@@ -17,6 +17,11 @@ import SyllabusTab from "@/components/SyllabusTab";
 import RoadmapTab from "@/components/RoadmapTab";
 import SettingsModal from "@/components/SettingsModal";
 import { DailyLogEntry, DailyTargetSuggestion, StudyPhaseInfo, SyllabusNode } from "@/types";
+import {
+  getLocalDashboard,
+  saveLocalDailyLog,
+  updateLocalSyllabusMastery,
+} from "@/lib/storage";
 
 type TabId = "tracker" | "pyq" | "errors" | "syllabus" | "roadmap";
 
@@ -80,11 +85,21 @@ export default function HomePage() {
     return () => window.removeEventListener("popstate", parseUrlState);
   }, []);
 
-  const loadDashboard = async (dateStr = selectedDate) => {
-    const res = await fetch(`/api/dashboard?date=${encodeURIComponent(dateStr)}`);
-    const json = await res.json();
-    setData(json);
-    setLoading(false);
+  const loadDashboard = (dateStr = selectedDate) => {
+    try {
+      const localData = getLocalDashboard(dateStr);
+      setData(localData as DashboardResponse);
+      setLoading(false);
+    } catch (err) {
+      console.warn("Using network dashboard fallback:", err);
+      fetch(`/api/dashboard?date=${encodeURIComponent(dateStr)}`)
+        .then((res) => res.json())
+        .then((json) => {
+          setData(json);
+          setLoading(false);
+        })
+        .catch(console.error);
+    }
   };
 
   useEffect(() => {
@@ -93,22 +108,27 @@ export default function HomePage() {
   }, [selectedDate]);
 
   const handleUpdateDailyLog = async (patch: Partial<DailyLogEntry>) => {
-    if (!data) return;
-    await fetch("/api/daily-log", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ log_date: selectedDate, ...patch }),
-    });
-    await loadDashboard(selectedDate);
+    saveLocalDailyLog({ log_date: selectedDate, ...patch });
+    loadDashboard(selectedDate);
+    try {
+      fetch("/api/daily-log", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ log_date: selectedDate, ...patch }),
+      }).catch(() => {});
+    } catch {}
   };
 
   const handleUpdateSyllabusMastery = async (code: string, masteryPct: number) => {
-    await fetch("/api/syllabus", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code, mastery_pct: masteryPct }),
-    });
-    await loadDashboard(selectedDate);
+    updateLocalSyllabusMastery(code, masteryPct);
+    loadDashboard(selectedDate);
+    try {
+      fetch("/api/syllabus", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, mastery_pct: masteryPct }),
+      }).catch(() => {});
+    } catch {}
   };
 
   const handleJumpToPyq = (syllabusCode: string) => {

@@ -22,6 +22,7 @@ export interface SeedPyqQuestion {
   trap_analysis: string;
   citations: CitationItem[];
   is_verified: boolean;
+  user_trick_note?: string;
 }
 
 /**

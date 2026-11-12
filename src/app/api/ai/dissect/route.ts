@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDatabase } from "@/lib/db";
+import { VERIFIED_STARTER_PYQS } from "@/data/pyqs";
 
 export async function POST(req: NextRequest) {
   try {
@@ -18,14 +18,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const db = getDatabase();
-    const q = db.prepare("SELECT * FROM pyq_questions WHERE id = ?").get(pyqId) as
-      | Record<string, unknown>
-      | undefined;
+    const passedQ = body.question;
+    const starterQ = VERIFIED_STARTER_PYQS.find((_, idx) => idx + 1 === pyqId);
+    const q = passedQ || starterQ;
 
     if (!q) {
       return NextResponse.json({ error: "PYQ not found" }, { status: 404 });
     }
+
+    const optA = q.options?.A ?? q.option_a ?? "";
+    const optB = q.options?.B ?? q.option_b ?? "";
+    const optC = q.options?.C ?? q.option_c ?? "";
+    const optD = q.options?.D ?? q.option_d ?? "";
 
     const prompt = `You are a strict UPSC Civil Services Preliminary Exam mentor advising a 2-time Mains veteran (PSIR optional) who must eliminate factual blindspots and post-2022 pair-counting traps.
 
@@ -36,13 +40,13 @@ Question (${q.year} ${q.paper}, ${q.subject}):
 ${q.stem}
 
 Options:
-A. ${q.option_a}
-B. ${q.option_b}
-C. ${q.option_c}
-D. ${q.option_d}
+A. ${optA}
+B. ${optB}
+C. ${optC}
+D. ${optD}
 
 Official Answer: ${q.official_answer}
-Stored Trap Type: ${q.trap_type}
+Stored Trap Type: ${q.trap_type || "Factual Calibration"}
 User's selected/confused reasoning: ${userMistake || "Requested deeper dissection"}
 
 Provide a concise, high-signal breakdown in 4 short bullet sections:
@@ -60,7 +64,10 @@ Provide a concise, high-signal breakdown in 4 short bullet sections:
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.2, maxOutputTokens: 700 },
+          generationConfig: {
+            temperature: 0.2,
+            maxOutputTokens: 1024,
+          },
         }),
       }
     );
@@ -68,18 +75,18 @@ Provide a concise, high-signal breakdown in 4 short bullet sections:
     if (!response.ok) {
       const errText = await response.text();
       return NextResponse.json(
-        { error: `Gemini API returned ${response.status}: ${errText.slice(0, 200)}` },
-        { status: 502 }
+        { error: `Gemini API returned status ${response.status}: ${errText}` },
+        { status: response.status }
       );
     }
 
-    const data = await response.json();
-    const analysis =
-      data?.candidates?.[0]?.content?.parts?.[0]?.text || "No analysis returned from Gemini API.";
+    const resJson = await response.json();
+    const text =
+      resJson.candidates?.[0]?.content?.parts?.[0]?.text || "No response received from Gemini.";
 
-    return NextResponse.json({ analysis });
+    return NextResponse.json({ analysis: text });
   } catch (error) {
-    console.error("AI dissect POST error:", error);
-    return NextResponse.json({ error: "Failed to run optional Gemini dissection" }, { status: 500 });
+    console.error("AI Dissect error:", error);
+    return NextResponse.json({ error: "Failed to generate AI dissection" }, { status: 500 });
   }
 }

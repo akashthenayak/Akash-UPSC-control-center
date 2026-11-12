@@ -31,7 +31,7 @@ export default function SettingsModal({ open, apiKey, onSaveApiKey, onClose }: S
         </div>
 
         <p className="mt-3 text-xs leading-relaxed text-stone-600">
-          Your 2013–2026 PYQs, official UPSC keys, citations, and Error Registry work 100% locally in SQLite and Local Storage without any API key.
+          Your 2013–2026 PYQs, official UPSC keys, citations, and Error Registry work 100% locally in Browser LocalStorage without any API key (Vercel-ready, zero server lag).
           Optionally add a Gemini API key here (stored securely in your browser&apos;s localStorage) to enable on-demand AI Trap Dissection.
         </p>
 

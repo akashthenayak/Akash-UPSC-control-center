@@ -20,7 +20,15 @@ import {
   Sparkle,
 } from "lucide-react";
 import { ErrorTaxonomy, PyqQuestion, SyllabusNode } from "@/types";
-import { getLoggedPyqIds, markPyqAsLogged, saveLocalError } from "@/lib/storage";
+import {
+  getAllPyqs,
+  getLoggedPyqIds,
+  markPyqAsLogged,
+  recordLocalPyqAttempt,
+  saveLocalCustomPyqs,
+  saveLocalError,
+  saveLocalTrickNote,
+} from "@/lib/storage";
 
 interface PyqWithAttempt extends PyqQuestion {
   last_attempt?: {
@@ -152,16 +160,28 @@ export default function PyqWidgetTab({
 
   const fetchPyqs = async () => {
     setLoading(true);
-    const params = new URLSearchParams();
-    if (subjectFilter !== "ALL") params.set("subject", subjectFilter);
-    if (syllabusFilter !== "ALL") params.set("syllabus_code", syllabusFilter);
-    if (yearFilter !== "ALL") params.set("year", yearFilter);
+    try {
+      const localResults = getAllPyqs({
+        subject: subjectFilter,
+        syllabus_code: syllabusFilter,
+        year: yearFilter,
+      });
+      setQuestions(localResults);
+      setCurrentIndex(0);
+      setLoading(false);
+    } catch (err) {
+      console.warn("Using network fallback:", err);
+      const params = new URLSearchParams();
+      if (subjectFilter !== "ALL") params.set("subject", subjectFilter);
+      if (syllabusFilter !== "ALL") params.set("syllabus_code", syllabusFilter);
+      if (yearFilter !== "ALL") params.set("year", yearFilter);
 
-    const res = await fetch(`/api/pyqs?${params.toString()}`);
-    const data = await res.json();
-    setQuestions(data.questions || []);
-    setCurrentIndex(0);
-    setLoading(false);
+      const res = await fetch(`/api/pyqs?${params.toString()}`);
+      const data = await res.json();
+      setQuestions(data.questions || []);
+      setCurrentIndex(0);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -192,31 +212,44 @@ export default function PyqWidgetTab({
     if (!currentQ || !selectedOption) return;
     setSubmitted(true);
 
-    await fetch("/api/pyqs/attempt", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        pyq_id: currentQ.id,
-        selected_option: selectedOption,
-        confidence,
-        personal_note: trickNote,
-      }),
+    recordLocalPyqAttempt({
+      pyq_id: currentQ.id,
+      selected_option: selectedOption,
+      confidence,
+      personal_note: trickNote,
     });
 
     onAttemptRecorded();
+
+    try {
+      fetch("/api/pyqs/attempt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          pyq_id: currentQ.id,
+          selected_option: selectedOption,
+          confidence,
+          personal_note: trickNote,
+        }),
+      }).catch(() => {});
+    } catch {}
   };
 
   const handleSaveTrickNote = async () => {
     if (!currentQ) return;
     setSavingNote(true);
-    await fetch("/api/pyqs/attempt", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pyq_id: currentQ.id, user_trick_note: trickNote }),
-    });
+    saveLocalTrickNote(currentQ.id, trickNote);
     setSavingNote(false);
     setNoteSaved(true);
     setTimeout(() => setNoteSaved(false), 2000);
+
+    try {
+      fetch("/api/pyqs/attempt", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pyq_id: currentQ.id, user_trick_note: trickNote }),
+      }).catch(() => {});
+    } catch {}
   };
 
   const handleLogToErrorRegistry = async () => {
@@ -280,6 +313,7 @@ export default function PyqWidgetTab({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           pyq_id: currentQ.id,
+          question: currentQ,
           user_mistake: selectedOption
             ? `User picked ${selectedOption} (${confidence}). Note: ${trickNote}`
             : trickNote,
@@ -303,20 +337,20 @@ export default function PyqWidgetTab({
     setImportStatus(null);
     try {
       const parsed = JSON.parse(importJson);
-      const res = await fetch("/api/pyqs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsed),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setImportStatus(`Imported ${data.inserted} verified PYQ(s) into SQLite.`);
-        setImportJson("");
-        fetchPyqs();
-        onAttemptRecorded();
-      } else {
-        setImportStatus(data.error || "Import failed.");
-      }
+      const items = Array.isArray(parsed) ? parsed : [parsed];
+      saveLocalCustomPyqs(items);
+      setImportStatus(`Imported ${items.length} verified PYQ(s) into Browser Storage.`);
+      setImportJson("");
+      fetchPyqs();
+      onAttemptRecorded();
+
+      try {
+        fetch("/api/pyqs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(items),
+        }).catch(() => {});
+      } catch {}
     } catch {
       setImportStatus("Invalid JSON format. Check brackets and quotes.");
     }
@@ -532,7 +566,7 @@ export default function PyqWidgetTab({
             </button>
           </div>
           <p className="mt-1 text-xs text-stone-600">
-            Paste an array of PYQ objects with official answer keys and citations to expand your local SQLite bank.
+            Paste an array of PYQ objects with official answer keys and citations to expand your local browser storage bank.
           </p>
           <textarea
             rows={5}
@@ -554,7 +588,7 @@ export default function PyqWidgetTab({
                 onClick={handleBulkImport}
                 className="rounded-full bg-stone-900 px-5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-stone-800"
               >
-                Import to SQLite
+                Import to Browser Storage
               </button>
             </div>
           </div>
@@ -834,7 +868,7 @@ export default function PyqWidgetTab({
 
                 <div className="mt-3.5">
                   <label className="block text-xs font-bold text-stone-800">
-                    My Personal Trick / Mistake Note (Saved to SQLite & Local Storage)
+                    My Personal Trick / Mistake Note (Saved to Browser LocalStorage)
                   </label>
                   <div className="mt-1.5 flex gap-2">
                     <input
