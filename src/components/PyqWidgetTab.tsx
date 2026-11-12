@@ -16,6 +16,7 @@ import {
   Check,
 } from "lucide-react";
 import { ErrorTaxonomy, PyqQuestion, SyllabusNode } from "@/types";
+import { getLoggedPyqIds, markPyqAsLogged, saveLocalError } from "@/lib/storage";
 
 interface PyqWithAttempt extends PyqQuestion {
   last_attempt?: {
@@ -87,6 +88,12 @@ export default function PyqWidgetTab({
   // Send to Error Registry state
   const [errorLoggedMsg, setErrorLoggedMsg] = useState<string | null>(null);
   const [selectedErrorType, setSelectedErrorType] = useState<ErrorTaxonomy>("Factual Blindspot");
+  const [isLoggingError, setIsLoggingError] = useState(false);
+  const [loggedPyqIds, setLoggedPyqIds] = useState<number[]>([]);
+
+  useEffect(() => {
+    setLoggedPyqIds(getLoggedPyqIds());
+  }, []);
 
   // Bulk Import Modal
   const [showImport, setShowImport] = useState(false);
@@ -128,8 +135,13 @@ export default function PyqWidgetTab({
       setTrickNote(currentQ.user_trick_note || "");
       setAiAnalysis(null);
       setAiError(null);
-      setErrorLoggedMsg(null);
       setNoteSaved(false);
+      const isAlreadyInLocal = getLoggedPyqIds().includes(currentQ.id);
+      if (isAlreadyInLocal) {
+        setErrorLoggedMsg("Already saved in Local Storage & 1–3–7–21 Error Registry.");
+      } else {
+        setErrorLoggedMsg(null);
+      }
     }
   }, [currentQ?.id]);
 
@@ -166,30 +178,51 @@ export default function PyqWidgetTab({
 
   const handleLogToErrorRegistry = async () => {
     if (!currentQ) return;
+    setIsLoggingError(true);
     const primaryCitation =
       currentQ.citations.length > 0
         ? `${currentQ.citations[0].title} (${currentQ.citations[0].reference})`
         : currentQ.key_status;
 
-    const res = await fetch("/api/errors", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        pyq_id: currentQ.id,
-        syllabus_code: currentQ.syllabus_code,
-        subject: currentQ.subject,
-        trigger_cue: `${currentQ.year} PYQ: ${currentQ.trap_type}`,
-        exact_fact: currentQ.explanation,
-        personal_trap_note:
-          trickNote.trim() ||
-          `Marked (${selectedOption || "?"}) instead of official (${currentQ.official_answer}). ${currentQ.trap_analysis}`,
-        error_type: selectedErrorType,
-        source_citation: primaryCitation,
-      }),
-    });
+    const personalNote =
+      trickNote.trim() ||
+      `Marked (${selectedOption || "?"}) instead of official (${currentQ.official_answer}). ${currentQ.trap_analysis}`;
 
-    if (res.ok) {
-      setErrorLoggedMsg("Added to 1–3–7–21 Error Registry (scheduled for Day 1 review).");
+    const payload = {
+      pyq_id: currentQ.id,
+      syllabus_code: currentQ.syllabus_code,
+      subject: currentQ.subject,
+      trigger_cue: `${currentQ.year} PYQ: ${currentQ.trap_type}`,
+      exact_fact: currentQ.explanation,
+      personal_trap_note: personalNote,
+      error_type: selectedErrorType,
+      source_citation: primaryCitation,
+    };
+
+    // 1. Immediately persist to Browser LocalStorage
+    saveLocalError(payload);
+    markPyqAsLogged(currentQ.id);
+    setLoggedPyqIds((prev) => (prev.includes(currentQ.id) ? prev : [...prev, currentQ.id]));
+
+    // 2. Persist to Server SQLite
+    try {
+      const res = await fetch("/api/errors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.id) {
+          saveLocalError({ ...payload, id: data.id });
+        }
+      }
+    } catch (err) {
+      console.warn("SQLite sync delayed, saved to localStorage:", err);
+    } finally {
+      setIsLoggingError(false);
+      setErrorLoggedMsg("Saved to Local Storage & 1–3–7–21 Error Registry (Scheduled for Day 1 review).");
       onErrorLogged();
     }
   };
@@ -639,10 +672,29 @@ export default function PyqWidgetTab({
                   </select>
                   <button
                     onClick={handleLogToErrorRegistry}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-700 px-3 py-1.5 text-xs font-semibold text-white hover:bg-indigo-800"
+                    disabled={isLoggingError}
+                    className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
+                      loggedPyqIds.includes(currentQ.id)
+                        ? "bg-emerald-700 text-white hover:bg-emerald-800"
+                        : "bg-indigo-700 text-white hover:bg-indigo-800"
+                    } disabled:opacity-60`}
                   >
-                    <PlusCircle className="h-3.5 w-3.5" />
-                    Log to 1–3–7–21 Error Registry
+                    {isLoggingError ? (
+                      <>
+                        <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        Saving to Local Storage...
+                      </>
+                    ) : loggedPyqIds.includes(currentQ.id) ? (
+                      <>
+                        <Check className="h-3.5 w-3.5" />
+                        Logged in Local Storage & Registry (Update)
+                      </>
+                    ) : (
+                      <>
+                        <PlusCircle className="h-3.5 w-3.5" />
+                        Log to 1–3–7–21 Error Registry
+                      </>
+                    )}
                   </button>
                 </div>
 

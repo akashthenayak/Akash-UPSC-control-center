@@ -11,6 +11,12 @@ import {
   Layers,
 } from "lucide-react";
 import { ErrorEntry, ErrorTaxonomy, SyllabusNode } from "@/types";
+import {
+  getLocalErrors,
+  saveLocalError,
+  syncWithLocalStorage,
+  updateLocalErrorReview,
+} from "@/lib/storage";
 
 interface ErrorRegistryTabProps {
   syllabus: SyllabusNode[];
@@ -42,54 +48,99 @@ export default function ErrorRegistryTab({ syllabus, onRegistryUpdated }: ErrorR
   const [sourceCitation, setSourceCitation] = useState("");
 
   const fetchErrors = async () => {
-    const res = await fetch("/api/errors");
-    const data = await res.json();
-    setErrors(data.errors || []);
-    setToday(data.today || new Date().toISOString().slice(0, 10));
+    try {
+      const res = await fetch("/api/errors");
+      if (res.ok) {
+        const data = await res.json();
+        const serverList = data.errors || [];
+        const synced = syncWithLocalStorage(serverList);
+        setErrors(synced);
+        setToday(data.today || new Date().toISOString().slice(0, 10));
+        return;
+      }
+    } catch (err) {
+      console.warn("Using offline localStorage errors:", err);
+    }
+    // Fallback to local storage
+    const localList = getLocalErrors();
+    setErrors(localList);
+    setToday(new Date().toISOString().slice(0, 10));
   };
 
   useEffect(() => {
+    // Load local storage instantly for zero-latency render
+    const cached = getLocalErrors();
+    if (cached.length > 0) {
+      setErrors(cached);
+      setToday(new Date().toISOString().slice(0, 10));
+    }
     fetchErrors();
   }, []);
 
   const dueCards = errors.filter((e) => !e.mastered && e.next_review_date <= today);
 
   const handleReviewOutcome = async (id: number, outcome: "recalled" | "forgot") => {
-    await fetch("/api/errors", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, outcome }),
-    });
+    // 1. Immediately update localStorage and React state
+    updateLocalErrorReview(id, outcome);
+    setErrors(getLocalErrors());
     setRevealedId(null);
-    await fetchErrors();
+
+    // 2. Sync with SQLite backend
+    try {
+      await fetch("/api/errors", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, outcome }),
+      });
+    } catch (err) {
+      console.warn("Backend update error, retained in localStorage:", err);
+    }
+
     onRegistryUpdated();
   };
 
   const handleAddManual = async (e: React.FormEvent) => {
     e.preventDefault();
     const node = syllabus.find((s) => s.code === syllabusCode);
-    const res = await fetch("/api/errors", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        syllabus_code: syllabusCode,
-        subject: node?.subject || "General Studies",
-        trigger_cue: triggerCue,
-        exact_fact: exactFact,
-        personal_trap_note: personalTrapNote,
-        error_type: errorType,
-        source_citation: sourceCitation,
-      }),
-    });
-    if (res.ok) {
-      setTriggerCue("");
-      setExactFact("");
-      setPersonalTrapNote("");
-      setSourceCitation("");
-      setShowAdd(false);
-      await fetchErrors();
-      onRegistryUpdated();
+    const payload = {
+      pyq_id: null,
+      syllabus_code: syllabusCode,
+      subject: node?.subject || "General Studies",
+      trigger_cue: triggerCue,
+      exact_fact: exactFact,
+      personal_trap_note: personalTrapNote,
+      error_type: errorType,
+      source_citation: sourceCitation,
+    };
+
+    // 1. Save directly to localStorage
+    const localEntry = saveLocalError(payload);
+    setErrors(getLocalErrors());
+
+    // 2. Sync to SQLite server
+    try {
+      const res = await fetch("/api/errors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.id) {
+          saveLocalError({ ...payload, id: data.id });
+          setErrors(getLocalErrors());
+        }
+      }
+    } catch (err) {
+      console.warn("Saved to localStorage; server sync deferred:", err);
     }
+
+    setTriggerCue("");
+    setExactFact("");
+    setPersonalTrapNote("");
+    setSourceCitation("");
+    setShowAdd(false);
+    onRegistryUpdated();
   };
 
   const filteredTable =
