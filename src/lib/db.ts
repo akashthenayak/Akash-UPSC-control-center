@@ -136,19 +136,22 @@ export function getDatabase(): DatabaseSync {
     }
   }
 
-  // Seed starter PYQs if empty
-  const pyqCountRow = db.prepare("SELECT COUNT(*) as count FROM pyq_questions").get() as { count: number };
-  if (pyqCountRow.count === 0) {
-    const insertPyq = db.prepare(`
-      INSERT INTO pyq_questions (
-        year, paper, question_number, subject, syllabus_code, question_style,
-        stem, option_a, option_b, option_c, option_d, official_answer,
-        key_status, explanation, fact_breakdown_json, trap_type, trap_analysis,
-        citations_json, user_trick_note, is_verified
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `);
+  // Seed or synchronize starter PYQs (2013-2026)
+  const existingStems = new Set(
+    (db.prepare("SELECT stem FROM pyq_questions").all() as { stem: string }[]).map((r) => r.stem)
+  );
 
-    for (const q of VERIFIED_STARTER_PYQS) {
+  const insertPyq = db.prepare(`
+    INSERT INTO pyq_questions (
+      year, paper, question_number, subject, syllabus_code, question_style,
+      stem, option_a, option_b, option_c, option_d, official_answer,
+      key_status, explanation, fact_breakdown_json, trap_type, trap_analysis,
+      citations_json, user_trick_note, is_verified
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  for (const q of VERIFIED_STARTER_PYQS) {
+    if (!existingStems.has(q.stem)) {
       insertPyq.run(
         q.year,
         q.paper,

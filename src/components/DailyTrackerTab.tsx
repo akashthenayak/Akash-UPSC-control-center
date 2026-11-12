@@ -81,15 +81,15 @@ export default function DailyTrackerTab({
   return (
     <div className="space-y-6">
       {/* Phase & Day Banner */}
-      <div className="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
+      <div className="rounded-[28px] border border-stone-200/80 bg-white p-6 shadow-[0_1px_3px_1px_rgba(0,0,0,0.06)]">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-900">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3.5 py-1 text-xs font-semibold text-amber-950">
                 <Sparkles className="h-3.5 w-3.5" />
                 {suggestion.phase_name}
               </span>
-              <span className="rounded-full border border-stone-200 bg-stone-50 px-3 py-1 text-xs font-medium text-stone-700 capitalize">
+              <span className="rounded-full border border-stone-200 bg-[#F5F2EC] px-3.5 py-1 text-xs font-medium text-stone-700 capitalize">
                 {suggestion.day_type} Protocol • {suggestion.phase_split}
               </span>
             </div>
@@ -104,37 +104,37 @@ export default function DailyTrackerTab({
               type="date"
               value={selectedDate}
               onChange={(e) => onDateChange(e.target.value)}
-              className="rounded-lg border border-stone-300 bg-stone-50 px-3 py-1.5 text-sm font-medium text-stone-800 focus:border-amber-600 focus:outline-none"
+              className="rounded-full border border-stone-300 bg-[#F5F2EC] px-4 py-1.5 text-xs font-semibold text-stone-800 focus:border-amber-700 focus:bg-white focus:outline-none"
             />
           </div>
         </div>
 
-        {/* Daily Output KPI Bar */}
+        {/* Daily Output KPI Bar in Material 3 Tonal Containers */}
         <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <div className="rounded-lg border border-stone-200 bg-stone-50/70 p-3">
+          <div className="rounded-2xl border border-stone-200/80 bg-[#F5F2EC] p-3.5">
             <div className="text-xs font-medium text-stone-500">Routine Adherence</div>
             <div className="mt-1 flex items-baseline justify-between">
               <span className="text-xl font-bold tabular-nums text-stone-900">
                 {completedCount}/{totalSlots}
               </span>
-              <span className="text-xs font-semibold text-emerald-700">{completionPct}%</span>
+              <span className="text-xs font-bold text-emerald-800">{completionPct}%</span>
             </div>
           </div>
 
-          <div className="rounded-lg border border-stone-200 bg-stone-50/70 p-3">
+          <div className="rounded-2xl border border-stone-200/80 bg-[#F5F2EC] p-3.5">
             <div className="text-xs font-medium text-stone-500">MCQs Solved (Target {suggestion.daily_mcq_target})</div>
             <div className="mt-1 flex items-center justify-between">
               <span className="text-xl font-bold tabular-nums text-stone-900">{dailyLog.mcqs_solved}</span>
               <div className="flex gap-1">
                 <button
                   onClick={() => adjustCounter("mcqs_solved", -5)}
-                  className="rounded border border-stone-300 bg-white px-1.5 py-0.5 text-xs hover:bg-stone-100"
+                  className="rounded-full border border-stone-300 bg-white px-2 py-0.5 text-xs hover:bg-stone-100"
                 >
                   -5
                 </button>
                 <button
                   onClick={() => adjustCounter("mcqs_solved", 10)}
-                  className="rounded border border-stone-300 bg-white px-1.5 py-0.5 text-xs font-semibold hover:bg-stone-100"
+                  className="rounded-full border border-stone-300 bg-white px-2 py-0.5 text-xs font-bold hover:bg-stone-100"
                 >
                   +10
                 </button>
@@ -142,20 +142,20 @@ export default function DailyTrackerTab({
             </div>
           </div>
 
-          <div className="rounded-lg border border-stone-200 bg-stone-50/70 p-3">
+          <div className="rounded-2xl border border-stone-200/80 bg-[#F5F2EC] p-3.5">
             <div className="text-xs font-medium text-stone-500">PYQs Dissected (Target {suggestion.daily_pyq_target})</div>
             <div className="mt-1 flex items-center justify-between">
               <span className="text-xl font-bold tabular-nums text-stone-900">{dailyLog.pyqs_dissected}</span>
               <div className="flex gap-1">
                 <button
                   onClick={() => adjustCounter("pyqs_dissected", -1)}
-                  className="rounded border border-stone-300 bg-white px-1.5 py-0.5 text-xs hover:bg-stone-100"
+                  className="rounded-full border border-stone-300 bg-white px-2 py-0.5 text-xs hover:bg-stone-100"
                 >
                   -1
                 </button>
                 <button
                   onClick={() => adjustCounter("pyqs_dissected", 5)}
-                  className="rounded border border-stone-300 bg-white px-1.5 py-0.5 text-xs font-semibold hover:bg-stone-100"
+                  className="rounded-full border border-stone-300 bg-white px-2 py-0.5 text-xs font-bold hover:bg-stone-100"
                 >
                   +5
                 </button>
@@ -165,12 +165,12 @@ export default function DailyTrackerTab({
 
           <button
             onClick={onJumpToErrors}
-            className="rounded-lg border border-indigo-200 bg-indigo-50/70 p-3 text-left transition hover:bg-indigo-100/70"
+            className="rounded-2xl border border-indigo-200/80 bg-[#E0E7FF]/70 p-3.5 text-left transition hover:bg-[#E0E7FF] active:scale-95"
           >
-            <div className="text-xs font-medium text-indigo-700">1-3-7-21 Errors Due</div>
+            <div className="text-xs font-medium text-[#1E1B4B]">1-3-7-21 Errors Due</div>
             <div className="mt-1 flex items-baseline justify-between">
-              <span className="text-xl font-bold tabular-nums text-indigo-950">{dueErrorsCount}</span>
-              <span className="text-xs font-semibold text-indigo-700">Review at 9:30 PM →</span>
+              <span className="text-xl font-bold tabular-nums text-[#1E1B4B]">{dueErrorsCount}</span>
+              <span className="text-xs font-bold text-[#3730A3]">Review at 9:30 PM →</span>
             </div>
           </button>
         </div>
@@ -195,12 +195,12 @@ export default function DailyTrackerTab({
               <div
                 key={slot.id}
                 onClick={() => toggleSlot(slot.id)}
-                className={`cursor-pointer rounded-xl border p-4 transition ${
+                className={`cursor-pointer rounded-2xl border p-4 transition-all duration-200 active:scale-[0.99] ${
                   done
                     ? "border-emerald-300 bg-emerald-50/50"
                     : slot.is_protected
-                    ? "border-rose-200 bg-white hover:border-rose-300"
-                    : "border-stone-200 bg-white hover:border-amber-400"
+                    ? "border-rose-200/90 bg-white hover:border-rose-300 shadow-xs"
+                    : "border-stone-200/90 bg-white hover:border-amber-400 shadow-xs"
                 }`}
               >
                 <div className="flex items-start gap-3">
@@ -217,7 +217,7 @@ export default function DailyTrackerTab({
                         <Clock className="h-3.5 w-3.5" />
                         {slot.time_window} ({slot.duration_min}m)
                       </span>
-                      <span className={`rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${badge.className}`}>
+                      <span className={`rounded-full border px-3 py-0.5 text-[11px] font-semibold ${badge.className}`}>
                         {slot.is_protected && <ShieldCheck className="mr-1 inline h-3 w-3" />}
                         {badge.label}
                       </span>
@@ -229,7 +229,7 @@ export default function DailyTrackerTab({
                     >
                       {slot.title}
                     </h4>
-                    <p className="mt-1 text-sm text-stone-600">{slot.description}</p>
+                    <p className="mt-1 text-sm text-stone-600 leading-relaxed">{slot.description}</p>
                     <p className="mt-1.5 text-xs italic text-stone-500">Why: {slot.scientific_reason}</p>
                   </div>
                 </div>
@@ -240,7 +240,7 @@ export default function DailyTrackerTab({
 
         {/* Right Column: Syllabus-Rooted Daily Targets & 14-Day Spillover */}
         <div className="space-y-5">
-          <div className="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+          <div className="rounded-[28px] border border-stone-200/80 bg-white p-5 shadow-[0_1px_3px_1px_rgba(0,0,0,0.06)]">
             <div className="flex items-center gap-2">
               <BookOpen className="h-4 w-4 text-amber-700" />
               <h3 className="font-serif text-base font-bold text-stone-900">
@@ -251,15 +251,15 @@ export default function DailyTrackerTab({
               Auto-selected from UPSC CSE GS-I rotation to pair static precision with non-PSIR bleeders.
             </p>
 
-            <div className="mt-3 space-y-3">
+            <div className="mt-3.5 space-y-3">
               {suggestedNodes.map((node) => (
-                <div key={node.code} className="rounded-lg border border-stone-200 bg-stone-50 p-3">
+                <div key={node.code} className="rounded-2xl border border-stone-200 bg-[#F5F2EC] p-3.5">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="rounded bg-stone-200 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-stone-800">
+                    <span className="rounded-full bg-white px-2.5 py-0.5 font-mono text-[10px] font-bold text-stone-800 shadow-xs">
                       {node.code}
                     </span>
                     <span
-                      className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                      className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
                         node.priority_tag === "non_psir_bleeder"
                           ? "bg-rose-100 text-rose-800"
                           : "bg-indigo-100 text-indigo-800"
@@ -268,12 +268,12 @@ export default function DailyTrackerTab({
                       {node.priority_tag === "non_psir_bleeder" ? "Non-PSIR Bleeder" : "Veteran Verification"}
                     </span>
                   </div>
-                  <div className="mt-1.5 text-sm font-semibold text-stone-900">{node.topic}</div>
+                  <div className="mt-2 text-sm font-bold text-stone-900">{node.topic}</div>
                   <div className="mt-1 text-xs text-stone-600">{node.subtopics}</div>
-                  <div className="mt-2 text-[11px] font-medium text-amber-800">Source: {node.recommended_source}</div>
+                  <div className="mt-2 text-[11px] font-medium text-amber-900">Source: {node.recommended_source}</div>
                   <button
                     onClick={() => onJumpToPyq(node.code)}
-                    className="mt-2.5 inline-flex items-center gap-1 text-xs font-semibold text-amber-700 hover:text-amber-900"
+                    className="mt-2.5 inline-flex items-center gap-1 text-xs font-semibold text-amber-800 hover:text-amber-950"
                   >
                     Practice PYQs for this syllabus unit <ArrowRight className="h-3.5 w-3.5" />
                   </button>
@@ -283,7 +283,7 @@ export default function DailyTrackerTab({
           </div>
 
           {/* Office Spillover / 14-Day Rolling Continuity */}
-          <div className="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+          <div className="rounded-[28px] border border-stone-200/80 bg-white p-5 shadow-[0_1px_3px_1px_rgba(0,0,0,0.06)]">
             <div className="flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-amber-600" />
               <h3 className="font-serif text-base font-bold text-stone-900">
@@ -298,12 +298,12 @@ export default function DailyTrackerTab({
               value={spilloverNote}
               onChange={(e) => setSpilloverNote(e.target.value)}
               placeholder="e.g., Missed evening Env block due to urgent file; move WPA 2022 schedules to Saturday 6 AM..."
-              className="mt-2.5 w-full rounded-lg border border-stone-300 bg-stone-50 p-2.5 text-xs text-stone-800 focus:border-amber-600 focus:outline-none"
+              className="mt-2.5 w-full rounded-2xl border border-stone-300 bg-[#F5F2EC] p-3 text-xs text-stone-800 focus:border-amber-700 focus:bg-white focus:outline-none"
             />
             <button
               onClick={handleSaveNote}
               disabled={savingNote}
-              className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-stone-800 disabled:opacity-50"
+              className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-stone-900 px-4 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-stone-800 active:scale-95 disabled:opacity-50"
             >
               <Save className="h-3.5 w-3.5" />
               {savingNote ? "Saving..." : "Save Spillover Note"}

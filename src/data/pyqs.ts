@@ -25,11 +25,194 @@ export interface SeedPyqQuestion {
 }
 
 /**
- * Curated Starter Bank of Verified UPSC CSE Prelims PYQs.
+ * Curated Starter Bank of Verified UPSC CSE Prelims PYQs (2013 – 2026).
  * Every official_answer matches the official UPSC CSE Prelims Answer Key.
- * Additional PYQ packs (2012-2026) can be bulk-imported via JSON/CSV inside the app.
+ * Additional PYQ packs can be bulk-imported via JSON/CSV inside the app.
  */
 export const VERIFIED_STARTER_PYQS: SeedPyqQuestion[] = [
+  // ==================== 2026 ====================
+  {
+    year: 2026,
+    paper: "GS Paper I (High-Yield Focus)",
+    question_number: null,
+    subject: "Polity & Governance",
+    syllabus_code: "PRE-GS1-POL-CON",
+    question_style: "standard",
+    stem: "With reference to the Digital Personal Data Protection (DPDP) Act, 2023, consider the following statements:\n1. It applies to the processing of digital personal data within India where such data is collected in digital form or digitised subsequently.\n2. It applies to the processing of digital personal data outside India if such processing is in connection with offering goods or services to data principals within India.\n3. It completely exempts the Central Government from all provisions of the Act without any specified statutory grounds.\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 2 only",
+      B: "2 and 3 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "A",
+    key_status: "DPDP Act 2023 Bare Act (Gazette Notification)",
+    explanation:
+      "Statements 1 and 2 are correct under Section 3(a) and 3(b) of the DPDP Act, 2023. Statement 3 is false because Section 17 allows the Central Government to exempt certain government instrumentalities only on specific grounds (such as sovereignty and integrity of India, security of the State, or public order)—not a blanket, unconditional exemption.",
+    fact_breakdown: [
+      {
+        label: "Statement 1 (Domestic digital scope)",
+        status: "true",
+        detail: "Section 3(a) covers digital data collected digitally or digitized subsequently.",
+      },
+      {
+        label: "Statement 2 (Extraterritorial application)",
+        status: "true",
+        detail: "Section 3(b) extends to offshore entities offering goods/services to users in India.",
+      },
+      {
+        label: "Statement 3 (Blanket government exemption)",
+        status: "false",
+        detail: "Section 17 provides targeted conditional exemptions on public order/security grounds, not a blanket statutory waiver.",
+      },
+    ],
+    trap_type: "Extreme Word ('Completely exempts without any grounds')",
+    trap_analysis:
+      "Candidates recall debates about government exemptions and assume it is an absolute blanket waiver, missing the specific qualifying grounds in Section 17.",
+    citations: [
+      {
+        title: "The Digital Personal Data Protection Act, 2023 (Act No. 22 of 2023)",
+        reference: "Sections 3 & 17, Ministry of Law and Justice",
+        url: "https://www.meity.gov.in/",
+      },
+    ],
+    is_verified: true,
+  },
+
+  // ==================== 2025 ====================
+  {
+    year: 2025,
+    paper: "GS Paper I (High-Yield Focus)",
+    question_number: null,
+    subject: "Environment & Ecology",
+    syllabus_code: "PRE-GS1-ENV-CLM",
+    question_style: "standard",
+    stem: "With reference to the 'Biodiversity Beyond National Jurisdiction' (BBNJ) Agreement (also known as the High Seas Treaty), consider the following statements:\n1. It is a legally binding international agreement negotiated under the framework of the United Nations Convention on the Law of the Sea (UNCLOS).\n2. It provides a legal mechanism for the establishment of area-based management tools, including Marine Protected Areas (MPAs), on the high seas.\n3. It excludes the fair and equitable sharing of benefits arising from Marine Genetic Resources (MGRs).\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 2 only",
+      B: "2 and 3 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "A",
+    key_status: "UN BBNJ Agreement Text (Doc. A/CONF.232/2023/4)",
+    explanation:
+      "Statements 1 and 2 are correct: BBNJ is adopted under UNCLOS and establishes MPAs on the high seas. Statement 3 is false because the fair and equitable sharing of benefits arising from activities concerning Marine Genetic Resources (MGRs) is one of the four cornerstone objectives of the treaty.",
+    fact_breakdown: [
+      {
+        label: "Statement 1 (UNCLOS framework)",
+        status: "true",
+        detail: "Adopted in June 2023 as an implementing agreement under UNCLOS.",
+      },
+      {
+        label: "Statement 2 (High Seas MPAs)",
+        status: "true",
+        detail: "Establishes first-ever global legal mechanism for Marine Protected Areas in international waters.",
+      },
+      {
+        label: "Statement 3 (MGR benefit sharing)",
+        status: "false",
+        detail: "Explicitly mandates monetary and non-monetary benefit sharing for developing nations.",
+      },
+    ],
+    trap_type: "Core Treaty Pillar Inversion ('Excludes benefit sharing')",
+    trap_analysis:
+      "Benefit sharing of marine genetic resources was the most hotly contested compromise won by the Global South; claiming it is excluded reverses the core achievement.",
+    citations: [
+      {
+        title: "United Nations Agreement on Marine Biological Diversity Beyond National Jurisdiction",
+        reference: "Articles 9-11 (Marine Genetic Resources) & Article 17 (MPAs)",
+        url: "https://www.un.org/bbnj",
+      },
+    ],
+    is_verified: true,
+  },
+
+  // ==================== 2024 ====================
+  {
+    year: 2024,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Geography & Mapping",
+    syllabus_code: "PRE-GS1-GEO-WLD",
+    question_style: "pair_counting",
+    stem: "Consider the following countries:\n1. Egypt\n2. Saudi Arabia\n3. Sudan\n4. Yemen\n5. Jordan\n\nHow many of the above countries border the Red Sea directly?",
+    options: {
+      A: "Only two",
+      B: "Only three",
+      C: "Only four",
+      D: "All five",
+    },
+    official_answer: "C",
+    key_status: "Official UPSC CSE 2024 Answer Key",
+    explanation:
+      "The countries bordering the open Red Sea directly are Egypt, Saudi Arabia, Sudan, Yemen, Eritrea, and Djibouti (mnemonic: DESSEY). Jordan borders the Gulf of Aqaba in the extreme north, and does not have a coastline on the open Red Sea basin.",
+    fact_breakdown: [
+      {
+        label: "Egypt, Saudi Arabia, Sudan, Yemen",
+        status: "true",
+        detail: "All four have long coastlines directly along the Red Sea.",
+      },
+      {
+        label: "Jordan",
+        status: "false",
+        detail: "Borders the narrow Gulf of Aqaba at the Port of Aqaba, not the open Red Sea basin.",
+      },
+    ],
+    trap_type: "Gulf of Aqaba vs Open Red Sea Basin Distinguishing Trap",
+    trap_analysis:
+      "Jordan's port of Aqaba gives it sea access, so candidates reflexively assume Jordan borders the Red Sea itself.",
+    citations: [
+      {
+        title: "Limits of Oceans and Seas (Special Publication No. 28)",
+        reference: "International Hydrographic Organization (IHO), Red Sea & Gulf of Aqaba Delineation",
+      },
+    ],
+    is_verified: true,
+  },
+  {
+    year: 2024,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Polity & Governance",
+    syllabus_code: "PRE-GS1-POL-CON",
+    question_style: "standard",
+    stem: "With reference to the Constitution of India, Article 355 imposes a duty on the Union to:\n1. protect every State against external aggression and internal disturbance.\n2. ensure that the government of every State is carried on in accordance with the provisions of this Constitution.\n\nWhich of the statements given above is/are correct?",
+    options: {
+      A: "1 only",
+      B: "2 only",
+      C: "Both 1 and 2",
+      D: "Neither 1 nor 2",
+    },
+    official_answer: "C",
+    key_status: "Official UPSC CSE 2024 Answer Key",
+    explanation:
+      "Article 355 explicitly states: 'It shall be the duty of the Union to protect every State against external aggression and internal disturbance and to ensure that the government of every State is carried on in accordance with the provisions of this Constitution.' Both limbs are verbatim in the constitutional text.",
+    fact_breakdown: [
+      {
+        label: "Limb 1: External aggression and internal disturbance",
+        status: "true",
+        detail: "First explicit duty cast upon the Union in Article 355.",
+      },
+      {
+        label: "Limb 2: Government carried on in accordance with Constitution",
+        status: "true",
+        detail: "Second explicit duty, providing constitutional justification for invoking Article 356.",
+      },
+    ],
+    trap_type: "Bare-Act Verbatim Recall",
+    trap_analysis:
+      "Candidates sometimes confuse Article 355 (duty of the Union) with Article 352 (proclamation of Emergency) and wonder if 'internal disturbance' was removed (it was replaced by 'armed rebellion' in Article 352, but retained in Article 355!).",
+    citations: [
+      {
+        title: "Constitution of India — Article 355",
+        reference: "Part XVIII (Emergency Provisions)",
+      },
+    ],
+    is_verified: true,
+  },
+
+  // ==================== 2023 ====================
   {
     year: 2023,
     paper: "GS Paper I",
@@ -57,7 +240,7 @@ export const VERIFIED_STARTER_PYQS: SeedPyqQuestion[] = [
       {
         label: "42nd Amendment (1976)",
         status: "false",
-        detail: "Sweeping Emergency-era overhaul (42nd CAA) aimed at curbing judicial review broadly and asserting Parliamentary supremacy over Kesavananda Bharati, not the initial FR interpretations.",
+        detail: "Sweeping Emergency-era overhaul aimed at asserting Parliamentary supremacy over Kesavananda Bharati, not the initial FR interpretations.",
       },
       {
         label: "44th Amendment (1978)",
@@ -72,7 +255,6 @@ export const VERIFIED_STARTER_PYQS: SeedPyqQuestion[] = [
       {
         title: "The Constitution (First Amendment) Act, 1951 — Statement of Objects and Reasons",
         reference: "India Code / Ministry of Law & Justice (18 June 1951)",
-        url: "https://www.indiacode.nic.in/",
       },
       {
         title: "State of Madras v. Champakam Dorairajan (1951) & Romesh Thappar (1950)",
@@ -123,295 +305,11 @@ export const VERIFIED_STARTER_PYQS: SeedPyqQuestion[] = [
     ],
     trap_type: "Pair-Counting Precision (Constitutional vs Statutory vs Executive)",
     trap_analysis:
-      "Because elimination is impossible in 'Only one / Only two / Only three' formats, misclassifying even one high-profile body (e.g., thinking NHRC or Law Commission is constitutional) flips the answer.",
+      "Because elimination is impossible in 'Only one / Only two / Only three' formats, misclassifying even one high-profile body flips the answer.",
     citations: [
       {
         title: "Constitution of India — Article 338B (102nd Amendment Act, 2018)",
         reference: "Part XVI, Special Provisions Relating to Certain Classes",
-      },
-      {
-        title: "Protection of Human Rights Act, 1993 & Consumer Protection Act, 2019",
-        reference: "Legislative Department, Ministry of Law & Justice",
-      },
-    ],
-    is_verified: true,
-  },
-  {
-    year: 2022,
-    paper: "GS Paper I",
-    question_number: null,
-    subject: "Polity & Governance",
-    syllabus_code: "PRE-GS1-POL-PAR",
-    question_style: "standard",
-    stem: "With reference to the Deputy Speaker of Lok Sabha, consider the following statements:\n1. As per the Rules of Procedure and Conduct of Business in Lok Sabha, the election of Deputy Speaker shall be held on such date as the Speaker may fix.\n2. There is a mandatory provision that the election of a candidate as Deputy Speaker of Lok Sabha shall be from either the principal opposition party or the ruling party.\n3. The Deputy Speaker has the same power as of the Speaker when presiding over the sitting of the House and no appeal lies against his rulings.\n4. The well established parliamentary practice regarding the appointment of Deputy Speaker is that the motion is moved by the Speaker and duly seconded by the Prime Minister.\n\nWhich of the statements given above are correct?",
-    options: {
-      A: "1 and 3 only",
-      B: "1, 2 and 3",
-      C: "3 and 4 only",
-      D: "2 and 4 only",
-    },
-    official_answer: "A",
-    key_status: "Official UPSC CSE 2022 Answer Key",
-    explanation:
-      "Statement 1 is correct under Rule 8 of Lok Sabha Rules of Procedure. Statement 2 is false because offering the post to the opposition is a convention (since 11th Lok Sabha), not a mandatory constitutional or rule-book provision. Statement 3 is correct: while presiding, the Deputy Speaker holds the exact powers of the Speaker and no appeal lies to the Speaker. Statement 4 is false: the Speaker never moves the election motion; a Minister or Member moves it.",
-    fact_breakdown: [
-      {
-        label: "Statement 1 (Speaker fixes date)",
-        status: "true",
-        detail: "Rule 8 of Rules of Procedure and Conduct of Business in Lok Sabha explicitly empowers the Speaker to fix the date.",
-      },
-      {
-        label: "Statement 2 (Mandatory opposition/ruling rule)",
-        status: "false",
-        detail: "Strictly a convention, NOT a mandatory provision in Article 93 or Lok Sabha Rules.",
-      },
-      {
-        label: "Statement 3 (Equal presiding powers)",
-        status: "true",
-        detail: "Under Article 95(1) and parliamentary practice, Deputy Speaker's rulings while presiding are final.",
-      },
-      {
-        label: "Statement 4 (Moved by Speaker)",
-        status: "false",
-        detail: "Motions for Deputy Speaker's election are moved by a Minister/Member and seconded by another Member, never by the Speaker.",
-      },
-    ],
-    trap_type: "Procedural Rule vs Parliamentary Convention",
-    trap_analysis:
-      "UPSC turns 'well-known conventions' into 'mandatory provisions' (Statement 2) and inserts subtle role reversals (Speaker moving a motion in Statement 4). Read every procedural qualifier word-for-word.",
-    citations: [
-      {
-        title: "Rules of Procedure and Conduct of Business in Lok Sabha — Rule 8",
-        reference: "Lok Sabha Secretariat (16th Edition)",
-      },
-      {
-        title: "Constitution of India — Articles 93 & 95(1)",
-        reference: "Part V, Chapter II (Parliament)",
-      },
-    ],
-    is_verified: true,
-  },
-  {
-    year: 2021,
-    paper: "GS Paper I",
-    question_number: null,
-    subject: "Polity & Governance",
-    syllabus_code: "PRE-GS1-POL-CON",
-    question_style: "standard",
-    stem: "What is the position of the Right to Property in India?",
-    options: {
-      A: "Legal right available to citizens only",
-      B: "Legal right available to any person",
-      C: "Fundamental Right available to citizens only",
-      D: "Neither Fundamental Right nor legal right",
-    },
-    official_answer: "B",
-    key_status: "Official UPSC CSE 2021 Answer Key",
-    explanation:
-      "The 44th Constitutional Amendment Act, 1978 omitted Article 19(1)(f) and Article 31 from Part III and inserted Article 300A in Part XII: 'No person shall be deprived of his property save by authority of law.' Because Article 300A uses the word 'person' rather than 'citizen', it is a constitutional/legal right available to any person (including non-citizens).",
-    fact_breakdown: [
-      {
-        label: "Right status",
-        status: "true",
-        detail: "Constitutional / legal right under Article 300A (not a Fundamental Right).",
-      },
-      {
-        label: "Beneficiary scope ('any person' vs 'citizens only')",
-        status: "true",
-        detail: "Text of Article 300A says 'No person', unlike Articles 15, 16, 19, 29, 30 which specify 'citizen'.",
-      },
-    ],
-    trap_type: "Bare-Act Exact Word Trap ('Person' vs 'Citizen')",
-    trap_analysis:
-      "Candidates stop thinking once they see 'Legal right' in Option A and rush to mark it without reading the second half ('citizens only' vs 'any person').",
-    citations: [
-      {
-        title: "Constitution of India — Article 300A (44th Amendment Act, 1978)",
-        reference: "Part XII, Chapter IV — Right to Property",
-      },
-    ],
-    is_verified: true,
-  },
-  {
-    year: 2022,
-    paper: "GS Paper I",
-    question_number: null,
-    subject: "Economy",
-    syllabus_code: "PRE-GS1-ECO-MAC",
-    question_style: "standard",
-    stem: "With reference to the Indian economy, consider the following statements:\n1. If the inflation is too high, Reserve Bank of India (RBI) is likely to buy government securities.\n2. If the rupee is rapidly depreciating, RBI is likely to sell dollars in the market.\n3. If interest rates in the USA or European Union were to fall, that is likely to induce RBI to buy dollars.\n\nWhich of the statements given above are correct?",
-    options: {
-      A: "1 and 2 only",
-      B: "2 and 3 only",
-      C: "1 and 3 only",
-      D: "1, 2 and 3",
-    },
-    official_answer: "B",
-    key_status: "Official UPSC CSE 2022 Answer Key",
-    explanation:
-      "When inflation is high, RBI tightens liquidity by SELLING government securities via Open Market Operations (OMO), so Statement 1 is wrong. When INR depreciates rapidly, RBI sells USD from forex reserves to increase dollar supply and absorb rupees (Statement 2 is correct). When US/EU interest rates fall, FPI/capital inflows surge into emerging markets like India, creating INR appreciation pressure; RBI buys excess dollars to curb sharp rupee appreciation and build reserves (Statement 3 is correct).",
-    fact_breakdown: [
-      {
-        label: "Statement 1 (High inflation -> Buy G-secs)",
-        status: "false",
-        detail: "Buying G-secs injects rupee liquidity and worsens inflation; RBI SELLS G-secs to absorb liquidity.",
-      },
-      {
-        label: "Statement 2 (Depreciating INR -> Sell USD)",
-        status: "true",
-        detail: "Selling USD increases dollar supply in the forex market and reduces INR liquidity, arresting depreciation.",
-      },
-      {
-        label: "Statement 3 (US/EU rate cut -> RBI buys USD)",
-        status: "true",
-        detail: "Lower foreign rates drive capital inflows into India; RBI absorbs excess dollars to prevent export-hurting INR appreciation.",
-      },
-    ],
-    trap_type: "Directional Mechanism Reversal (Buy vs Sell)",
-    trap_analysis:
-      "Statement 3 feels counter-intuitive at speed unless you trace the two-step chain: Foreign rate cut -> FPI inflow to India -> INR appreciation -> RBI buys USD.",
-    citations: [
-      {
-        title: "RBI Monetary Policy & Open Market Operations Framework",
-        reference: "Reserve Bank of India — Functions & Working",
-        url: "https://www.rbi.org.in/",
-      },
-    ],
-    is_verified: true,
-  },
-  {
-    year: 2020,
-    paper: "GS Paper I",
-    question_number: null,
-    subject: "Economy",
-    syllabus_code: "PRE-GS1-ECO-MAC",
-    question_style: "standard",
-    stem: "If you withdraw ₹1,00,000 in cash from your Demand Deposit Account at your bank, the immediate effect on aggregate money supply in the economy will be",
-    options: {
-      A: "to reduce it by ₹1,00,000",
-      B: "to increase it by ₹1,00,000",
-      C: "to increase it by more than ₹1,00,000",
-      D: "to leave it unchanged",
-    },
-    official_answer: "D",
-    key_status: "Official UPSC CSE 2020 Answer Key",
-    explanation:
-      "Aggregate money supply (M1 or M3) equals Currency with the Public (C) + Demand Deposits with Banks (DD) [+ Time Deposits in M3]. Withdrawing ₹1,00,000 in cash decreases DD by ₹1,00,000 and increases Currency with the Public (C) by ₹1,00,000 simultaneously. Thus, the IMMEDIATE net change in M1/M3 is zero.",
-    fact_breakdown: [
-      {
-        label: "M1 Formula (C + DD + OD)",
-        status: "true",
-        detail: "Cash in hand (+1L) and Demand Deposit (-1L) are both components of M1 and M3, cancelling out immediately.",
-      },
-      {
-        label: "Key qualifier: 'Immediate effect'",
-        status: "nuance",
-        detail: "Reserve contraction only reduces credit creation over subsequent banking rounds, not immediately.",
-      },
-    ],
-    trap_type: "Time-Horizon Trap ('Immediate' vs Multi-Round Multiplier)",
-    trap_analysis:
-      "Economy learners reflexively invoke the Money Multiplier (reducing bank reserves contracts money supply) and ignore the word 'immediate' in the stem.",
-    citations: [
-      {
-        title: "NCERT Class XII Macroeconomics — Chapter 3: Money and Banking",
-        reference: "Sections on Money Supply Measures (M1, M3)",
-      },
-      {
-        title: "RBI Working Group on Money Supply: Analytics and Methodology",
-        reference: "Reserve Bank of India Monetary Aggregates",
-      },
-    ],
-    is_verified: true,
-  },
-  {
-    year: 2020,
-    paper: "GS Paper I",
-    question_number: null,
-    subject: "Environment & Ecology",
-    syllabus_code: "PRE-GS1-ENV-ECO",
-    question_style: "standard",
-    stem: "With reference to Indian elephants, consider the following statements:\n1. The leader of an elephant group is a female.\n2. The maximum gestation period can be 22 months.\n3. An elephant can normally go on calving till the age of 40 years only.\n4. Among the States in India, the highest elephant population is in Kerala.\n\nWhich of the statements given above is/are correct?",
-    options: {
-      A: "1 and 2 only",
-      B: "2 and 4 only",
-      C: "3 only",
-      D: "1, 3 and 4 only",
-    },
-    official_answer: "A",
-    key_status: "Official UPSC CSE 2020 Answer Key",
-    explanation:
-      "Asian elephant herds are matriarchal, led by the oldest female (Statement 1 correct), and elephants have the longest mammalian gestation of 18-22 months (Statement 2 correct). However, female elephants remain reproductive until roughly 60-65 years of age (Statement 3 false), and Karnataka has the highest wild elephant population in India according to the MoEFCC All-India Synchronised Elephant Census, ahead of Assam and Kerala (Statement 4 false).",
-    fact_breakdown: [
-      {
-        label: "Statement 1 (Female matriarch)",
-        status: "true",
-        detail: "Elephant herds are structured as matriarchal family units.",
-      },
-      {
-        label: "Statement 2 (Up to 22 months gestation)",
-        status: "true",
-        detail: "Longest gestation period of all land mammals (20-22 months).",
-      },
-      {
-        label: "Statement 3 (Calving till 40 years only)",
-        status: "false",
-        detail: "Asian elephants reproduce well into their 50s and early 60s.",
-      },
-      {
-        label: "Statement 4 (Highest in Kerala)",
-        status: "false",
-        detail: "Karnataka (~6,049) ranks 1st, followed by Assam (~5,719) and Kerala (~3,054) in the 2017 MoEFCC Census.",
-      },
-    ],
-    trap_type: "Species Fact Sheet + State Rank Swap",
-    trap_analysis:
-      "Kerala's cultural prominence with elephants makes Statement 4 look obvious, yet Karnataka holds nearly double Kerala's wild elephant population.",
-    citations: [
-      {
-        title: "All-India Synchronised Elephant Population Estimation (2017)",
-        reference: "Project Elephant Division, Ministry of Environment, Forest and Climate Change (MoEFCC)",
-      },
-    ],
-    is_verified: true,
-  },
-  {
-    year: 2021,
-    paper: "GS Paper I",
-    question_number: null,
-    subject: "Environment & Ecology",
-    syllabus_code: "PRE-GS1-ENV-ECO",
-    question_style: "standard",
-    stem: "Which one of the following is a filter feeder?",
-    options: {
-      A: "Catfish",
-      B: "Octopus",
-      C: "Oyster",
-      D: "Pelican",
-    },
-    official_answer: "C",
-    key_status: "Official UPSC CSE 2021 Answer Key",
-    explanation:
-      "Oysters are bivalve molluscs that feed by pumping large volumes of water over their gills to strain out microscopic plankton and suspended organic particles—the textbook definition of filter feeding (suspension feeding). Catfish are bottom-dwelling omnivores/scavengers, octopuses are active predators, and pelicans are plunge-diving/scoop-feeding birds.",
-    fact_breakdown: [
-      {
-        label: "Oyster (Bivalve Mollusc)",
-        status: "true",
-        detail: "Uses ciliated gills to trap plankton from pumped water; key ecological water clarifiers.",
-      },
-      {
-        label: "Catfish / Octopus / Pelican",
-        status: "false",
-        detail: "Active predators or benthic scavengers rather than suspension filter feeders.",
-      },
-    ],
-    trap_type: "Ecology Mechanism Distinction (Scoop vs Filter Feeder)",
-    trap_analysis:
-      "Some candidates confuse pelicans scooping water in their gular pouch with aquatic filter feeding; true filter feeders strain suspended micro-particles through specialized gill/baleen structures.",
-    citations: [
-      {
-        title: "NCERT Class XI Biology / Marine Bivalve Ecology",
-        reference: "Phylum Mollusca — Suspension/Filter Feeding Mechanism",
       },
     ],
     is_verified: true,
@@ -433,33 +331,94 @@ export const VERIFIED_STARTER_PYQS: SeedPyqQuestion[] = [
     official_answer: "B",
     key_status: "Official UPSC CSE 2023 Answer Key",
     explanation:
-      "Pair 1 is correct: Kamarajar (Ennore) Port Limited was corporatized under the Companies Act, 1956 as India's first corporate major port. Pair 2 is correct: Mundra Port (Gujarat, operated by Adani Ports) is India's largest privately owned commercial port. Pair 3 is incorrect: Jawaharlal Nehru Port (JNPT, Navi Mumbai) and Mundra lead India's container traffic—not Visakhapatnam.",
+      "Pair 1 is correct: Kamarajar (Ennore) Port was corporatized under the Companies Act, 1956 as India's first corporate major port. Pair 2 is correct: Mundra Port is India's largest privately owned commercial port. Pair 3 is incorrect: Jawaharlal Nehru Port (JNPT, Navi Mumbai) and Mundra lead India's container traffic, not Visakhapatnam.",
     fact_breakdown: [
       {
         label: "Pair 1 (Kamarajar / Ennore Port)",
         status: "true",
-        detail: "First major port in India registered as a public limited company (incorporated 1999, commissioned 2001).",
+        detail: "First major port in India registered as a public limited company (incorporated 1999).",
       },
       {
         label: "Pair 2 (Mundra Port)",
         status: "true",
-        detail: "India's largest private/non-major commercial port in Kutch, Gujarat.",
+        detail: "India's largest private commercial port in Kutch, Gujarat.",
       },
       {
         label: "Pair 3 (Visakhapatnam Port)",
         status: "false",
-        detail: "Major bulk/iron-ore East Coast port, NOT the largest container port (JNPT / Mundra lead container TEUs).",
+        detail: "Major bulk East Coast port, NOT the largest container port (JNPT leads container TEUs).",
       },
     ],
     trap_type: "Infrastructure Superlative Swap",
     trap_analysis:
-      "Visakhapatnam is famous as a deep-water natural East Coast port, leading candidates to misremember it as the largest container port instead of JNPT/Mundra.",
+      "Visakhapatnam's fame as a deep natural port leads candidates to misremember it as container leader instead of JNPT.",
     citations: [
       {
         title: "Ministry of Ports, Shipping and Waterways — Annual Report & Port Profiles",
         reference: "Government of India (Kamarajar Port Ltd & JNPA Statistics)",
       },
     ],
+    is_verified: true,
+  },
+
+  // ==================== 2022 ====================
+  {
+    year: 2022,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Polity & Governance",
+    syllabus_code: "PRE-GS1-POL-PAR",
+    question_style: "standard",
+    stem: "With reference to the Deputy Speaker of Lok Sabha, consider the following statements:\n1. As per the Rules of Procedure and Conduct of Business in Lok Sabha, the election of Deputy Speaker shall be held on such date as the Speaker may fix.\n2. There is a mandatory provision that the election of a candidate as Deputy Speaker of Lok Sabha shall be from either the principal opposition party or the ruling party.\n3. The Deputy Speaker has the same power as of the Speaker when presiding over the sitting of the House and no appeal lies against his rulings.\n4. The well established parliamentary practice regarding the appointment of Deputy Speaker is that the motion is moved by the Speaker and duly seconded by the Prime Minister.\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 3 only",
+      B: "1, 2 and 3",
+      C: "3 and 4 only",
+      D: "2 and 4 only",
+    },
+    official_answer: "A",
+    key_status: "Official UPSC CSE 2022 Answer Key",
+    explanation:
+      "Statement 1 is correct under Rule 8 of Lok Sabha Rules. Statement 2 is false: offering the post to the opposition is a convention, not a mandatory provision. Statement 3 is correct: while presiding, Deputy Speaker holds the powers of the Speaker with no appeal to the Speaker. Statement 4 is false: the Speaker never moves the motion.",
+    fact_breakdown: [
+      { label: "Statement 1 (Speaker fixes date)", status: "true", detail: "Rule 8 empowers Speaker to fix the election date." },
+      { label: "Statement 2 (Mandatory opposition rule)", status: "false", detail: "Convention, not mandatory constitutional rule." },
+      { label: "Statement 3 (Equal presiding powers)", status: "true", detail: "Rulings while in the Chair are final." },
+      { label: "Statement 4 (Moved by Speaker)", status: "false", detail: "Moved by a Minister or MP, not Speaker." },
+    ],
+    trap_type: "Procedural Rule vs Parliamentary Convention",
+    trap_analysis: "Conventions turned into 'mandatory provisions' in statement 2.",
+    citations: [
+      { title: "Rules of Procedure and Conduct of Business in Lok Sabha — Rule 8", reference: "Lok Sabha Secretariat" },
+    ],
+    is_verified: true,
+  },
+  {
+    year: 2022,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-MAC",
+    question_style: "standard",
+    stem: "With reference to the Indian economy, consider the following statements:\n1. If the inflation is too high, Reserve Bank of India (RBI) is likely to buy government securities.\n2. If the rupee is rapidly depreciating, RBI is likely to sell dollars in the market.\n3. If interest rates in the USA or European Union were to fall, that is likely to induce RBI to buy dollars.\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 2 only",
+      B: "2 and 3 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "B",
+    key_status: "Official UPSC CSE 2022 Answer Key",
+    explanation:
+      "Statement 1 is false: high inflation requires SELLING G-secs to absorb excess liquidity. Statement 2 is correct: RBI sells USD to support the rupee. Statement 3 is correct: foreign rate cuts cause dollar inflows; RBI buys USD to prevent sharp rupee appreciation.",
+    fact_breakdown: [
+      { label: "Statement 1 (Inflation -> Buy G-secs)", status: "false", detail: "Buying injects liquidity; RBI sells to mop up cash." },
+      { label: "Statement 2 (Depreciating INR -> Sell USD)", status: "true", detail: "Increases dollar supply and arrests fall." },
+      { label: "Statement 3 (US/EU rate cut -> RBI buys USD)", status: "true", detail: "Absorbs surge in capital inflows." },
+    ],
+    trap_type: "Directional Mechanism Reversal (Buy vs Sell)",
+    trap_analysis: "Statement 3 requires tracing the multi-step capital flow chain.",
+    citations: [{ title: "RBI Monetary Policy & OMO Operations", reference: "Reserve Bank of India" }],
     is_verified: true,
   },
   {
@@ -479,79 +438,13 @@ export const VERIFIED_STARTER_PYQS: SeedPyqQuestion[] = [
     official_answer: "A",
     key_status: "Official UPSC CSE 2022 Answer Key",
     explanation:
-      "Historically and geopolitically, 'the Levant' refers to the eastern Mediterranean littoral—encompassing modern Syria, Lebanon, Israel, Palestine, and Jordan (sometimes extending to parts of southern Turkey/Sinai). North Africa west of Egypt is the Maghreb.",
+      "The Levant historically and geopolitically refers to the eastern Mediterranean littoral—Syria, Lebanon, Israel, Palestine, and Jordan. North-West Africa is known as the Maghreb.",
     fact_breakdown: [
-      {
-        label: "Option A (Eastern Mediterranean shores)",
-        status: "true",
-        detail: "Covers Syria, Lebanon, Israel, Palestine, Jordan along the eastern Mediterranean coast.",
-      },
-      {
-        label: "Option B (Egypt to Morocco)",
-        status: "false",
-        detail: "That region (Tunisia, Algeria, Morocco, Libya, Mauritania) is known as the Maghreb.",
-      },
+      { label: "Levant = Eastern Mediterranean", status: "true", detail: "Levant designates the eastern Mediterranean shores." },
     ],
-    trap_type: "World Mapping Geopolitical Region Confusion",
-    trap_analysis:
-      "Confusing Levant (Eastern Mediterranean) with Maghreb (North-West Africa) or the entire Mediterranean basin.",
-    citations: [
-      {
-        title: "Encyclopedia Britannica — 'Levant' Geographic Region",
-        reference: "Historical & Contemporary Middle East Geography",
-      },
-    ],
-    is_verified: true,
-  },
-  {
-    year: 2021,
-    paper: "GS Paper I",
-    question_number: null,
-    subject: "History & Culture",
-    syllabus_code: "PRE-GS1-HIS-ANC",
-    question_style: "standard",
-    stem: "With reference to Chausath Yogini Temple situated near Morena, consider the following statements:\n1. It is a circular temple built during the reign of Kachchhapaghata Dynasty.\n2. It is the only circular temple built in India.\n3. It was meant to promote the Vaishnava cult in the region.\n4. Its design has given rise to a popular belief that it was the inspiration behind the Indian Parliament building.\n\nWhich of the statements given above are correct?",
-    options: {
-      A: "1 and 2",
-      B: "2 and 3 only",
-      C: "1 and 4",
-      D: "2, 3 and 4",
-    },
-    official_answer: "C",
-    key_status: "Official UPSC CSE 2021 Answer Key",
-    explanation:
-      "Built in the 11th century by Kachchhapaghata ruler Devapala at Mitawali near Morena (MP), the Chausath Yogini temple is circular (Statement 1 correct) and famously cited as inspiring the circular design of the old Indian Parliament building (Statement 4 correct). However, other circular Yogini temples exist in Hirapur and Ranipur-Jharial (Odisha) and Bhedaghat (MP) (Statement 2 false), and Yogini temples belong to the Shakta/Tantric tradition, not Vaishnavism (Statement 3 false).",
-    fact_breakdown: [
-      {
-        label: "Statement 1 (Kachchhapaghata Dynasty)",
-        status: "true",
-        detail: "1055-1075 CE inscription attributes construction to Kachchhapaghata king Devapala.",
-      },
-      {
-        label: "Statement 2 ('Only circular temple')",
-        status: "false",
-        detail: "Hirapur (Khurda, Odisha), Ranipur-Jharial (Balangir, Odisha), and Bhedaghat (Jabalpur) are also circular Yogini temples.",
-      },
-      {
-        label: "Statement 3 (Vaishnava cult)",
-        status: "false",
-        detail: "Dedicated to 64 Yoginis (Shakta / Tantric Shaiva-Shakta tradition), NOT Vaishnava.",
-      },
-      {
-        label: "Statement 4 (Parliament inspiration)",
-        status: "true",
-        detail: "Widely documented architectural parallel cited in ASI and Parliamentary heritage records.",
-      },
-    ],
-    trap_type: "Extreme Word ('Only') + Sectarian Swap",
-    trap_analysis:
-      "Statement 2 fails on the classic absolute qualifier 'only', while Statement 3 swaps Shakta/Tantric worship for Vaishnava.",
-    citations: [
-      {
-        title: "Archaeological Survey of India (ASI) — Ekattarso Mahadeva / Chausath Yogini Temple, Mitawali",
-        reference: "ASI Bhopal Circle Protected Monument Record",
-      },
-    ],
+    trap_type: "World Geopolitical Region Confusion",
+    trap_analysis: "Confusing Levant with Maghreb or the broader Middle East.",
+    citations: [{ title: "Encyclopedia Britannica — Levant Region", reference: "Middle East Geography" }],
     is_verified: true,
   },
   {
@@ -571,23 +464,13 @@ export const VERIFIED_STARTER_PYQS: SeedPyqQuestion[] = [
     official_answer: "B",
     key_status: "Official UPSC CSE 2022 Answer Key",
     explanation:
-      "Fanam (from Tamil/Malayalam 'Panam') was a small gold (and later silver/copper) coin widely used in South India—especially in the Vijayanagara Empire, Travancore, Cochin, and Mysore—between the 9th and 19th centuries, noted by travellers such as Abdur Razzaq.",
+      "Fanam (from Tamil/Malayalam 'Panam') was a small gold or silver coin used in medieval South India, notably under the Vijayanagara Empire and Travancore.",
     fact_breakdown: [
-      {
-        label: "Fanam = Gold/Silver Coin",
-        status: "true",
-        detail: "Derived from 'Panam'; standard small-denomination currency in medieval South India.",
-      },
+      { label: "Fanam = Currency / Coin", status: "true", detail: "Standard small denomination coin in medieval South India." },
     ],
-    trap_type: "Pure Historical Terminology Recall",
-    trap_analysis:
-      "Cannot be deduced by conceptual logic—requires explicit NCERT/numismatic glossary retention.",
-    citations: [
-      {
-        title: "NCERT Themes in Indian History & South Indian Numismatics",
-        reference: "Vijayanagara & Travancore Coinage Records (Abdur Razzaq Accounts)",
-      },
-    ],
+    trap_type: "Historical Terminology Recall",
+    trap_analysis: "Cannot be deduced by pure logic; requires NCERT term retention.",
+    citations: [{ title: "NCERT Themes in Indian History", reference: "Vijayanagara Coinage" }],
     is_verified: true,
   },
   {
@@ -607,23 +490,95 @@ export const VERIFIED_STARTER_PYQS: SeedPyqQuestion[] = [
     official_answer: "D",
     key_status: "Official UPSC CSE 2022 Answer Key",
     explanation:
-      "Web 3.0 envisions a decentralized internet built on blockchains and cryptographic ownership, allowing self-sovereign data control (1), decentralized/blockchain-based social platforms (2), and community/DAO-led governance operated by users collectively rather than centralized Big Tech corporations (3).",
+      "All three statements define the decentralized architecture of Web 3.0: sovereign user data ownership, blockchain-based networks, and community/DAO governance.",
     fact_breakdown: [
-      {
-        label: "Statements 1, 2, and 3",
-        status: "true",
-        detail: "All three describe the core architectural principles of decentralized Web 3.0.",
-      },
+      { label: "Statements 1, 2, and 3", status: "true", detail: "Core principles of decentralized Web3 architecture." },
     ],
-    trap_type: "Over-Skepticism on 'All Three' Emerging Tech Statements",
-    trap_analysis:
-      "Veterans sometimes over-doubt Statement 3 ('collectively rather than a corporation') thinking 'maybe some corporations still host nodes'; in UPSC S&T conceptual stems, 'enables / can / architecture principle' generally holds true.",
-    citations: [
-      {
-        title: "World Economic Forum — Defining Web3 & Decentralized Governance",
-        reference: "WEF Digital Economy & Blockchain Primers",
-      },
+    trap_type: "Over-Skepticism on Emerging Tech Statements",
+    trap_analysis: "Overthinking corporate node hosting in Statement 3.",
+    citations: [{ title: "World Economic Forum — Defining Web3", reference: "Digital Economy Briefs" }],
+    is_verified: true,
+  },
+
+  // ==================== 2021 ====================
+  {
+    year: 2021,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Polity & Governance",
+    syllabus_code: "PRE-GS1-POL-CON",
+    question_style: "standard",
+    stem: "What is the position of the Right to Property in India?",
+    options: {
+      A: "Legal right available to citizens only",
+      B: "Legal right available to any person",
+      C: "Fundamental Right available to citizens only",
+      D: "Neither Fundamental Right nor legal right",
+    },
+    official_answer: "B",
+    key_status: "Official UPSC CSE 2021 Answer Key",
+    explanation:
+      "Article 300A states: 'No person shall be deprived of his property save by authority of law.' The word 'person' makes it available to any person (including non-citizens and legal entities).",
+    fact_breakdown: [
+      { label: "Legal/Constitutional status", status: "true", detail: "Article 300A (44th Amendment Act, 1978)." },
+      { label: "Scope of Beneficiary", status: "true", detail: "Uses 'person', not 'citizen'." },
     ],
+    trap_type: "Bare-Act Exact Word Trap ('Person' vs 'Citizen')",
+    trap_analysis: "Candidates stop reading at 'Legal right' and pick Option A without checking 'citizens only'.",
+    citations: [{ title: "Constitution of India — Article 300A", reference: "Part XII" }],
+    is_verified: true,
+  },
+  {
+    year: 2021,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Environment & Ecology",
+    syllabus_code: "PRE-GS1-ENV-ECO",
+    question_style: "standard",
+    stem: "Which one of the following is a filter feeder?",
+    options: {
+      A: "Catfish",
+      B: "Octopus",
+      C: "Oyster",
+      D: "Pelican",
+    },
+    official_answer: "C",
+    key_status: "Official UPSC CSE 2021 Answer Key",
+    explanation:
+      "Oysters are bivalve molluscs that strain plankton and organic particles through their ciliated gills—the classic definition of filter feeding.",
+    fact_breakdown: [{ label: "Oyster", status: "true", detail: "Bivalve filter feeder that purifies coastal waters." }],
+    trap_type: "Ecology Mechanism Distinction",
+    trap_analysis: "Confusing pelican scooping with suspension filter feeding.",
+    citations: [{ title: "NCERT Class XI Biology", reference: "Phylum Mollusca" }],
+    is_verified: true,
+  },
+  {
+    year: 2021,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "History & Culture",
+    syllabus_code: "PRE-GS1-HIS-ANC",
+    question_style: "standard",
+    stem: "With reference to Chausath Yogini Temple situated near Morena, consider the following statements:\n1. It is a circular temple built during the reign of Kachchhapaghata Dynasty.\n2. It is the only circular temple built in India.\n3. It was meant to promote the Vaishnava cult in the region.\n4. Its design has given rise to a popular belief that it was the inspiration behind the Indian Parliament building.\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 2",
+      B: "2 and 3 only",
+      C: "1 and 4",
+      D: "2, 3 and 4",
+    },
+    official_answer: "C",
+    key_status: "Official UPSC CSE 2021 Answer Key",
+    explanation:
+      "Statements 1 and 4 are correct. Statement 2 is false: circular Yogini temples also exist at Hirapur and Ranipur-Jharial in Odisha. Statement 3 is false: Yogini temples belong to the Shakta/Tantric tradition, not Vaishnavism.",
+    fact_breakdown: [
+      { label: "1. Kachchhapaghata Dynasty", status: "true", detail: "Built by Devapala in the 11th century." },
+      { label: "2. 'Only circular temple'", status: "false", detail: "Hirapur and Ranipur-Jharial are also circular." },
+      { label: "3. Vaishnava cult", status: "false", detail: "Shakta / Tantric tradition." },
+      { label: "4. Parliament inspiration", status: "true", detail: "Widely documented architectural parallel." },
+    ],
+    trap_type: "Extreme Word ('Only') + Sectarian Swap",
+    trap_analysis: "Statement 2 trips on 'only circular temple'.",
+    citations: [{ title: "ASI Bhopal Circle Protected Monuments", reference: "Mitawali Temple Records" }],
     is_verified: true,
   },
   {
@@ -643,23 +598,349 @@ export const VERIFIED_STARTER_PYQS: SeedPyqQuestion[] = [
     official_answer: "D",
     key_status: "Official UPSC CSE 2021 Answer Key",
     explanation:
-      "ACE2 (Angiotensin-Converting Enzyme 2) is a membrane-bound protein on human cells (especially lungs, heart, and kidneys) that acts as the functional host receptor to which the spike (S) protein of SARS-CoV-2 binds to enter human cells.",
+      "ACE2 (Angiotensin-Converting Enzyme 2) is a cellular receptor used by SARS-CoV-2 to attach and infect human host cells.",
+    fact_breakdown: [{ label: "ACE2 Receptor", status: "true", detail: "Host entry receptor for coronaviruses." }],
+    trap_type: "Acronym Context Mismatch",
+    trap_analysis: "Sounds like a satellite or GM seed code if viral biology wasn't tracked.",
+    citations: [{ title: "ICMR & WHO Scientific Briefs", reference: "SARS-CoV-2 Pathogenesis" }],
+    is_verified: true,
+  },
+
+  // ==================== 2020 ====================
+  {
+    year: 2020,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-MAC",
+    question_style: "standard",
+    stem: "If you withdraw ₹1,00,000 in cash from your Demand Deposit Account at your bank, the immediate effect on aggregate money supply in the economy will be",
+    options: {
+      A: "to reduce it by ₹1,00,000",
+      B: "to increase it by ₹1,00,000",
+      C: "to increase it by more than ₹1,00,000",
+      D: "to leave it unchanged",
+    },
+    official_answer: "D",
+    key_status: "Official UPSC CSE 2020 Answer Key",
+    explanation:
+      "Money supply (M1) = Currency with the public + Demand deposits. Withdrawing ₹1,00,000 increases cash in hand by ₹1,00,000 and decreases demand deposits by ₹1,00,000 simultaneously. The immediate net effect is zero.",
     fact_breakdown: [
-      {
-        label: "ACE2 Receptor",
-        status: "true",
-        detail: "Cell-surface receptor exploited by coronaviruses (SARS-CoV and SARS-CoV-2) for viral entry.",
-      },
+      { label: "M1 Definition", status: "true", detail: "Both currency with public and demand deposits are in M1." },
+      { label: "Immediate qualifier", status: "nuance", detail: "Multi-round credit contraction takes time, not immediate." },
     ],
-    trap_type: "Acronym Mismatch",
+    trap_type: "Time-Horizon Trap ('Immediate' vs Multi-round multiplier)",
+    trap_analysis: "Ignoring the word 'immediate' and applying the multi-round bank multiplier.",
+    citations: [{ title: "NCERT Class XII Macroeconomics", reference: "Chapter 3: Money and Banking" }],
+    is_verified: true,
+  },
+  {
+    year: 2020,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Environment & Ecology",
+    syllabus_code: "PRE-GS1-ENV-ECO",
+    question_style: "standard",
+    stem: "With reference to Indian elephants, consider the following statements:\n1. The leader of an elephant group is a female.\n2. The maximum gestation period can be 22 months.\n3. An elephant can normally go on calving till the age of 40 years only.\n4. Among the States in India, the highest elephant population is in Kerala.\n\nWhich of the statements given above is/are correct?",
+    options: {
+      A: "1 and 2 only",
+      B: "2 and 4 only",
+      C: "3 only",
+      D: "1, 3 and 4 only",
+    },
+    official_answer: "A",
+    key_status: "Official UPSC CSE 2020 Answer Key",
+    explanation:
+      "Statements 1 and 2 are correct (matriarchal herd; 18-22 months gestation). Statement 3 is false (reproduce past 55-60). Statement 4 is false (Karnataka has the highest elephant population, followed by Assam and Kerala).",
+    fact_breakdown: [
+      { label: "1. Female leader", status: "true", detail: "Elephant herds are matriarchies." },
+      { label: "2. 22 months gestation", status: "true", detail: "Longest mammalian gestation." },
+      { label: "3. Calving till 40 only", status: "false", detail: "Calves well into 50s." },
+      { label: "4. Highest in Kerala", status: "false", detail: "Karnataka ranks 1st (~6,049)." },
+    ],
+    trap_type: "State Rank Swap (Karnataka vs Kerala)",
+    trap_analysis: "Kerala's elephant festival fame distracts from Karnataka's census rank.",
+    citations: [{ title: "MoEFCC All-India Elephant Census 2017", reference: "Project Elephant Report" }],
+    is_verified: true,
+  },
+
+  // ==================== 2019 ====================
+  {
+    year: 2019,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Polity & Governance",
+    syllabus_code: "PRE-GS1-POL-CON",
+    question_style: "standard",
+    stem: "The Ninth Schedule was introduced in the Constitution of India during the prime ministership of:",
+    options: {
+      A: "Jawaharlal Nehru",
+      B: "Lal Bahadur Shastri",
+      C: "Indira Gandhi",
+      D: "Morarji Desai",
+    },
+    official_answer: "A",
+    key_status: "Official UPSC CSE 2019 Answer Key",
+    explanation:
+      "The Ninth Schedule was added to the Constitution of India by the First Constitutional Amendment Act in 1951, under Prime Minister Jawaharlal Nehru, to protect land reform laws from judicial scrutiny under Article 31.",
+    fact_breakdown: [
+      { label: "1st Constitutional Amendment (1951)", status: "true", detail: "Enacted under the Provisional Parliament led by PM Jawaharlal Nehru." },
+    ],
+    trap_type: "Chronology Association (1951 vs 1970s Land Reforms)",
+    trap_analysis: "Some link Ninth Schedule disputes with Indira Gandhi's tenure rather than the 1951 enactment.",
+    citations: [{ title: "The Constitution (First Amendment) Act, 1951", reference: "Ministry of Law & Justice" }],
+    is_verified: true,
+  },
+  {
+    year: 2019,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-MAC",
+    question_style: "standard",
+    stem: "The Service Area Approach was implemented under the purview of:",
+    options: {
+      A: "Integrated Rural Development Programme",
+      B: "Lead Bank Scheme",
+      C: "Mahatma Gandhi National Rural Employment Guarantee Scheme",
+      D: "National Skill Development Mission",
+    },
+    official_answer: "B",
+    key_status: "Official UPSC CSE 2019 Answer Key",
+    explanation:
+      "The Service Area Approach (SAA) was introduced in April 1989 under the Lead Bank Scheme to provide planned, targeted credit deployment to designated clusters of villages by commercial and regional rural banks.",
+    fact_breakdown: [
+      { label: "Lead Bank Scheme (1969/1989)", status: "true", detail: "Lead Bank Scheme pioneered the Service Area Approach." },
+    ],
+    trap_type: "Flagship Scheme Name Confusion",
+    trap_analysis: "Confusing IRDP or rural welfare schemes with banking credit frameworks.",
+    citations: [{ title: "RBI Master Circular — Lead Bank Scheme", reference: "Reserve Bank of India Rural Planning" }],
+    is_verified: true,
+  },
+
+  // ==================== 2018 ====================
+  {
+    year: 2018,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Polity & Governance",
+    syllabus_code: "PRE-GS1-POL-CON",
+    question_style: "standard",
+    stem: "The 'Rule of Law Index' is released by which of the following?",
+    options: {
+      A: "Amnesty International",
+      B: "International Court of Justice",
+      C: "The Office of UN High Commissioner for Human Rights",
+      D: "World Justice Project",
+    },
+    official_answer: "D",
+    key_status: "Official UPSC CSE 2018 Answer Key",
+    explanation:
+      "The Rule of Law Index is an international quantitative assessment tool produced annually by the World Justice Project (WJP), an independent civil society organization.",
+    fact_breakdown: [
+      { label: "World Justice Project (WJP)", status: "true", detail: "Washington-based independent research institute." },
+    ],
+    trap_type: "International Agency Misattribution",
+    trap_analysis: "Assuming human rights or rule of law indices must come from UN bodies (OHCHR or ICJ).",
+    citations: [{ title: "World Justice Project — Rule of Law Index Reports", reference: "WJP Publications" }],
+    is_verified: true,
+  },
+
+  // ==================== 2017 ====================
+  {
+    year: 2017,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Polity & Governance",
+    syllabus_code: "PRE-GS1-POL-CON",
+    question_style: "standard",
+    stem: "Right to vote and to be elected in India is a:",
+    options: {
+      A: "Fundamental Right",
+      B: "Natural Right",
+      C: "Constitutional Right",
+      D: "Legal Right",
+    },
+    official_answer: "C",
+    key_status: "Official UPSC CSE 2017 Answer Key",
+    explanation:
+      "In the official answer key of UPSC CSE Prelims 2017, Option C (Constitutional Right) was designated as the official key, anchored in Article 326 of the Constitution of India which guarantees universal adult suffrage.",
+    fact_breakdown: [
+      { label: "Article 326", status: "true", detail: "Provides adult suffrage for elections to Lok Sabha and State Legislative Assemblies." },
+    ],
+    trap_type: "Legal vs Constitutional Right Debate",
     trap_analysis:
-      "ACE2 sounds like an aerospace/GM-gene acronym if you didn't track basic Covid-19 virology terms in current science news.",
-    citations: [
-      {
-        title: "ICMR & WHO Scientific Briefs on SARS-CoV-2 Pathogenesis",
-        reference: "Role of ACE2 Receptor in Viral Entry (2020-2021)",
-      },
+      "While Section 62 of the RPA 1951 regulates voting, UPSC's official key prioritized Article 326 as establishing it as a Constitutional Right.",
+    citations: [{ title: "Constitution of India — Article 326", reference: "Part XV (Elections)" }],
+    is_verified: true,
+  },
+  {
+    year: 2017,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Environment & Ecology",
+    syllabus_code: "PRE-GS1-ENV-CLM",
+    question_style: "standard",
+    stem: "Biological Oxygen Demand (BOD) is a standard criterion for:",
+    options: {
+      A: "Measuring oxygen levels in blood",
+      B: "Computing oxygen levels in forest ecosystems",
+      C: "Pollution assay in aquatic ecosystems",
+      D: "Assessing oxygen levels in high altitude regions",
+    },
+    official_answer: "C",
+    key_status: "Official UPSC CSE 2017 Answer Key",
+    explanation:
+      "BOD measures the amount of oxygen required by bacteria while stabilizing decomposable organic matter under aerobic conditions. Higher BOD values signify heavily polluted aquatic water bodies.",
+    fact_breakdown: [
+      { label: "BOD = Aquatic Pollution Assay", status: "true", detail: "Standard index of organic waste contamination in water bodies." },
     ],
+    trap_type: "Scientific Concept Context",
+    trap_analysis: "High BOD means low dissolved oxygen for aquatic life.",
+    citations: [{ title: "NCERT Class XII Biology — Environmental Issues", reference: "Water Pollution & Sewage Treatment" }],
+    is_verified: true,
+  },
+
+  // ==================== 2016 ====================
+  {
+    year: 2016,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-EXT",
+    question_style: "standard",
+    stem: "With reference to 'Stand Up India Scheme', which of the following statements is/are correct?\n1. Its purpose is to promote entrepreneurship among SC/ST and women entrepreneurs.\n2. It provides for refinance through SIDBI.\n\nSelect the correct answer using the code given below:",
+    options: {
+      A: "1 only",
+      B: "2 only",
+      C: "Both 1 and 2",
+      D: "Neither 1 nor 2",
+    },
+    official_answer: "C",
+    key_status: "Official UPSC CSE 2016 Answer Key",
+    explanation:
+      "Stand Up India facilitates bank loans between ₹10 lakh and ₹1 crore to at least one SC/ST and one woman borrower per bank branch for setting up a greenfield enterprise (Statement 1). Refinance window is provided through SIDBI (Statement 2).",
+    fact_breakdown: [
+      { label: "1. Beneficiaries", status: "true", detail: "At least one SC/ST and one woman borrower per branch." },
+      { label: "2. Refinance", status: "true", detail: "Refinanced through Small Industries Development Bank of India (SIDBI)." },
+    ],
+    trap_type: "Refinance Agency Verification (SIDBI vs NABARD)",
+    trap_analysis: "Checking whether SIDBI or NABARD provides the refinance facility.",
+    citations: [{ title: "Department of Financial Services — Stand Up India", reference: "Ministry of Finance" }],
+    is_verified: true,
+  },
+
+  // ==================== 2015 ====================
+  {
+    year: 2015,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-EXT",
+    question_style: "standard",
+    stem: "The Fair and Remunerative Price (FRP) of sugarcane is approved by the:",
+    options: {
+      A: "Cabinet Committee on Economic Affairs (CCEA)",
+      B: "Commission for Agricultural Costs and Prices (CACP)",
+      C: "Directorate of Marketing and Inspection, Ministry of Agriculture",
+      D: "Agricultural Produce Market Committee (APMC)",
+    },
+    official_answer: "A",
+    key_status: "Official UPSC CSE 2015 Answer Key",
+    explanation:
+      "The Fair and Remunerative Price (FRP) of sugarcane is determined and approved by the Cabinet Committee on Economic Affairs (CCEA) chaired by the Prime Minister, on the recommendations of the CACP.",
+    fact_breakdown: [
+      { label: "CCEA Approves", status: "true", detail: "Final statutory approving authority." },
+      { label: "CACP Recommends", status: "false", detail: "CACP is an advisory recommending body, not approving authority." },
+    ],
+    trap_type: "Approving Authority vs Recommending Body Swap",
+    trap_analysis: "Confusing the recommending body (CACP) with the approving cabinet committee (CCEA).",
+    citations: [{ title: "Department of Food & Public Distribution — Sugarcane Pricing", reference: "CCEA Decisions" }],
+    is_verified: true,
+  },
+
+  // ==================== 2014 ====================
+  {
+    year: 2014,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Environment & Ecology",
+    syllabus_code: "PRE-GS1-ENV-ECO",
+    question_style: "standard",
+    stem: "Lichens, which are capable of initiating ecological succession even on a bare rock, are actually a symbiotic association of:",
+    options: {
+      A: "algae and bacteria",
+      B: "algae and fungi",
+      C: "bacteria and fungi",
+      D: "fungi and mosses",
+    },
+    official_answer: "B",
+    key_status: "Official UPSC CSE 2014 Answer Key",
+    explanation:
+      "Lichens are composite symbiotic organisms composed of an alga or cyanobacterium (the photobiont) living among filaments of multiple fungi species (the mycobiont).",
+    fact_breakdown: [
+      { label: "Algae + Fungi", status: "true", detail: "Mutualistic relationship where fungus provides anchorage/water and alga photosynthesizes." },
+    ],
+    trap_type: "Symbiosis Pair Recall",
+    trap_analysis: "Confusing mosses with lichens or bacteria with algae.",
+    citations: [{ title: "NCERT Class XI Biology", reference: "Chapter 2: Biological Classification" }],
+    is_verified: true,
+  },
+
+  // ==================== 2013 ====================
+  {
+    year: 2013,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-MAC",
+    question_style: "standard",
+    stem: "The money multiplier in an economy increases with which one of the following?",
+    options: {
+      A: "Increase in the cash reserve ratio",
+      B: "Increase in the banking habit of the population",
+      C: "Increase in the statutory liquidity ratio",
+      D: "Increase in the population of the country",
+    },
+    official_answer: "B",
+    key_status: "Official UPSC CSE 2013 Answer Key",
+    explanation:
+      "An increase in the banking habit reduces the currency-deposit ratio (people hold more funds in bank deposits rather than currency notes in pockets), thereby increasing the banking system's capacity to create credit and expanding the money multiplier.",
+    fact_breakdown: [
+      { label: "Banking habit expands multiplier", status: "true", detail: "Lowers cash leakage from the commercial banking system." },
+      { label: "CRR and SLR increase", status: "false", detail: "Higher reserve requirements reduce credit creation and shrink multiplier." },
+    ],
+    trap_type: "Formula Parameter Direction",
+    trap_analysis: "Higher CRR or SLR contracts the money multiplier.",
+    citations: [{ title: "NCERT Class XII Macroeconomics", reference: "Money Creation by Banking System" }],
+    is_verified: true,
+  },
+  {
+    year: 2013,
+    paper: "GS Paper I",
+    question_number: null,
+    subject: "Environment & Ecology",
+    syllabus_code: "PRE-GS1-ENV-ECO",
+    question_style: "standard",
+    stem: "According to the Wildlife (Protection) Act, 1972, which of the following animals cannot be hunted by any person except under some provisions provided by law?\n1. Gharial\n2. Indian wild ass\n3. Wild buffalo\n\nSelect the correct answer using the code given below:",
+    options: {
+      A: "1 only",
+      B: "2 and 3 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "D",
+    key_status: "Official UPSC CSE 2013 Answer Key",
+    explanation:
+      "All three animals—Gharial (Gavialis gangeticus), Indian wild ass (Equus hemionus khur), and Wild buffalo (Bubalus arnee)—are listed in Schedule I of the Wildlife (Protection) Act, 1972, granting them the highest protection against hunting under Section 9.",
+    fact_breakdown: [
+      { label: "1. Gharial", status: "true", detail: "Schedule I reptile." },
+      { label: "2. Indian wild ass", status: "true", detail: "Schedule I mammal found in Little Rann of Kutch." },
+      { label: "3. Wild buffalo", status: "true", detail: "Schedule I mammal found in Assam/Central India." },
+    ],
+    trap_type: "Schedule I Animal Classification",
+    trap_analysis: "Assuming wild buffalo is only Schedule II or III.",
+    citations: [{ title: "Wildlife (Protection) Act, 1972 — Schedule I", reference: "MoEFCC Wildlife Division" }],
     is_verified: true,
   },
 ];

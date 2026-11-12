@@ -114,27 +114,27 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAF8F4]">
-      {/* Top Command Header */}
-      <header className="sticky top-0 z-30 border-b border-stone-200 bg-white/95 backdrop-blur">
+    <div className="min-h-screen bg-[#FBF8F5] text-[#1D1B16]">
+      {/* Material 3 Expressive Top App Bar */}
+      <header className="sticky top-0 z-30 border-b border-stone-200/80 bg-[#FBF8F5]/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-stone-900 text-amber-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-stone-900 text-amber-400 shadow-sm">
               <Shield className="h-5 w-5" />
             </div>
             <div>
               <h1 className="font-serif text-lg font-bold tracking-tight text-stone-900">
                 Sankalp 2027 — UPSC CSE Prep OS
               </h1>
-              <p className="text-[11px] text-stone-500">
-                Serving Officer Protocol • PSIR Veteran (755 → 850+) • SQLite Local-First
+              <p className="text-[11px] font-medium text-stone-500">
+                Material 3 Expressive • Serving Officer Protocol • 2013–2026 PYQ Dissection Engine
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
             {data && (
-              <div className="hidden rounded-lg border border-stone-200 bg-stone-50 px-3 py-1 text-xs font-medium text-stone-700 md:block">
+              <div className="hidden rounded-full border border-stone-300/80 bg-white px-3.5 py-1 text-xs font-medium text-stone-700 shadow-xs md:block">
                 PYQ Accuracy:{" "}
                 <span className="font-bold text-stone-900">
                   {data.stats.pyqAttempts > 0
@@ -146,34 +146,34 @@ export default function HomePage() {
             )}
             <button
               onClick={() => setSettingsOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-xs font-semibold text-stone-700 hover:bg-stone-50"
+              className="inline-flex items-center gap-1.5 rounded-full border border-stone-300 bg-white px-4 py-1.5 text-xs font-semibold text-stone-700 shadow-xs transition hover:bg-stone-50 active:scale-95"
             >
-              <Settings className="h-3.5 w-3.5" />
+              <Settings className="h-3.5 w-3.5 text-amber-800" />
               Settings
             </button>
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-4 pb-2">
+        {/* Material 3 Expressive Navigation Segmented Pills */}
+        <div className="mx-auto flex max-w-6xl gap-1.5 overflow-x-auto px-4 pb-2.5">
           {navItems.map((tab) => {
             const active = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-3.5 py-2 text-xs font-semibold transition ${
+                className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200 active:scale-95 ${
                   active
                     ? "bg-stone-900 text-white shadow-sm"
-                    : "text-stone-600 hover:bg-stone-100 hover:text-stone-900"
+                    : "text-stone-600 hover:bg-stone-200/60 hover:text-stone-950"
                 }`}
               >
                 {tab.icon}
                 {tab.label}
                 {typeof tab.badge === "number" && (
                   <span
-                    className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
-                      active ? "bg-amber-400 text-stone-900" : "bg-stone-200 text-stone-700"
+                    className={`rounded-full px-2 py-0.5 text-[10px] font-bold transition-all ${
+                      active ? "bg-amber-400 text-stone-950" : "bg-stone-200 text-stone-700"
                     }`}
                   >
                     {tab.badge}
@@ -185,11 +185,11 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Main Content */}
+      {/* Main Content Container */}
       <main className="mx-auto max-w-6xl px-4 py-6">
         {loading || !data ? (
-          <div className="rounded-xl border border-stone-200 bg-white p-12 text-center text-sm text-stone-500">
-            Initializing SQLite database, UPSC syllabus matrix, and verified PYQs...
+          <div className="rounded-[28px] border border-stone-200 bg-white p-12 text-center text-sm text-stone-500 shadow-sm">
+            Initializing Material 3 Expressive OS, UPSC syllabus matrix, and 2013–2026 PYQs...
           </div>
         ) : (
           <>

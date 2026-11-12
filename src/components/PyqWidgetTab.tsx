@@ -14,6 +14,10 @@ import {
   PlusCircle,
   Save,
   Check,
+  Filter,
+  Calendar,
+  Layers,
+  Sparkle,
 } from "lucide-react";
 import { ErrorTaxonomy, PyqQuestion, SyllabusNode } from "@/types";
 import { getLoggedPyqIds, markPyqAsLogged, saveLocalError } from "@/lib/storage";
@@ -35,25 +39,29 @@ interface PyqWidgetTabProps {
   onErrorLogged: () => void;
 }
 
+export const PYQ_YEARS = [
+  2026, 2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013,
+];
+
 const SAMPLE_IMPORT_JSON = `[
   {
-    "year": 2023,
+    "year": 2024,
     "paper": "GS Paper I",
     "subject": "Polity & Governance",
     "syllabus_code": "PRE-GS1-POL-CON",
     "question_style": "standard",
-    "stem": "Consider the following statements regarding the Finance Commission of India: ...",
+    "stem": "With reference to the Constitution of India, consider the following...",
     "options": { "A": "1 only", "B": "2 only", "C": "Both 1 and 2", "D": "Neither 1 nor 2" },
     "official_answer": "C",
-    "key_status": "Official UPSC CSE 2023 Answer Key",
-    "explanation": "Article 280 provides for ...",
+    "key_status": "Official UPSC CSE 2024 Answer Key",
+    "explanation": "Verified under Article ...",
     "fact_breakdown": [
-      { "label": "Statement 1", "status": "true", "detail": "Verified under Article 280(1)" }
+      { "label": "Statement 1", "status": "true", "detail": "Direct text from Bare Act" }
     ],
-    "trap_type": "Constitutional vs Statutory Trap",
-    "trap_analysis": "Watch out for tenure/qualification swaps.",
+    "trap_type": "Bare Act Qualifier",
+    "trap_analysis": "Watch for subtle changes in wording.",
     "citations": [
-      { "title": "Constitution of India — Article 280", "reference": "Part XII" }
+      { "title": "Constitution of India", "reference": "Article 355" }
     ]
   }
 ]`;
@@ -103,9 +111,32 @@ export default function PyqWidgetTab({
   useEffect(() => {
     if (initialSyllabusCode) {
       setSyllabusFilter(initialSyllabusCode);
-      setSubjectFilter("ALL");
+      const matched = syllabus.find((s) => s.code === initialSyllabusCode);
+      if (matched) {
+        setSubjectFilter(matched.subject);
+      }
     }
-  }, [initialSyllabusCode]);
+  }, [initialSyllabusCode, syllabus]);
+
+  // Dynamic syllabus unit filtering based on currently selected subject
+  const availableSyllabusUnits = syllabus.filter((s) => {
+    if (s.stage === "MAINS") return false;
+    if (subjectFilter !== "ALL" && s.subject !== subjectFilter) return false;
+    return true;
+  });
+
+  const handleSubjectChange = (newSubject: string) => {
+    setSubjectFilter(newSubject);
+    if (newSubject !== "ALL") {
+      // If current syllabus unit doesn't belong to this subject, reset to ALL
+      const stillValid = syllabus.some(
+        (s) => s.code === syllabusFilter && s.subject === newSubject && s.stage !== "MAINS"
+      );
+      if (!stillValid) {
+        setSyllabusFilter("ALL");
+      }
+    }
+  };
 
   const fetchPyqs = async () => {
     setLoading(true);
@@ -138,7 +169,7 @@ export default function PyqWidgetTab({
       setNoteSaved(false);
       const isAlreadyInLocal = getLoggedPyqIds().includes(currentQ.id);
       if (isAlreadyInLocal) {
-        setErrorLoggedMsg("Already saved in Local Storage & 1–3–7–21 Error Registry.");
+        setErrorLoggedMsg("Already recorded in your local Error Registry.");
       } else {
         setErrorLoggedMsg(null);
       }
@@ -280,73 +311,152 @@ export default function PyqWidgetTab({
   };
 
   const subjects = Array.from(new Set(syllabus.filter((s) => s.stage !== "MAINS").map((s) => s.subject)));
+  const isAlreadyLogged = currentQ ? loggedPyqIds.includes(currentQ.id) : false;
 
   return (
-    <div className="space-y-5">
-      {/* Filter & Import Bar */}
-      <div className="flex flex-col gap-3 rounded-xl border border-stone-200 bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex flex-wrap items-center gap-2.5">
-          <select
-            value={subjectFilter}
-            onChange={(e) => {
-              setSubjectFilter(e.target.value);
-              setSyllabusFilter("ALL");
-            }}
-            className="rounded-lg border border-stone-300 bg-stone-50 px-3 py-1.5 text-sm font-medium text-stone-800"
-          >
-            <option value="ALL">All Prelims Subjects</option>
-            {subjects.map((sub) => (
-              <option key={sub} value={sub}>
-                {sub}
-              </option>
-            ))}
-          </select>
+    <div className="space-y-6">
+      {/* Material 3 Expressive Filter Card */}
+      <div className="rounded-[28px] border border-stone-200/80 bg-[#F5F2EC] p-5 shadow-[0_1px_3px_1px_rgba(0,0,0,0.06)] transition-all">
+        {/* Top Header of Filter Bar */}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-100 text-amber-900">
+              <Filter className="h-4 w-4" />
+            </div>
+            <div>
+              <h3 className="font-serif text-base font-bold text-stone-900">
+                PYQ Dissection Explorer
+              </h3>
+              <p className="text-[11px] text-stone-500">
+                Filtering dynamically from 2013 to 2026 across verified UPSC CSE papers
+              </p>
+            </div>
+          </div>
 
-          <select
-            value={syllabusFilter}
-            onChange={(e) => setSyllabusFilter(e.target.value)}
-            className="max-w-[260px] rounded-lg border border-stone-300 bg-stone-50 px-3 py-1.5 text-sm font-medium text-stone-800"
-          >
-            <option value="ALL">All Syllabus Units</option>
-            {syllabus
-              .filter((s) => s.stage !== "MAINS")
-              .map((s) => (
+          <div className="flex items-center gap-2">
+            <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-stone-700 shadow-sm">
+              {questions.length > 0 ? `${currentIndex + 1} of ${questions.length} Questions` : "0 Questions"}
+            </span>
+            <button
+              onClick={() => setShowImport(!showImport)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-stone-300 bg-white px-3.5 py-1.5 text-xs font-semibold text-stone-800 shadow-sm transition hover:bg-stone-50 active:scale-95"
+            >
+              <Upload className="h-3.5 w-3.5 text-amber-700" />
+              Import Pack
+            </button>
+          </div>
+        </div>
+
+        {/* Dynamic Subject Filter Chips (M3 Expressive Filter Chips) */}
+        <div className="mt-4">
+          <label className="block text-[11px] font-bold uppercase tracking-wider text-stone-500">
+            Filter by Subject:
+          </label>
+          <div className="mt-1.5 flex gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            <button
+              onClick={() => handleSubjectChange("ALL")}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all ${
+                subjectFilter === "ALL"
+                  ? "bg-amber-900 text-white shadow-sm ring-1 ring-amber-950"
+                  : "border border-stone-300 bg-white text-stone-700 hover:bg-stone-50"
+              }`}
+            >
+              {subjectFilter === "ALL" && <Check className="h-3.5 w-3.5" />}
+              All Subjects
+            </button>
+            {subjects.map((sub) => {
+              const active = subjectFilter === sub;
+              return (
+                <button
+                  key={sub}
+                  onClick={() => handleSubjectChange(sub)}
+                  className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-medium transition-all ${
+                    active
+                      ? "bg-amber-900 text-white shadow-sm ring-1 ring-amber-950"
+                      : "border border-stone-300 bg-white text-stone-700 hover:bg-stone-50"
+                  }`}
+                >
+                  {active && <Check className="h-3.5 w-3.5" />}
+                  {sub}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Second Row: Dynamic Syllabus Units Dropdown + 2013-2026 Year Selector */}
+        <div className="mt-3.5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {/* Dynamic Syllabus Dropdown */}
+          <div className="rounded-2xl border border-stone-200/90 bg-white p-2.5 shadow-sm">
+            <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-stone-500">
+              <Layers className="h-3.5 w-3.5 text-amber-700" />
+              Syllabus Unit ({availableSyllabusUnits.length} in {subjectFilter === "ALL" ? "All" : subjectFilter})
+            </div>
+            <select
+              value={syllabusFilter}
+              onChange={(e) => setSyllabusFilter(e.target.value)}
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50/50 px-3 py-2 text-xs font-medium text-stone-900 focus:border-amber-700 focus:bg-white focus:outline-none"
+            >
+              <option value="ALL">All Syllabus Units</option>
+              {availableSyllabusUnits.map((s) => (
                 <option key={s.code} value={s.code}>
                   {s.code} — {s.topic}
                 </option>
               ))}
-          </select>
+            </select>
+          </div>
 
-          <select
-            value={yearFilter}
-            onChange={(e) => setYearFilter(e.target.value)}
-            className="rounded-lg border border-stone-300 bg-stone-50 px-3 py-1.5 text-sm font-medium text-stone-800"
-          >
-            <option value="ALL">All Years (2020–2023+)</option>
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-          </select>
+          {/* Year Dropdown spanning 2013 till 2026 */}
+          <div className="rounded-2xl border border-stone-200/90 bg-white p-2.5 shadow-sm">
+            <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-stone-500">
+              <Calendar className="h-3.5 w-3.5 text-amber-700" />
+              UPSC CSE Year (2013 – 2026)
+            </div>
+            <select
+              value={yearFilter}
+              onChange={(e) => setYearFilter(e.target.value)}
+              className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50/50 px-3 py-2 text-xs font-medium text-stone-900 focus:border-amber-700 focus:bg-white focus:outline-none"
+            >
+              <option value="ALL">All Years (2013 – 2026)</option>
+              {PYQ_YEARS.map((y) => (
+                <option key={y} value={String(y)}>
+                  {y} {y >= 2025 ? "(High-Yield Simulation)" : `UPSC CSE Prelims`}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <div className="flex items-center justify-between gap-3">
-          <span className="text-xs font-medium text-stone-500">
-            Showing {questions.length > 0 ? currentIndex + 1 : 0} of {questions.length} PYQs
-          </span>
-          <button
-            onClick={() => setShowImport(!showImport)}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 bg-stone-50 px-3 py-1.5 text-xs font-semibold text-stone-800 hover:bg-stone-100"
-          >
-            <Upload className="h-3.5 w-3.5" />
-            Import PYQ Pack
-          </button>
+        {/* Quick Year Pill Strip */}
+        <div className="mt-3 flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
+          <span className="text-[11px] font-semibold text-stone-500 mr-1 whitespace-nowrap">Quick Year:</span>
+          {PYQ_YEARS.map((y) => (
+            <button
+              key={y}
+              onClick={() => setYearFilter(String(y))}
+              className={`rounded-full px-2.5 py-0.5 font-mono text-[11px] transition-all ${
+                yearFilter === String(y)
+                  ? "bg-stone-900 font-bold text-white shadow-sm"
+                  : "bg-white text-stone-700 hover:bg-stone-200/80"
+              }`}
+            >
+              {y}
+            </button>
+          ))}
+          {yearFilter !== "ALL" && (
+            <button
+              onClick={() => setYearFilter("ALL")}
+              className="text-[11px] text-amber-800 underline ml-1 hover:text-amber-950 whitespace-nowrap"
+            >
+              Clear
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Bulk JSON Importer Drawer */}
+      {/* Bulk JSON Importer Modal / Drawer */}
       {showImport && (
-        <div className="rounded-xl border border-amber-300 bg-amber-50/60 p-4">
+        <div className="rounded-[28px] border border-amber-300 bg-amber-50/70 p-5 shadow-sm">
           <div className="flex items-center justify-between">
             <h4 className="font-serif text-base font-bold text-stone-900">
               Bulk Import Verified UPSC PYQs (JSON)
@@ -355,91 +465,100 @@ export default function PyqWidgetTab({
               onClick={() => setImportJson(SAMPLE_IMPORT_JSON)}
               className="text-xs font-semibold text-amber-800 underline"
             >
-              Load Sample JSON Schema
+              Load Sample Schema
             </button>
           </div>
           <p className="mt-1 text-xs text-stone-600">
-            Paste an array of PYQ objects with official UPSC answer keys and primary citations to expand your local SQLite bank.
+            Paste an array of PYQ objects with official answer keys and citations to expand your local SQLite bank.
           </p>
           <textarea
-            rows={6}
+            rows={5}
             value={importJson}
             onChange={(e) => setImportJson(e.target.value)}
-            placeholder="Paste JSON array of PYQ objects here..."
-            className="mt-2.5 w-full rounded-lg border border-stone-300 bg-white p-2.5 font-mono text-xs text-stone-800"
+            placeholder="Paste JSON array here..."
+            className="mt-2.5 w-full rounded-2xl border border-stone-300 bg-white p-3 font-mono text-xs text-stone-800 focus:outline-none"
           />
-          <div className="mt-2.5 flex items-center justify-between">
+          <div className="mt-3 flex items-center justify-between">
             <span className="text-xs font-medium text-stone-700">{importStatus || ""}</span>
             <div className="flex gap-2">
               <button
                 onClick={() => setShowImport(false)}
-                className="rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-xs font-medium text-stone-700"
+                className="rounded-full border border-stone-300 bg-white px-4 py-1.5 text-xs font-medium text-stone-700"
               >
                 Close
               </button>
               <button
                 onClick={handleBulkImport}
-                className="rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-stone-800"
+                className="rounded-full bg-stone-900 px-5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-stone-800"
               >
-                Import into SQLite
+                Import to SQLite
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Main PYQ Practice Widget */}
+      {/* Main MCQ Card in Material 3 Expressive */}
       {loading ? (
-        <div className="rounded-xl border border-stone-200 bg-white p-8 text-center text-sm text-stone-500">
-          Loading verified PYQ bank...
+        <div className="rounded-[28px] border border-stone-200 bg-white p-12 text-center text-sm text-stone-500 shadow-sm">
+          Loading UPSC CSE questions...
         </div>
       ) : !currentQ ? (
-        <div className="rounded-xl border border-stone-200 bg-white p-8 text-center">
-          <p className="text-sm text-stone-600">No PYQs match the current syllabus/year filter.</p>
+        <div className="rounded-[28px] border border-stone-200 bg-white p-10 text-center shadow-sm">
+          <p className="text-sm font-medium text-stone-700">
+            No PYQs match the filter: <b>{subjectFilter}</b> • <b>{syllabusFilter}</b> • Year: <b>{yearFilter}</b>
+          </p>
+          <p className="mt-1 text-xs text-stone-500">
+            Try resetting your filters or selecting &apos;All Years&apos; to view all questions from 2013 to 2026.
+          </p>
           <button
             onClick={() => {
               setSubjectFilter("ALL");
               setSyllabusFilter("ALL");
               setYearFilter("ALL");
             }}
-            className="mt-3 rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-semibold text-white"
+            className="mt-4 rounded-full bg-stone-900 px-5 py-2 text-xs font-semibold text-white shadow-sm hover:bg-stone-800"
           >
-            Reset Filters
+            Reset All Filters
           </button>
         </div>
       ) : (
-        <div className="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-          {/* Question Metadata Header */}
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-100 pb-3">
+        <div className="rounded-[28px] border border-stone-200/90 bg-white p-6 sm:p-8 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+          {/* Header Metadata Chips */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-100 pb-4">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-md bg-stone-900 px-2.5 py-1 text-xs font-bold text-white">
+              <span className="rounded-full bg-stone-900 px-3.5 py-1 text-xs font-bold text-white shadow-sm">
                 UPSC CSE {currentQ.year}
               </span>
-              <span className="rounded-md border border-stone-200 bg-stone-50 px-2.5 py-1 text-xs font-semibold text-stone-700">
+              <span className="rounded-full bg-[#E0E7FF] px-3 py-1 text-xs font-semibold text-[#1E1B4B]">
                 {currentQ.subject}
               </span>
-              <span className="rounded-md bg-amber-50 px-2 py-1 font-mono text-[11px] font-semibold text-amber-900">
+              <span className="rounded-full bg-[#FEF3C7] px-3 py-1 font-mono text-[11px] font-bold text-[#78350F]">
                 {currentQ.syllabus_code}
               </span>
               {currentQ.question_style === "pair_counting" && (
-                <span className="rounded-md bg-rose-100 px-2 py-1 text-[11px] font-semibold text-rose-800">
+                <span className="rounded-full bg-[#FFE4E6] px-3 py-1 text-[11px] font-bold text-[#881337]">
                   Post-2022 Pair Trap
                 </span>
               )}
             </div>
 
-            <div className="flex items-center gap-2">
+            {/* Pagination Controls */}
+            <div className="flex items-center gap-1.5">
               <button
                 onClick={() => setCurrentIndex((i) => Math.max(0, i - 1))}
                 disabled={currentIndex === 0}
-                className="rounded-lg border border-stone-300 p-1.5 text-stone-700 hover:bg-stone-100 disabled:opacity-40"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-stone-300 bg-stone-50 text-stone-700 transition hover:bg-stone-100 disabled:opacity-30"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
+              <span className="px-2 font-mono text-xs font-semibold text-stone-600">
+                {currentIndex + 1} / {questions.length}
+              </span>
               <button
                 onClick={() => setCurrentIndex((i) => Math.min(questions.length - 1, i + 1))}
                 disabled={currentIndex >= questions.length - 1}
-                className="rounded-lg border border-stone-300 p-1.5 text-stone-700 hover:bg-stone-100 disabled:opacity-40"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-stone-300 bg-stone-50 text-stone-700 transition hover:bg-stone-100 disabled:opacity-30"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
@@ -447,13 +566,15 @@ export default function PyqWidgetTab({
           </div>
 
           {/* Stem */}
-          <div className="mt-4 whitespace-pre-line font-serif text-base leading-relaxed text-stone-900">
+          <div className="mt-5 whitespace-pre-line font-serif text-lg leading-relaxed text-stone-900">
             {currentQ.stem}
           </div>
 
-          {/* Confidence Tagging (Before Submission) */}
-          <div className="mt-5 flex flex-wrap items-center gap-2">
-            <span className="text-xs font-semibold text-stone-500">Guessing Calibration:</span>
+          {/* Confidence Tagging Chips */}
+          <div className="mt-6 flex flex-wrap items-center gap-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-stone-500">
+              Guessing Calibration:
+            </span>
             {(
               [
                 { id: "sure_shot", label: "Sure Shot (100%)" },
@@ -465,10 +586,10 @@ export default function PyqWidgetTab({
                 key={tag.id}
                 disabled={submitted}
                 onClick={() => setConfidence(tag.id)}
-                className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
+                className={`rounded-full px-3.5 py-1 text-xs font-semibold transition-all ${
                   confidence === tag.id
-                    ? "border-amber-700 bg-amber-100 text-amber-950"
-                    : "border-stone-200 bg-stone-50 text-stone-600 hover:bg-stone-100"
+                    ? "bg-amber-100 text-amber-950 ring-2 ring-amber-600/50"
+                    : "border border-stone-200 bg-stone-50 text-stone-600 hover:bg-stone-100"
                 }`}
               >
                 {tag.label}
@@ -476,23 +597,28 @@ export default function PyqWidgetTab({
             ))}
           </div>
 
-          {/* Options A-D */}
-          <div className="mt-4 space-y-2.5">
+          {/* Options A-D with Material 3 Expressive Tonal Cards */}
+          <div className="mt-5 space-y-3">
             {(["A", "B", "C", "D"] as const).map((optKey) => {
               const isSelected = selectedOption === optKey;
               const isOfficial = currentQ.official_answer === optKey;
 
-              let optionStyle = "border-stone-200 bg-white hover:border-amber-500";
+              let optionClass = "border-stone-200/90 bg-white hover:border-amber-600 hover:bg-amber-50/20";
+              let badgeClass = "border-stone-300 bg-stone-100 text-stone-800";
+
               if (submitted) {
                 if (isOfficial) {
-                  optionStyle = "border-emerald-500 bg-emerald-50 text-emerald-950";
+                  optionClass = "border-emerald-500 bg-emerald-50/80 text-emerald-950 ring-1 ring-emerald-500";
+                  badgeClass = "bg-emerald-600 text-white border-emerald-600";
                 } else if (isSelected && !isOfficial) {
-                  optionStyle = "border-rose-400 bg-rose-50 text-rose-950";
+                  optionClass = "border-rose-400 bg-rose-50/80 text-rose-950 ring-1 ring-rose-400";
+                  badgeClass = "bg-rose-600 text-white border-rose-600";
                 } else {
-                  optionStyle = "border-stone-200 bg-stone-50/50 opacity-70";
+                  optionClass = "border-stone-200 bg-stone-50/40 opacity-60";
                 }
               } else if (isSelected) {
-                optionStyle = "border-amber-700 bg-amber-50/70 ring-1 ring-amber-700";
+                optionClass = "border-amber-700 bg-amber-50 text-amber-950 ring-2 ring-amber-600/30";
+                badgeClass = "bg-amber-800 text-white border-amber-800";
               }
 
               return (
@@ -500,91 +626,100 @@ export default function PyqWidgetTab({
                   key={optKey}
                   disabled={submitted}
                   onClick={() => setSelectedOption(optKey)}
-                  className={`flex w-full items-center justify-between rounded-xl border p-3.5 text-left transition ${optionStyle}`}
+                  className={`flex w-full items-center justify-between rounded-2xl border p-4 text-left transition-all duration-200 active:scale-[0.99] ${optionClass}`}
                 >
-                  <div className="flex items-start gap-3">
-                    <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border border-stone-300 bg-white text-xs font-bold text-stone-800">
+                  <div className="flex items-start gap-3.5">
+                    <span
+                      className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border text-xs font-bold transition-all ${badgeClass}`}
+                    >
                       {optKey}
                     </span>
-                    <span className="text-sm font-medium text-stone-900">{currentQ.options[optKey]}</span>
+                    <span className="text-sm font-medium leading-relaxed">{currentQ.options[optKey]}</span>
                   </div>
-                  {submitted && isOfficial && <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-emerald-600" />}
-                  {submitted && isSelected && !isOfficial && <XCircle className="h-5 w-5 flex-shrink-0 text-rose-600" />}
+                  {submitted && isOfficial && (
+                    <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-emerald-700" />
+                  )}
+                  {submitted && isSelected && !isOfficial && (
+                    <XCircle className="h-5 w-5 flex-shrink-0 text-rose-600" />
+                  )}
                 </button>
               );
             })}
           </div>
 
-          {/* Submit Row */}
+          {/* Submission Bar */}
           {!submitted && (
-            <div className="mt-5 flex items-center justify-between">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <span className="text-xs text-stone-500">
                 {currentQ.last_attempt
-                  ? `Previous attempt: ${currentQ.last_attempt.selected_option} (${
+                  ? `Previous attempt: Choice ${currentQ.last_attempt.selected_option} (${
                       currentQ.last_attempt.is_correct ? "Correct" : "Wrong"
                     })`
-                  : "Not yet attempted"}
+                  : "Not yet attempted in this session"}
               </span>
               <button
                 disabled={!selectedOption}
                 onClick={handleSubmitAnswer}
-                className="rounded-lg bg-stone-900 px-5 py-2 text-sm font-semibold text-white transition hover:bg-stone-800 disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-full bg-stone-900 px-7 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-stone-800 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Verify Official UPSC Key
               </button>
             </div>
           )}
 
-          {/* Post-Submission Official Key, Fact Breakdown, Traps & Citations */}
+          {/* Post-Submission Explanations, Fact Breakdown, Traps & Citations */}
           {submitted && (
-            <div className="mt-6 space-y-5 border-t border-stone-200 pt-5">
+            <div className="mt-7 space-y-5 border-t border-stone-200 pt-6">
               {/* Verdict Banner */}
               <div
-                className={`flex flex-col justify-between gap-2 rounded-xl border p-4 sm:flex-row sm:items-center ${
+                className={`flex flex-col justify-between gap-3 rounded-2xl border p-4 sm:flex-row sm:items-center ${
                   selectedOption === currentQ.official_answer
-                    ? "border-emerald-300 bg-emerald-50"
-                    : "border-rose-300 bg-rose-50"
+                    ? "border-emerald-300 bg-emerald-50 text-emerald-950"
+                    : "border-rose-300 bg-rose-50 text-rose-950"
                 }`}
               >
                 <div>
-                  <div className="text-sm font-bold text-stone-900">
+                  <div className="text-base font-bold">
                     {selectedOption === currentQ.official_answer
                       ? `Correct (+2.00 marks) — Official Key: Option ${currentQ.official_answer}`
-                      : `Incorrect (-0.66 marks) — You chose ${selectedOption}, Official Key: Option ${currentQ.official_answer}`}
+                      : `Incorrect (-0.66 marks) — You chose Option ${selectedOption}, Official Key: Option ${currentQ.official_answer}`}
                   </div>
-                  <div className="mt-0.5 text-xs text-stone-600">
-                    Verified against: <span className="font-semibold">{currentQ.key_status}</span>
+                  <div className="mt-0.5 text-xs opacity-80">
+                    Source: <span className="font-semibold">{currentQ.key_status}</span>
                   </div>
                 </div>
-                <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-stone-800 shadow-sm">
+                <span className="self-start rounded-full bg-white px-3 py-1 text-xs font-bold text-stone-800 shadow-sm sm:self-auto">
                   Confidence: {confidence.replace("_", " ")}
                 </span>
               </div>
 
-              {/* Official Explanation & Statement-by-Statement Fact Breakdown */}
-              <div className="rounded-xl border border-stone-200 bg-stone-50/70 p-4">
+              {/* Official Key Explanation & Fact Breakdown */}
+              <div className="rounded-2xl border border-stone-200 bg-[#F5F2EC] p-5">
                 <h4 className="font-serif text-sm font-bold text-stone-900">
                   Official Key Explanation & Fact Verification
                 </h4>
                 <p className="mt-2 text-sm leading-relaxed text-stone-800">{currentQ.explanation}</p>
 
                 {currentQ.fact_breakdown.length > 0 && (
-                  <div className="mt-3 space-y-2">
+                  <div className="mt-3.5 space-y-2">
                     {currentQ.fact_breakdown.map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2.5 rounded-lg border border-stone-200 bg-white p-2.5">
+                      <div
+                        key={idx}
+                        className="flex items-start gap-3 rounded-xl border border-stone-200/80 bg-white p-3 shadow-xs"
+                      >
                         <span
-                          className={`mt-0.5 rounded px-1.5 py-0.5 text-[10px] font-bold uppercase ${
+                          className={`mt-0.5 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
                             item.status === "true"
-                              ? "bg-emerald-100 text-emerald-800"
+                              ? "bg-emerald-100 text-emerald-900"
                               : item.status === "false"
-                              ? "bg-rose-100 text-rose-800"
-                              : "bg-amber-100 text-amber-800"
+                              ? "bg-rose-100 text-rose-900"
+                              : "bg-amber-100 text-amber-900"
                           }`}
                         >
                           {item.status}
                         </span>
-                        <div className="text-xs text-stone-700">
-                          <span className="font-semibold text-stone-900">{item.label}: </span>
+                        <div className="text-xs text-stone-800">
+                          <span className="font-semibold text-stone-950">{item.label}: </span>
                           {item.detail}
                         </div>
                       </div>
@@ -593,32 +728,32 @@ export default function PyqWidgetTab({
                 )}
               </div>
 
-              {/* Trap & Trick Dissection + Personal Trick Note */}
-              <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-4">
+              {/* Trap Dissection */}
+              <div className="rounded-2xl border border-amber-200 bg-amber-50/60 p-5">
                 <div className="flex items-center gap-2">
-                  <ShieldAlert className="h-4 w-4 text-amber-800" />
+                  <ShieldAlert className="h-4 w-4 text-amber-900" />
                   <h4 className="font-serif text-sm font-bold text-amber-950">
                     UPSC Trap Dissection: {currentQ.trap_type}
                   </h4>
                 </div>
-                <p className="mt-1.5 text-sm text-stone-800">{currentQ.trap_analysis}</p>
+                <p className="mt-2 text-sm text-stone-800 leading-relaxed">{currentQ.trap_analysis}</p>
 
-                <div className="mt-3">
-                  <label className="block text-xs font-semibold text-stone-700">
-                    My Personal Trick / Mistake Note (saved to SQLite)
+                <div className="mt-3.5">
+                  <label className="block text-xs font-bold text-stone-800">
+                    My Personal Trick / Mistake Note (Saved to SQLite & Local Storage)
                   </label>
-                  <div className="mt-1 flex gap-2">
+                  <div className="mt-1.5 flex gap-2">
                     <input
                       type="text"
                       value={trickNote}
                       onChange={(e) => setTrickNote(e.target.value)}
-                      placeholder="Write your mnemonic, why you guessed wrong, or option-elimination trick..."
-                      className="flex-1 rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-xs text-stone-900 focus:border-amber-600 focus:outline-none"
+                      placeholder="Write your personal mnemonic, guessing trap, or revision note..."
+                      className="flex-1 rounded-xl border border-stone-300 bg-white px-3.5 py-2 text-xs text-stone-900 focus:border-amber-700 focus:outline-none"
                     />
                     <button
                       onClick={handleSaveTrickNote}
                       disabled={savingNote}
-                      className="inline-flex items-center gap-1 rounded-lg bg-stone-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-stone-800"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-stone-900 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-stone-800"
                     >
                       {noteSaved ? <Check className="h-3.5 w-3.5" /> : <Save className="h-3.5 w-3.5" />}
                       {noteSaved ? "Saved" : "Save"}
@@ -627,26 +762,29 @@ export default function PyqWidgetTab({
                 </div>
               </div>
 
-              {/* Primary Source Citations */}
-              <div className="rounded-xl border border-stone-200 bg-white p-4">
+              {/* Source Citations */}
+              <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-xs">
                 <div className="flex items-center gap-2">
-                  <BookMarked className="h-4 w-4 text-emerald-700" />
+                  <BookMarked className="h-4 w-4 text-emerald-800" />
                   <h4 className="font-serif text-sm font-bold text-stone-900">
                     Authoritative Source Citations
                   </h4>
                 </div>
-                <ul className="mt-2 space-y-1.5">
+                <ul className="mt-2.5 space-y-2">
                   {currentQ.citations.map((cit, i) => (
-                    <li key={i} className="flex flex-wrap items-center justify-between gap-2 text-xs text-stone-700">
+                    <li
+                      key={i}
+                      className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-stone-50 p-2.5 text-xs text-stone-700"
+                    >
                       <span>
-                        <span className="font-semibold text-stone-900">{cit.title}</span> — {cit.reference}
+                        <span className="font-semibold text-stone-950">{cit.title}</span> — {cit.reference}
                       </span>
                       {cit.url && (
                         <a
                           href={cit.url}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1 font-medium text-amber-700 hover:underline"
+                          className="inline-flex items-center gap-1 font-semibold text-amber-800 hover:underline"
                         >
                           Source <ExternalLink className="h-3 w-3" />
                         </a>
@@ -656,13 +794,13 @@ export default function PyqWidgetTab({
                 </ul>
               </div>
 
-              {/* Actions: Log to 1-3-7-21 Error Registry + Optional Gemini AI Dissection */}
-              <div className="flex flex-col gap-3 rounded-xl border border-indigo-200 bg-indigo-50/50 p-4 sm:flex-row sm:items-center sm:justify-between">
+              {/* Material 3 Expressive Action Footer */}
+              <div className="flex flex-col gap-3 rounded-2xl border border-indigo-200/80 bg-[#F0EFF8] p-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-wrap items-center gap-2">
                   <select
                     value={selectedErrorType}
                     onChange={(e) => setSelectedErrorType(e.target.value as ErrorTaxonomy)}
-                    className="rounded-lg border border-indigo-200 bg-white px-2.5 py-1.5 text-xs font-medium text-stone-800"
+                    className="rounded-xl border border-indigo-200 bg-white px-3 py-1.5 text-xs font-medium text-stone-800 focus:outline-none"
                   >
                     <option value="Factual Blindspot">Factual Blindspot</option>
                     <option value="Veteran Illusion">Veteran Illusion</option>
@@ -670,13 +808,14 @@ export default function PyqWidgetTab({
                     <option value="Misread Correct/Incorrect">Misread Correct/Incorrect</option>
                     <option value="Over-stretched Logic">Over-stretched Logic</option>
                   </select>
+
                   <button
                     onClick={handleLogToErrorRegistry}
                     disabled={isLoggingError}
-                    className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                      loggedPyqIds.includes(currentQ.id)
+                    className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold shadow-sm transition active:scale-95 ${
+                      isAlreadyLogged
                         ? "bg-emerald-700 text-white hover:bg-emerald-800"
-                        : "bg-indigo-700 text-white hover:bg-indigo-800"
+                        : "bg-[#2E1065] text-white hover:bg-[#3B177D]"
                     } disabled:opacity-60`}
                   >
                     {isLoggingError ? (
@@ -684,9 +823,9 @@ export default function PyqWidgetTab({
                         <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-t-transparent" />
                         Saving to Local Storage...
                       </>
-                    ) : loggedPyqIds.includes(currentQ.id) ? (
+                    ) : isAlreadyLogged ? (
                       <>
-                        <Check className="h-3.5 w-3.5" />
+                        <Check className="h-3.5 w-3.5 text-emerald-200" />
                         Logged in Local Storage & Registry (Update)
                       </>
                     ) : (
@@ -701,32 +840,32 @@ export default function PyqWidgetTab({
                 <button
                   onClick={handleGeminiDissect}
                   disabled={aiLoading}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-amber-400 bg-white px-3 py-1.5 text-xs font-semibold text-amber-900 hover:bg-amber-50 disabled:opacity-50"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-100/70 px-4 py-2 text-xs font-semibold text-amber-950 shadow-xs transition hover:bg-amber-200/70 active:scale-95 disabled:opacity-50"
                 >
-                  <Sparkles className="h-3.5 w-3.5 text-amber-600" />
+                  <Sparkles className="h-3.5 w-3.5 text-amber-700" />
                   {aiLoading ? "Analyzing via Gemini..." : "AI Deep Dissect (Optional Gemini)"}
                 </button>
               </div>
 
               {errorLoggedMsg && (
-                <div className="rounded-lg bg-emerald-100 px-3 py-2 text-xs font-semibold text-emerald-900">
+                <div className="rounded-2xl bg-emerald-100/80 px-4 py-2.5 text-xs font-semibold text-emerald-950">
                   {errorLoggedMsg}
                 </div>
               )}
 
               {aiError && (
-                <div className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+                <div className="rounded-2xl border border-amber-300 bg-amber-50 px-4 py-2.5 text-xs text-amber-900">
                   {aiError}
                 </div>
               )}
 
               {aiAnalysis && (
-                <div className="rounded-xl border border-purple-200 bg-purple-50/40 p-4">
-                  <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-purple-900">
-                    <Sparkles className="h-3.5 w-3.5" />
+                <div className="rounded-2xl border border-purple-200 bg-purple-50/70 p-5">
+                  <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-purple-950">
+                    <Sparkles className="h-3.5 w-3.5 text-purple-700" />
                     Gemini Trap & PSIR-Bridge Dissection (Anchored to Official Key {currentQ.official_answer})
                   </div>
-                  <div className="mt-2 whitespace-pre-line text-xs leading-relaxed text-stone-800">
+                  <div className="mt-2.5 whitespace-pre-line text-xs leading-relaxed text-stone-800">
                     {aiAnalysis}
                   </div>
                 </div>
