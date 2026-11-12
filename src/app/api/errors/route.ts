@@ -59,8 +59,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Trigger cue and exact fact are required" }, { status: 400 });
     }
 
-    // Day 1 review starts today or tomorrow
-    const nextReviewDate = addDays(today, 1);
+    // Day 1 review is scheduled for today (same night Block 4 review)
+    const nextReviewDate = body.next_review_date ? String(body.next_review_date) : today;
 
     const res = db
       .prepare(`

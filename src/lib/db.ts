@@ -177,6 +177,13 @@ export function getDatabase(): DatabaseSync {
     }
   }
 
+  // Ensure all question subjects are synchronized with official syllabus definitions
+  db.exec(`
+    UPDATE pyq_questions
+    SET subject = (SELECT s.subject FROM syllabus s WHERE s.code = pyq_questions.syllabus_code)
+    WHERE EXISTS (SELECT 1 FROM syllabus s WHERE s.code = pyq_questions.syllabus_code AND s.subject != pyq_questions.subject);
+  `);
+
   // Seed initial starter Error Register cards if empty
   const errorCountRow = db.prepare("SELECT COUNT(*) as count FROM error_registry").get() as { count: number };
   if (errorCountRow.count === 0) {

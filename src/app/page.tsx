@@ -42,6 +42,7 @@ interface DashboardResponse {
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<TabId>("tracker");
+  const [errorFilterDue, setErrorFilterDue] = useState<boolean>(true);
   const [selectedDate, setSelectedDate] = useState<string>(() => new Date().toISOString().slice(0, 10));
   const [data, setData] = useState<DashboardResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -52,6 +53,31 @@ export default function HomePage() {
   useEffect(() => {
     const saved = window.localStorage.getItem("upsc_prep_gemini_key");
     if (saved) setGeminiApiKey(saved);
+  }, []);
+
+  // Sync URL search params and hash (e.g. ?tab=errors&filter=due or #night-review-queue)
+  useEffect(() => {
+    const parseUrlState = () => {
+      if (typeof window === "undefined") return;
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get("tab") as TabId | null;
+      const filterParam = params.get("filter");
+      const hash = window.location.hash;
+
+      if (hash === "#night-review-queue" || (tabParam === "errors" && filterParam === "due")) {
+        setActiveTab("errors");
+        setErrorFilterDue(true);
+      } else if (tabParam && ["tracker", "pyq", "errors", "syllabus", "roadmap"].includes(tabParam)) {
+        setActiveTab(tabParam);
+        if (tabParam === "errors" && filterParam === "all") {
+          setErrorFilterDue(false);
+        }
+      }
+    };
+
+    parseUrlState();
+    window.addEventListener("popstate", parseUrlState);
+    return () => window.removeEventListener("popstate", parseUrlState);
   }, []);
 
   const loadDashboard = async (dateStr = selectedDate) => {
@@ -88,6 +114,31 @@ export default function HomePage() {
   const handleJumpToPyq = (syllabusCode: string) => {
     setPyqInitialSyllabus(syllabusCode);
     setActiveTab("pyq");
+  };
+
+  const handleTabChange = (tabId: TabId) => {
+    setActiveTab(tabId);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("tab", tabId);
+      if (tabId === "errors") {
+        url.searchParams.set("filter", errorFilterDue ? "due" : "all");
+      } else {
+        url.searchParams.delete("filter");
+      }
+      window.history.pushState({}, "", url.toString());
+    }
+  };
+
+  const handleJumpToNightReview = () => {
+    setErrorFilterDue(true);
+    setActiveTab("errors");
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("tab", "errors");
+      url.searchParams.set("filter", "due");
+      window.history.pushState({}, "", url.toString());
+    }
   };
 
   const handleSaveApiKey = (key: string) => {
@@ -161,7 +212,7 @@ export default function HomePage() {
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => handleTabChange(tab.id)}
                 className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200 active:scale-95 ${
                   active
                     ? "bg-stone-900 text-white shadow-sm"
@@ -204,7 +255,7 @@ export default function HomePage() {
                 onDateChange={setSelectedDate}
                 onUpdateLog={handleUpdateDailyLog}
                 onJumpToPyq={handleJumpToPyq}
-                onJumpToErrors={() => setActiveTab("errors")}
+                onJumpToErrors={handleJumpToNightReview}
               />
             )}
 
@@ -221,6 +272,17 @@ export default function HomePage() {
             {activeTab === "errors" && (
               <ErrorRegistryTab
                 syllabus={data.syllabus}
+                initialDueOnly={errorFilterDue}
+                onFilterChange={(dueOnly) => {
+                  setErrorFilterDue(dueOnly);
+                  if (typeof window !== "undefined") {
+                    const url = new URL(window.location.href);
+                    if (activeTab === "errors") {
+                      url.searchParams.set("filter", dueOnly ? "due" : "all");
+                      window.history.replaceState({}, "", url.toString());
+                    }
+                  }
+                }}
                 onRegistryUpdated={() => loadDashboard(selectedDate)}
               />
             )}

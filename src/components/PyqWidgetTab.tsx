@@ -111,6 +111,7 @@ export default function PyqWidgetTab({
   useEffect(() => {
     if (initialSyllabusCode) {
       setSyllabusFilter(initialSyllabusCode);
+      setYearFilter("ALL");
       const matched = syllabus.find((s) => s.code === initialSyllabusCode);
       if (matched) {
         setSubjectFilter(matched.subject);
@@ -134,6 +135,17 @@ export default function PyqWidgetTab({
       );
       if (!stillValid) {
         setSyllabusFilter("ALL");
+      }
+    }
+  };
+
+  const handleSyllabusChange = (newCode: string) => {
+    setSyllabusFilter(newCode);
+    setYearFilter("ALL"); // Synchronize to query and display matching questions across all years
+    if (newCode !== "ALL") {
+      const matched = syllabus.find((s) => s.code === newCode);
+      if (matched) {
+        setSubjectFilter(matched.subject);
       }
     }
   };
@@ -388,19 +400,34 @@ export default function PyqWidgetTab({
         <div className="mt-3.5 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {/* Dynamic Syllabus Dropdown */}
           <div className="rounded-2xl border border-stone-200/90 bg-white p-2.5 shadow-sm">
-            <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-stone-500">
-              <Layers className="h-3.5 w-3.5 text-amber-700" />
-              Syllabus Unit ({availableSyllabusUnits.length} in {subjectFilter === "ALL" ? "All" : subjectFilter})
+            <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-stone-500">
+              <span className="flex items-center gap-1.5">
+                <Layers className="h-3.5 w-3.5 text-amber-700" />
+                Syllabus Unit ({availableSyllabusUnits.length} in {subjectFilter === "ALL" ? "All Subjects" : subjectFilter})
+              </span>
+              {syllabusFilter !== "ALL" && (
+                <button
+                  type="button"
+                  onClick={() => handleSyllabusChange("ALL")}
+                  className="text-amber-800 hover:text-amber-950 font-semibold normal-case"
+                >
+                  Clear unit
+                </button>
+              )}
             </div>
             <select
               value={syllabusFilter}
-              onChange={(e) => setSyllabusFilter(e.target.value)}
+              onChange={(e) => handleSyllabusChange(e.target.value)}
               className="mt-1 w-full rounded-xl border border-stone-200 bg-stone-50/50 px-3 py-2 text-xs font-medium text-stone-900 focus:border-amber-700 focus:bg-white focus:outline-none"
             >
-              <option value="ALL">All Syllabus Units</option>
+              <option value="ALL">
+                {subjectFilter === "ALL"
+                  ? `All Syllabus Units (${availableSyllabusUnits.length} units)`
+                  : `All Units in ${subjectFilter} (${availableSyllabusUnits.length} units)`}
+              </option>
               {availableSyllabusUnits.map((s) => (
                 <option key={s.code} value={s.code}>
-                  {s.code} — {s.topic}
+                  [{s.code}] {s.topic}
                 </option>
               ))}
             </select>
@@ -452,6 +479,42 @@ export default function PyqWidgetTab({
             </button>
           )}
         </div>
+
+        {/* Active Filter Synchronization Feedback Bar */}
+        {(syllabusFilter !== "ALL" || subjectFilter !== "ALL" || yearFilter !== "ALL") && (
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-amber-300/80 bg-amber-50/70 px-4 py-2 text-xs text-amber-950">
+            <div className="flex flex-wrap items-center gap-1.5">
+              <Sparkles className="h-3.5 w-3.5 text-amber-800 flex-shrink-0" />
+              <span className="font-medium text-stone-700">Filter Scope:</span>
+              {syllabusFilter !== "ALL" ? (
+                <span className="inline-flex items-center gap-1 rounded-full bg-amber-200/90 px-2.5 py-0.5 font-mono text-[11px] font-bold text-amber-950">
+                  <Layers className="h-3 w-3" />
+                  {syllabusFilter}
+                </span>
+              ) : null}
+              {subjectFilter !== "ALL" && (
+                <span className="rounded-full bg-indigo-100 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-950">
+                  {subjectFilter}
+                </span>
+              )}
+              <span className="rounded-full bg-stone-200 px-2.5 py-0.5 text-[11px] font-semibold text-stone-800">
+                {yearFilter === "ALL" ? "All Years (2013–2026)" : `Year ${yearFilter}`}
+              </span>
+              <span className="font-semibold text-stone-900">
+                — {questions.length} matching {questions.length === 1 ? "question" : "questions"} found
+              </span>
+            </div>
+            <button
+              onClick={() => {
+                setSubjectFilter("ALL");
+                handleSyllabusChange("ALL");
+              }}
+              className="text-xs font-semibold text-amber-900 underline hover:text-amber-950 whitespace-nowrap"
+            >
+              Reset Filters
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Bulk JSON Importer Modal / Drawer */}
@@ -524,18 +587,49 @@ export default function PyqWidgetTab({
         </div>
       ) : (
         <div className="rounded-[28px] border border-stone-200/90 bg-white p-6 sm:p-8 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-          {/* Header Metadata Chips */}
+          {/* Header Metadata Chips / Interactive Synchronized Tags */}
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-100 pb-4">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full bg-stone-900 px-3.5 py-1 text-xs font-bold text-white shadow-sm">
+              <button
+                type="button"
+                onClick={() => setYearFilter(String(currentQ.year))}
+                title={`Filter by Year: ${currentQ.year}`}
+                className="rounded-full bg-stone-900 px-3.5 py-1 text-xs font-bold text-white shadow-sm transition hover:bg-stone-800 active:scale-95 cursor-pointer"
+              >
                 UPSC CSE {currentQ.year}
-              </span>
-              <span className="rounded-full bg-[#E0E7FF] px-3 py-1 text-xs font-semibold text-[#1E1B4B]">
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSubjectChange(currentQ.subject)}
+                title={`Filter by Subject: ${currentQ.subject}`}
+                className="rounded-full bg-[#E0E7FF] px-3 py-1 text-xs font-semibold text-[#1E1B4B] transition hover:bg-indigo-100 active:scale-95 cursor-pointer"
+              >
                 {currentQ.subject}
-              </span>
-              <span className="rounded-full bg-[#FEF3C7] px-3 py-1 font-mono text-[11px] font-bold text-[#78350F]">
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSyllabusChange(currentQ.syllabus_code)}
+                title={`Filter across all years by Syllabus: ${currentQ.syllabus_code}`}
+                className="inline-flex items-center gap-1 rounded-full bg-[#FEF3C7] px-3 py-1 font-mono text-[11px] font-bold text-[#78350F] transition hover:bg-amber-200 active:scale-95 cursor-pointer ring-1 ring-amber-400/40"
+              >
+                <Layers className="h-3 w-3 text-amber-800" />
                 {currentQ.syllabus_code}
-              </span>
+              </button>
+              {currentQ.syllabus_topic && (
+                <span className="hidden sm:inline-flex items-center rounded-full border border-stone-200 bg-stone-50 px-3 py-1 text-[11px] font-medium text-stone-700">
+                  {currentQ.syllabus_topic}
+                </span>
+              )}
+              {currentQ.syllabus_priority_tag === "non_psir_bleeder" && (
+                <span className="rounded-full bg-rose-100 px-3 py-1 text-[11px] font-bold text-rose-800">
+                  Non-PSIR Bleeder
+                </span>
+              )}
+              {currentQ.syllabus_priority_tag === "veteran_trap" && (
+                <span className="rounded-full bg-indigo-100 px-3 py-1 text-[11px] font-bold text-indigo-800">
+                  Veteran Verification
+                </span>
+              )}
               {currentQ.question_style === "pair_counting" && (
                 <span className="rounded-full bg-[#FFE4E6] px-3 py-1 text-[11px] font-bold text-[#881337]">
                   Post-2022 Pair Trap

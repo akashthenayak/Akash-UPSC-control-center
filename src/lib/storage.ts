@@ -88,7 +88,7 @@ export function saveLocalError(payload: LocalErrorPayload): ErrorEntry {
     sr_stage: payload.sr_stage ?? (matchIndex >= 0 ? existing[matchIndex].sr_stage : 1),
     next_review_date:
       payload.next_review_date ??
-      (matchIndex >= 0 ? existing[matchIndex].next_review_date : addDays(today, 1)),
+      (matchIndex >= 0 ? existing[matchIndex].next_review_date : today),
     review_count:
       payload.review_count ?? (matchIndex >= 0 ? existing[matchIndex].review_count : 0),
     mastered: payload.mastered ?? (matchIndex >= 0 ? existing[matchIndex].mastered : false),

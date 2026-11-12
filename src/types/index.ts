@@ -79,6 +79,8 @@ export interface PyqQuestion {
   question_number: number | null;
   subject: string;
   syllabus_code: string;
+  syllabus_topic?: string | null;
+  syllabus_priority_tag?: string | null;
   question_style: "standard" | "pair_counting" | "statement_reason" | "chronology";
   stem: string;
   options: {

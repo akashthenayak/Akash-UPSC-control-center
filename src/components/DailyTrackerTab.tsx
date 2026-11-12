@@ -12,6 +12,7 @@ import {
   Save,
   CalendarDays,
   AlertTriangle,
+  BrainCircuit,
 } from "lucide-react";
 import { DailyLogEntry, DailyTargetSuggestion, SyllabusNode } from "@/types";
 
@@ -231,6 +232,21 @@ export default function DailyTrackerTab({
                     </h4>
                     <p className="mt-1 text-sm text-stone-600 leading-relaxed">{slot.description}</p>
                     <p className="mt-1.5 text-xs italic text-stone-500">Why: {slot.scientific_reason}</p>
+                    {slot.category === "error_review" && (
+                      <div className="mt-3">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onJumpToErrors();
+                          }}
+                          className="inline-flex items-center gap-1.5 rounded-full bg-stone-900 px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:bg-stone-800 active:scale-95"
+                        >
+                          <BrainCircuit className="h-3.5 w-3.5 text-amber-300" />
+                          Launch Night Review Queue ({dueErrorsCount} due) →
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

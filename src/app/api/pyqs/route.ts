@@ -7,8 +7,10 @@ function mapRowToPyq(row: Record<string, unknown>) {
     year: Number(row.year),
     paper: String(row.paper),
     question_number: row.question_number !== null ? Number(row.question_number) : null,
-    subject: String(row.subject),
+    subject: String(row.syllabus_subject || row.subject),
     syllabus_code: String(row.syllabus_code),
+    syllabus_topic: row.syllabus_topic ? String(row.syllabus_topic) : null,
+    syllabus_priority_tag: row.syllabus_priority_tag ? String(row.syllabus_priority_tag) : null,
     question_style: String(row.question_style),
     stem: String(row.stem),
     options: {
@@ -39,22 +41,29 @@ export async function GET(req: NextRequest) {
     const clauses: string[] = [];
     const params: unknown[] = [];
 
-    if (subject && subject !== "ALL") {
-      clauses.push("q.subject = ?");
-      params.push(subject);
+    // Prioritize syllabus_code if specified and not ALL, ensuring all matching questions are queried
+    if (syllabusCode && syllabusCode !== "ALL") {
+      clauses.push("q.syllabus_code = ?");
+      params.push(syllabusCode);
+    } else if (subject && subject !== "ALL") {
+      clauses.push("(q.subject = ? OR s.subject = ?)");
+      params.push(subject, subject);
     }
+
     if (year && year !== "ALL") {
       clauses.push("q.year = ?");
       params.push(Number(year));
     }
-    if (syllabusCode && syllabusCode !== "ALL") {
-      clauses.push("q.syllabus_code = ?");
-      params.push(syllabusCode);
-    }
 
     const whereSql = clauses.length > 0 ? `WHERE ${clauses.join(" AND ")}` : "";
     const rows = db
-      .prepare(`SELECT q.* FROM pyq_questions q ${whereSql} ORDER BY q.year DESC, q.id ASC`)
+      .prepare(`
+        SELECT q.*, s.topic as syllabus_topic, s.priority_tag as syllabus_priority_tag, s.subject as syllabus_subject
+        FROM pyq_questions q
+        LEFT JOIN syllabus s ON q.syllabus_code = s.code
+        ${whereSql}
+        ORDER BY q.year DESC, q.id ASC
+      `)
       .all(...params) as Record<string, unknown>[];
 
     const attempts = db
