@@ -6,6 +6,7 @@ const syllabusMap = new Map(OFFICIAL_UPSC_SYLLABUS.map((s) => [s.code, s]));
 
 export async function GET(req: NextRequest) {
   try {
+    const paper = req.nextUrl.searchParams.get("paper");
     const subject = req.nextUrl.searchParams.get("subject");
     const year = req.nextUrl.searchParams.get("year");
     const syllabusCode = req.nextUrl.searchParams.get("syllabus_code");
@@ -21,6 +22,14 @@ export async function GET(req: NextRequest) {
         last_attempt: null,
       };
     });
+
+    if (paper && paper !== "ALL") {
+      if (paper === "GS1") {
+        questions = questions.filter((q) => !q.paper.toLowerCase().includes("csat") && !q.paper.toLowerCase().includes("paper ii"));
+      } else if (paper === "CSAT") {
+        questions = questions.filter((q) => q.paper.toLowerCase().includes("csat") || q.paper.toLowerCase().includes("paper ii") || q.subject.includes("CSAT"));
+      }
+    }
 
     if (syllabusCode && syllabusCode !== "ALL") {
       questions = questions.filter((q) => q.syllabus_code === syllabusCode);

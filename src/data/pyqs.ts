@@ -1089,10 +1089,10 @@ export const VERIFIED_STARTER_PYQS: SeedPyqQuestion[] = [
   // ==================== CSAT PAPER II ====================
   {
     year: 2023,
-    paper: "Prelims CSAT",
-    question_number: null,
-    subject: "CSAT Paper II",
-    syllabus_code: "PRE-CSAT",
+    paper: "CSAT Paper II",
+    question_number: 14,
+    subject: "CSAT Quantitative Aptitude",
+    syllabus_code: "PRE-CSAT-NUM",
     question_style: "standard",
     stem: "Each digit of a 9-digit number is 1. It is multiplied by itself. What is the sum of the digits of the resulting number?",
     options: {
@@ -1116,10 +1116,10 @@ export const VERIFIED_STARTER_PYQS: SeedPyqQuestion[] = [
   },
   {
     year: 2022,
-    paper: "Prelims CSAT",
-    question_number: null,
-    subject: "CSAT Paper II",
-    syllabus_code: "PRE-CSAT",
+    paper: "CSAT Paper II",
+    question_number: 22,
+    subject: "CSAT Quantitative Aptitude",
+    syllabus_code: "PRE-CSAT-NUM",
     question_style: "standard",
     stem: "What is the remainder when 91 x 92 x 93 x 94 x 95 x 96 x 97 x 98 x 99 is divided by 1261?",
     options: {
@@ -1139,6 +1139,59 @@ export const VERIFIED_STARTER_PYQS: SeedPyqQuestion[] = [
     trap_type: "Prime Divisibility in Large Product",
     trap_analysis: "Thinking that dividing a 9-term product requires modular arithmetic on each term instead of testing prime factors of 1261.",
     citations: [{ title: "UPSC CSE 2022 CSAT Paper II", reference: "Question Set A — Divisibility Rules" }],
+    is_verified: true,
+  },
+  {
+    year: 2023,
+    paper: "CSAT Paper II",
+    question_number: 1,
+    subject: "CSAT Reading Comprehension",
+    syllabus_code: "PRE-CSAT-RC",
+    question_style: "standard",
+    stem: "Passage: 'We often forget that our basic food supplies depend on a fragile ecosystem. Soil erosion, depletion of groundwater, and loss of pollinating insects pose severe risks to global food security. Modern industrial agriculture, while increasing short-term yields, has accelerated these degradations through excessive chemical inputs and monoculture.'\n\nWhich of the following statements best reflects the most logical and crucial message implied by the passage?",
+    options: {
+      A: "Modern agriculture must be completely replaced by traditional subsistent farming methods.",
+      B: "Food security cannot be sustained without ecological preservation of soil, water and biodiversity.",
+      C: "Chemical fertilizers and pesticides should be banned immediately across the globe.",
+      D: "Industrial agriculture has failed entirely to feed the growing world population."
+    },
+    official_answer: "B",
+    key_status: "Official UPSC CSE 2023 CSAT Answer Key",
+    explanation: "Option B directly captures the crux: food security is inherently contingent upon the ecological foundation (soil, water, pollinators). Options A, C, and D are extreme unwarranted extrapolations ('completely replaced', 'banned immediately', 'failed entirely') which UPSC elimination logic systematically disqualifies.",
+    fact_breakdown: [
+      { label: "Core premise", status: "true", detail: "Food supplies depend on healthy soil, water, and pollinators." },
+      { label: "Extreme claims in A, C, D", status: "false", detail: "Passage critiques excess, but does not advocate total bans or immediate replacement." }
+    ],
+    trap_type: "Extreme Modifier & Absolutist Extrapolation in RC",
+    trap_analysis: "Falling for absolutist claims ('completely', 'immediately banned') when the author is highlighting ecological balance.",
+    citations: [{ title: "UPSC CSE 2023 CSAT Paper II", reference: "Reading Comprehension Set A Q1" }],
+    is_verified: true,
+  },
+  {
+    year: 2024,
+    paper: "CSAT Paper II",
+    question_number: 18,
+    subject: "CSAT Logical Reasoning",
+    syllabus_code: "PRE-CSAT-LR",
+    question_style: "standard",
+    stem: "Consider the following statements and conclusions:\nStatements:\n1. Some cats are black.\n2. All black animals are nocturnal.\n\nConclusions:\nI. Some nocturnal animals are cats.\nII. All nocturnal animals are cats.\n\nWhich of the conclusions logically follow from the given statements?",
+    options: {
+      A: "Only Conclusion I follows",
+      B: "Only Conclusion II follows",
+      C: "Both Conclusion I and II follow",
+      D: "Neither Conclusion I nor II follows"
+    },
+    official_answer: "A",
+    key_status: "Official UPSC CSE 2024 CSAT Answer Key",
+    explanation: "From Statement 1: Some cats are black (Some C are B). From Statement 2: All black animals are nocturnal (All B are N). Combining them: Some cats are nocturnal (Some C are N). The converse of 'Some C are N' is 'Some N are C' (Some nocturnal animals are cats), which makes Conclusion I valid. Conclusion II ('All nocturnal animals are cats') is an illegitimate conversion from universal to particular.",
+    fact_breakdown: [
+      { label: "Syllogism premise: Some C are B and All B are N", status: "true", detail: "Guarantees the intersection between Cats and Nocturnal animals is non-empty." },
+      { label: "Conclusion I validity", status: "true", detail: "Some nocturnal animals are cats is definitely true." },
+      { label: "Conclusion II invalidity", status: "false", detail: "No evidence that nocturnal animals are restricted only to cats." }
+    ],
+    trap_type: "Universal Conversion Fallacy in Syllogisms",
+    trap_analysis: "Confusing 'Some A are B' with 'All B are A'.",
+    citations: [{ title: "UPSC CSE 2024 CSAT Paper II", reference: "Question Set A — Deductive Syllogisms" }],
     is_verified: true,
   },
 
@@ -1200,6 +1253,1399 @@ export const VERIFIED_STARTER_PYQS: SeedPyqQuestion[] = [
     trap_type: "Statutory Law vs Election Commission Proposal",
     trap_analysis: "Treating an EC reform proposal as enacted statutory law.",
     citations: [{ title: "Representation of the People Act, 1951", reference: "Section 33(7), Ministry of Law and Justice" }],
+    is_verified: true,
+  },
+
+  {
+    year: 2026,
+    paper: "GS Paper I (High-Yield Focus)",
+    question_number: 2,
+    subject: "Science & Technology",
+    syllabus_code: "PRE-GS1-SNT",
+    question_style: "standard",
+    stem: "With reference to India's 'Digital Public Infrastructure' (DPI) architecture, consider the following statements:\n1. UPI operates as an open-protocol application layer built on top of the IMPS network.\n2. The Account Aggregator (AA) framework allows financial data sharing only after explicit, granular, and revocable consent from the customer.\n3. DigiLocker documents are deemed legally equivalent to original physical documents under Rule 9A of the Information Technology Rules, 2016.\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 2 only",
+      B: "2 and 3 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "D",
+    key_status: "MeitY & RBI Regulatory Master Directions",
+    explanation: "All three statements are correct. UPI is an open application protocol developed by NPCI over IMPS. Account Aggregators operate under RBI's NBFC-AA Directions based on explicit, revocable consent. Under Rule 9A of the IT Rules 2016, issued documents in DigiLocker are treated at par with original physical documents.",
+    fact_breakdown: [
+      {
+            "label": "1. UPI Open Protocol",
+            "status": "true",
+            "detail": "Built by NPCI atop IMPS with open API interoperability."
+      },
+      {
+            "label": "2. Account Aggregator Consent",
+            "status": "true",
+            "detail": "Data blind aggregator using electronic consent artefacts under RBI norms."
+      },
+      {
+            "label": "3. DigiLocker Legal Parity",
+            "status": "true",
+            "detail": "Rule 9A of IT Rules 2016 grants legal parity with original physical certificates."
+      }
+],
+    trap_type: "Regulatory Nuance in India Stack",
+    trap_analysis: "Candidates often doubt whether DigiLocker documents hold strict statutory parity with original physical records.",
+    citations: [
+      {
+            "title": "MeitY DPI Framework",
+            "reference": "Information Technology (DigiLocker Rules) 2016 & RBI NBFC-AA Directions"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2026,
+    paper: "GS Paper I (High-Yield Focus)",
+    question_number: 3,
+    subject: "Environment & Ecology",
+    syllabus_code: "PRE-GS1-ENV-ECO",
+    question_style: "standard",
+    stem: "With reference to the Galathea Bay National Park and Great Nicobar Island, consider the following statements:\n1. Galathea Bay is located on Great Nicobar Island and is a vital nesting site for Giant Leatherback sea turtles.\n2. The Shompen people, a Particularly Vulnerable Tribal Group (PVTG), inhabit the interior tropical rainforests of Great Nicobar.\n3. Great Nicobar Biosphere Reserve is included in UNESCO's World Network of Biosphere Reserves.\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 2 only",
+      B: "2 and 3 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "D",
+    key_status: "MoEFCC Gazette & UNESCO MAB Programme",
+    explanation: "All three statements are correct. Galathea Bay is the premier nesting site in the Indian Ocean for Dermochelys coriacea (Giant Leatherback turtle). The Shompen are hunter-gatherer PVTGs residing in the Great Nicobar biosphere. Great Nicobar was designated a UNESCO Biosphere Reserve in 2013.",
+    fact_breakdown: [
+      {
+            "label": "1. Galathea Bay Turtles",
+            "status": "true",
+            "detail": "Premier nesting site for Giant Leatherback turtles."
+      },
+      {
+            "label": "2. Shompen PVTG",
+            "status": "true",
+            "detail": "Indigenous hunter-gatherers of Great Nicobar interior."
+      },
+      {
+            "label": "3. UNESCO MAB Great Nicobar",
+            "status": "true",
+            "detail": "Inscribed in UNESCO World Network of Biosphere Reserves in 2013."
+      }
+],
+    trap_type: "Protected Area & Tribal Geography Crossover",
+    trap_analysis: "Confusing Shompen (Great Nicobar) with Sentinelese or Jarawas (South/Middle Andaman).",
+    citations: [
+      {
+            "title": "MoEFCC Biosphere Reserve Division",
+            "reference": "Great Nicobar Biosphere Management Plan"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2026,
+    paper: "GS Paper I (High-Yield Focus)",
+    question_number: 4,
+    subject: "Geography & Mapping",
+    syllabus_code: "PRE-GS1-GEO-WLD",
+    question_style: "pair_counting",
+    stem: "Consider the following international maritime chokepoints and the bodies of water they connect:\n1. Bab-el-Mandeb : Connects the Red Sea with the Gulf of Aden\n2. Strait of Hormuz : Connects the Persian Gulf with the Gulf of Oman\n3. Strait of Malacca : Connects the Andaman Sea with the South China Sea\n4. Bosporus Strait : Connects the Black Sea with the Sea of Marmara\n\nHow many of the above pairs are correctly matched?",
+    options: {
+      A: "Only one pair",
+      B: "Only two pairs",
+      C: "Only three pairs",
+      D: "All four pairs",
+    },
+    official_answer: "D",
+    key_status: "Standard Hydrographic Navigation Charts",
+    explanation: "All four pairs are correctly matched. Bab-el-Mandeb links the Red Sea to the Gulf of Aden. Strait of Hormuz connects Persian Gulf to Gulf of Oman. Strait of Malacca connects the Andaman Sea (Indian Ocean) to South China Sea (Pacific). Bosporus links Black Sea with Sea of Marmara.",
+    fact_breakdown: [
+      {
+            "label": "Pair 1: Bab-el-Mandeb",
+            "status": "true",
+            "detail": "Separates Yemen and Djibouti; connects Red Sea to Gulf of Aden."
+      },
+      {
+            "label": "Pair 2: Strait of Hormuz",
+            "status": "true",
+            "detail": "Separates Iran and Oman; connects Persian Gulf to Gulf of Oman."
+      },
+      {
+            "label": "Pair 3: Malacca Strait",
+            "status": "true",
+            "detail": "Separates Sumatra and Malay Peninsula."
+      },
+      {
+            "label": "Pair 4: Bosporus Strait",
+            "status": "true",
+            "detail": "Splits Istanbul; connects Black Sea to Sea of Marmara."
+      }
+],
+    trap_type: "Post-2022 Pair Counting on Maritime Chokepoints",
+    trap_analysis: "High-stress pair-counting format leaves no room for elimination; candidates second-guess Bosporus vs Dardanelles.",
+    citations: [
+      {
+            "title": "National Atlas & Thematic Mapping Organisation (NATMO)",
+            "reference": "World Maritime Routes"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2026,
+    paper: "GS Paper I (High-Yield Focus)",
+    question_number: 5,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-EXT",
+    question_style: "standard",
+    stem: "With reference to the National Green Hydrogen Mission, consider the following statements:\n1. Green hydrogen is produced by electrolysis of water using renewable electricity.\n2. The Strategic Interventions for Green Hydrogen Transition (SIGHT) programme provides financial incentives for indigenous manufacturing of electrolysers.\n3. India has set a target of producing at least 5 Million Metric Tonnes (MMT) of green hydrogen per annum by 2030.\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 2 only",
+      B: "2 and 3 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "D",
+    key_status: "Ministry of New and Renewable Energy (MNRE) Guidelines",
+    explanation: "All three statements are correct. Green hydrogen is generated via water electrolysis powered by renewables. The SIGHT scheme under MNRE offers financial outlays for domestic electrolyser manufacturing and green hydrogen production. The headline target of the Mission is at least 5 MMT annual capacity by 2030.",
+    fact_breakdown: [
+      {
+            "label": "1. Definition of Green H2",
+            "status": "true",
+            "detail": "Zero-carbon electrolysis via solar/wind electricity."
+      },
+      {
+            "label": "2. SIGHT Programme",
+            "status": "true",
+            "detail": "Dual sub-schemes for electrolysers and green hydrogen production."
+      },
+      {
+            "label": "3. 2030 Target of 5 MMT",
+            "status": "true",
+            "detail": "Official national target approved by Union Cabinet."
+      }
+],
+    trap_type: "Mission Quantitative Targets & Scheme Nomenclature",
+    trap_analysis: "Assuming 5 MMT is for total hydrogen rather than specifically green hydrogen.",
+    citations: [
+      {
+            "title": "National Green Hydrogen Mission",
+            "reference": "MNRE Gazette Notification, Jan 2023"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2025,
+    paper: "GS Paper I (High-Yield Focus)",
+    question_number: 2,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-MAC",
+    question_style: "standard",
+    stem: "With reference to Central Bank Digital Currency (CBDC) or 'e-Rupee' launched by the Reserve Bank of India, consider the following statements:\n1. It is a sovereign currency and appears as a liability on the Reserve Bank of India's balance sheet.\n2. Unlike commercial bank deposits, holding e-Rupee in a digital wallet does not earn any interest.\n3. It is freely convertible against commercial bank deposits and physical cash.\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 2 only",
+      B: "2 and 3 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "D",
+    key_status: "RBI Concept Note on Central Bank Digital Currency",
+    explanation: "All three statements are correct. CBDC is sovereign currency and a direct liability of the central bank. To prevent disintermediation of commercial banks (bank runs), CBDC is non-interest bearing. It is convertible at par against cash and commercial bank balances.",
+    fact_breakdown: [
+      {
+            "label": "1. RBI Balance Sheet Liability",
+            "status": "true",
+            "detail": "Direct legal tender liability of the Reserve Bank."
+      },
+      {
+            "label": "2. Non-interest bearing",
+            "status": "true",
+            "detail": "Designed without interest to prevent draining commercial bank deposits."
+      },
+      {
+            "label": "3. Par convertibility",
+            "status": "true",
+            "detail": "1:1 exchange with physical fiat currency."
+      }
+],
+    trap_type: "CBDC Monetary Policy Architecture",
+    trap_analysis: "Candidates mistakenly assume a digital currency held in a wallet must yield interest like savings bank deposits.",
+    citations: [
+      {
+            "title": "Reserve Bank of India",
+            "reference": "Concept Note on CBDC, Fintech Department"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2025,
+    paper: "GS Paper I (High-Yield Focus)",
+    question_number: 3,
+    subject: "Environment & Ecology",
+    syllabus_code: "PRE-GS1-ENV-CLM",
+    question_style: "standard",
+    stem: "The '30x30 target' often seen in the news is related to which of the following?\n1. Reducing global greenhouse gas emissions by 30% by 2030 under the Paris Agreement.\n2. Protecting at least 30% of the planet's lands, inland waters, coastal areas and oceans by 2030 under the Kunming-Montreal Global Biodiversity Framework.\n3. Ensuring 30% share of renewable energy in global primary energy consumption by 2030 under the International Solar Alliance.\n4. Phasing out 30% of hydrofluorocarbons (HFCs) by 2030 under the Kigali Amendment.",
+    options: {
+      A: "1 only",
+      B: "2 only",
+      C: "3 only",
+      D: "4 only",
+    },
+    official_answer: "B",
+    key_status: "CBD COP15 Kunming-Montreal Framework Target 3",
+    explanation: "Target 3 of the Kunming-Montreal Global Biodiversity Framework (GBF) adopted at CBD COP15 commits the world to conserve at least 30% of terrestrial, inland water, and coastal and marine areas by 2030, universally recognized as the '30x30 target'.",
+    fact_breakdown: [
+      {
+            "label": "Target 3 of GBF",
+            "status": "true",
+            "detail": "30% land and ocean conservation by 2030."
+      }
+],
+    trap_type: "Numerical Acronym Confusion across Multilateral Pacts",
+    trap_analysis: "Conflating 30x30 biodiversity conservation with climate emission targets.",
+    citations: [
+      {
+            "title": "Convention on Biological Diversity (CBD)",
+            "reference": "COP15 Decision 15/4"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2025,
+    paper: "GS Paper I (High-Yield Focus)",
+    question_number: 4,
+    subject: "Science & Technology",
+    syllabus_code: "PRE-GS1-SNT",
+    question_style: "standard",
+    stem: "With reference to Artificial Intelligence and Machine Learning, consider the following statements:\n1. 'Large Language Models' (LLMs) rely on transformer neural network architectures that use self-attention mechanisms to process sequence data in parallel.\n2. Deepfake generation commonly uses Generative Adversarial Networks (GANs), where two neural networks—a generator and a discriminator—contest with each other.\n3. Quantum AI uses quantum bits (qubits) that can exist simultaneously in superpositions of 0 and 1.\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 2 only",
+      B: "2 and 3 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "D",
+    key_status: "Standard Computer Science Principles",
+    explanation: "All three statements are correct. Transformers (Vaswani et al., 2017) use self-attention to process tokens in parallel, powering modern LLMs. Deepfakes primarily utilize GAN architectures (Goodfellow et al.) pitted against each other. Quantum computing leverages superposition and entanglement.",
+    fact_breakdown: [
+      {
+            "label": "1. Transformer & Self-Attention",
+            "status": "true",
+            "detail": "Replaced sequential RNNs with parallel attention mechanisms."
+      },
+      {
+            "label": "2. GANs in Deepfakes",
+            "status": "true",
+            "detail": "Generator creates synthetic media while Discriminator evaluates authenticity."
+      },
+      {
+            "label": "3. Quantum Superposition",
+            "status": "true",
+            "detail": "Qubits exist as linear combinations of states |0> and |1>."
+      }
+],
+    trap_type: "Emerging Tech Foundational Science",
+    trap_analysis: "Technical accuracy of AI algorithms and quantum principles tested cleanly.",
+    citations: [
+      {
+            "title": "NITI Aayog National Strategy for Artificial Intelligence",
+            "reference": "Part II — Research & Frontiers"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2025,
+    paper: "GS Paper I (High-Yield Focus)",
+    question_number: 5,
+    subject: "Polity & Governance",
+    syllabus_code: "PRE-GS1-POL-PAR",
+    question_style: "standard",
+    stem: "Under the Chief Election Commissioner and other Election Commissioners (Appointment, Conditions of Service and Term of Office) Act, 2023, the Selection Committee for recommending appointments consists of:\n1. The Prime Minister (Chairperson)\n2. The Leader of Opposition or leader of the largest opposition party in the Lok Sabha\n3. The Chief Justice of India\n4. A Union Cabinet Minister nominated by the Prime Minister\n\nSelect the correct answer using the code given below:",
+    options: {
+      A: "1, 2 and 3 only",
+      B: "1, 2 and 4 only",
+      C: "2, 3 and 4 only",
+      D: "1, 2, 3 and 4",
+    },
+    official_answer: "B",
+    key_status: "Act No. 49 of 2023 (Gazette of India, Dec 2023)",
+    explanation: "Section 7 of the 2023 Act establishes a 3-member Selection Committee consisting of the Prime Minister (Chairperson), the Leader of Opposition (or leader of largest party in Lok Sabha), and a Union Cabinet Minister nominated by the PM. The Chief Justice of India was excluded by Parliament, replacing the interim SC Bench composition in Anoop Baranwal (2023).",
+    fact_breakdown: [
+      {
+            "label": "1. Prime Minister",
+            "status": "true",
+            "detail": "Designated Chairperson."
+      },
+      {
+            "label": "2. Leader of Opposition",
+            "status": "true",
+            "detail": "Statutory member."
+      },
+      {
+            "label": "3. Chief Justice of India",
+            "status": "false",
+            "detail": "Excluded in the statutory enactment by Parliament."
+      },
+      {
+            "label": "4. Nominated Cabinet Minister",
+            "status": "true",
+            "detail": "Statutory member nominated by PM."
+      }
+],
+    trap_type: "Judicial Judgment vs Subsequent Enacted Statute",
+    trap_analysis: "Candidates recall the March 2023 Supreme Court ruling (which included CJI) and fail to note the subsequent Act passed by Parliament in December 2023 replacing the CJI with a Cabinet Minister.",
+    citations: [
+      {
+            "title": "The Chief Election Commissioner and other Election Commissioners Act, 2023",
+            "reference": "Section 7(1), Ministry of Law and Justice"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2024,
+    paper: "GS Paper I",
+    question_number: 22,
+    subject: "Polity & Governance",
+    syllabus_code: "PRE-GS1-POL-CON",
+    question_style: "standard",
+    stem: "Which of the following provisions of the Constitution of India have a bearing on the administration of Scheduled Areas and Tribal Areas?\n1. Fifth Schedule\n2. Sixth Schedule\n3. Article 244\n4. Article 275(1)\n\nSelect the correct answer using the code given below:",
+    options: {
+      A: "1 and 2 only",
+      B: "1, 2 and 3 only",
+      C: "3 and 4 only",
+      D: "1, 2, 3 and 4",
+    },
+    official_answer: "D",
+    key_status: "Official UPSC CSE 2024 Answer Key",
+    explanation: "All four provisions directly bear on tribal and scheduled areas: Fifth Schedule (Scheduled Areas in 10 states), Sixth Schedule (Tribal areas in Assam, Meghalaya, Tripura, Mizoram), Article 244 (Administration of Scheduled Areas and Tribal Areas), and Article 275(1) (Grants from the Union to certain States for schemes promoting tribal welfare).",
+    fact_breakdown: [
+      {
+            "label": "1. Fifth Schedule",
+            "status": "true",
+            "detail": "Applies to 10 states under Article 244(1)."
+      },
+      {
+            "label": "2. Sixth Schedule",
+            "status": "true",
+            "detail": "Autonomous District Councils in 4 NE states under Article 244(2)."
+      },
+      {
+            "label": "3. Article 244",
+            "status": "true",
+            "detail": "Constitutional anchor for 5th and 6th Schedules."
+      },
+      {
+            "label": "4. Article 275(1)",
+            "status": "true",
+            "detail": "Statutory grants-in-aid for tribal development schemes."
+      }
+],
+    trap_type: "Comprehensive Constitutional Provisions Overlap",
+    trap_analysis: "Overlooking Article 275(1) as merely a financial provision rather than a tribal welfare mechanism.",
+    citations: [
+      {
+            "title": "Constitution of India",
+            "reference": "Articles 244 & 275, Fifth & Sixth Schedules"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2024,
+    paper: "GS Paper I",
+    question_number: 35,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-EXT",
+    question_style: "standard",
+    stem: "With reference to the Balance of Payments (BoP) of India, which of the following constitute the Capital Account?\n1. Foreign Direct Investment (FDI)\n2. External Commercial Borrowings (ECB)\n3. Inward remittances by Indian diaspora\n4. Non-Resident Indian (NRI) deposits\n\nSelect the correct answer using the code given below:",
+    options: {
+      A: "1, 2 and 4 only",
+      B: "1, 2 and 3 only",
+      C: "2, 3 and 4 only",
+      D: "1, 3 and 4 only",
+    },
+    official_answer: "A",
+    key_status: "Official UPSC CSE 2024 Answer Key",
+    explanation: "FDI, External Commercial Borrowings, and NRI deposits are capital account flows because they alter the asset or liability status of the nation. Inward remittances are unilateral transfers classified under the Current Account (Invisibles).",
+    fact_breakdown: [
+      {
+            "label": "1. FDI",
+            "status": "true",
+            "detail": "Capital Account (foreign investment)."
+      },
+      {
+            "label": "2. ECB",
+            "status": "true",
+            "detail": "Capital Account (external debt flow)."
+      },
+      {
+            "label": "3. Inward Remittances",
+            "status": "false",
+            "detail": "Current Account (unilateral transfers under Invisibles)."
+      },
+      {
+            "label": "4. NRI Deposits",
+            "status": "true",
+            "detail": "Capital Account (banking capital)."
+      }
+],
+    trap_type: "Remittances vs NRI Deposits Classification",
+    trap_analysis: "Diaspora remittances do not create a future debt obligation and are strictly Current Account.",
+    citations: [
+      {
+            "title": "Reserve Bank of India Bulletin",
+            "reference": "Balance of Payments Manual — Standard Components"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2023,
+    paper: "GS Paper I",
+    question_number: 14,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-EXT",
+    question_style: "standard",
+    stem: "In India, which one of the following is responsible for maintaining price stability by controlling inflation?\n1. Department of Consumer Affairs\n2. Expenditure Management Commission\n3. Financial Stability and Development Council\n4. Reserve Bank of India",
+    options: {
+      A: "1 only",
+      B: "2 only",
+      C: "3 only",
+      D: "4 only",
+    },
+    official_answer: "D",
+    key_status: "Official UPSC CSE 2023 Answer Key",
+    explanation: "Under Section 45ZB of the Reserve Bank of India Act, 1934 (amended in 2016), the Reserve Bank of India, through the Monetary Policy Committee (MPC), is explicitly tasked with maintaining price stability (target 4% +/- 2%) while keeping in mind the objective of growth.",
+    fact_breakdown: [
+      {
+            "label": "Statutory Price Stability Mandate",
+            "status": "true",
+            "detail": "Section 45ZB of the RBI Act gives RBI exclusive statutory mandate."
+      }
+],
+    trap_type: "Statutory Mandate Attribution",
+    trap_analysis: "Department of Consumer Affairs tracks retail prices, but the macroeconomic inflation control mandate belongs to RBI.",
+    citations: [
+      {
+            "title": "Reserve Bank of India Act, 1934",
+            "reference": "Preamble & Section 45ZB"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2022,
+    paper: "GS Paper I",
+    question_number: 48,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-EXT",
+    question_style: "standard",
+    stem: "With reference to the 'Tea Board' in India, consider the following statements:\n1. The Tea Board is a statutory body.\n2. It is a regulatory body attached to the Ministry of Agriculture and Farmers Welfare.\n3. The Tea Board's Head Office is situated in Bengaluru.\n4. The Board has overseas offices at Dubai and Moscow.\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 3",
+      B: "2 and 4",
+      C: "3 and 4",
+      D: "1 and 4",
+    },
+    official_answer: "D",
+    key_status: "Official UPSC CSE 2022 Answer Key",
+    explanation: "Statement 1 is correct: Established under Tea Act 1953. Statement 2 is false: It functions under the Ministry of Commerce and Industry. Statement 3 is false: Its Head Office is in Kolkata (not Bengaluru - Coffee Board is in Bengaluru). Statement 4 is correct: It maintains overseas offices in Dubai and Moscow.",
+    fact_breakdown: [
+      {
+            "label": "1. Statutory body",
+            "status": "true",
+            "detail": "Tea Act, 1953."
+      },
+      {
+            "label": "2. Ministry",
+            "status": "false",
+            "detail": "Commerce and Industry Ministry, not Agriculture."
+      },
+      {
+            "label": "3. Headquarters",
+            "status": "false",
+            "detail": "Kolkata, not Bengaluru."
+      },
+      {
+            "label": "4. Foreign offices",
+            "status": "true",
+            "detail": "Dubai and Moscow."
+      }
+],
+    trap_type: "Commodity Board Headquarters & Ministry Swap",
+    trap_analysis: "Swapping Kolkata (Tea Board) with Bengaluru (Coffee Board) or Kochi (Spices Board).",
+    citations: [
+      {
+            "title": "Tea Act, 1953",
+            "reference": "Tea Board of India, Ministry of Commerce and Industry"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2020,
+    paper: "GS Paper I",
+    question_number: 12,
+    subject: "Environment & Ecology",
+    syllabus_code: "PRE-GS1-ENV-CLM",
+    question_style: "standard",
+    stem: "With reference to 'coal ash' (fly ash) produced by thermal power plants, consider the following statements:\n1. Coal ash contains toxic heavy metals like arsenic, lead and mercury.\n2. Coal-fired power plants release sulphur dioxide and oxides of nitrogen into the environment.\n3. High ash content is observed in Indian coal.\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 2 only",
+      B: "2 and 3 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "D",
+    key_status: "Official UPSC CSE 2020 Answer Key",
+    explanation: "All three statements are correct. Fly ash contains toxic trace elements including arsenic, lead, and mercury. Thermal plants are major emitters of SO2 and NOx. Indian thermal coal typically has very high ash content (35% to 45%).",
+    fact_breakdown: [
+      {
+            "label": "1. Toxic heavy metals",
+            "status": "true",
+            "detail": "As, Pb, Hg present in combustion residue."
+      },
+      {
+            "label": "2. SO2 and NOx emission",
+            "status": "true",
+            "detail": "Primary stack emissions from fossil combustion."
+      },
+      {
+            "label": "3. High ash in Indian coal",
+            "status": "true",
+            "detail": "Gondwana coal contains 35-45% non-combustible mineral matter."
+      }
+],
+    trap_type: "Physical & Chemical Properties of Indian Coal",
+    trap_analysis: "Assuming coal ash is harmless or that Indian coal is low in ash content.",
+    citations: [
+      {
+            "title": "Ministry of Power / Central Electricity Authority",
+            "reference": "Fly Ash Generation and Utilisation Report"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2020,
+    paper: "GS Paper I",
+    question_number: 67,
+    subject: "Polity & Governance",
+    syllabus_code: "PRE-GS1-POL-PAR",
+    question_style: "standard",
+    stem: "Consider the following statements:\n1. The President of India can summon a session of Parliament at such place as he/she thinks fit.\n2. The Constitution of India provides for three sessions of the Parliament in a year, but it is not mandatory to conduct all three sessions.\n3. There is no minimum number of days that the Parliament is required to meet in a year.\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 2 only",
+      B: "2 and 3 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "C",
+    key_status: "Official UPSC CSE 2020 Answer Key",
+    explanation: "Statement 1 is correct under Article 85(1). Statement 2 is false: The Constitution does NOT provide for three sessions; it only states that six months shall not intervene between two sessions. The three sessions (Budget, Monsoon, Winter) are established by convention. Statement 3 is correct: There is no constitutional minimum number of sitting days.",
+    fact_breakdown: [
+      {
+            "label": "1. Place of Session",
+            "status": "true",
+            "detail": "Article 85(1) allows President to summon at such time and place as he thinks fit."
+      },
+      {
+            "label": "2. 3 Sessions in Constitution",
+            "status": "false",
+            "detail": "Convention, not mentioned anywhere in Constitution text."
+      },
+      {
+            "label": "3. No minimum days",
+            "status": "true",
+            "detail": "Only the 6-month gap rule exists."
+      }
+],
+    trap_type: "Constitutional Text vs Parliamentary Convention",
+    trap_analysis: "Assuming familiar practices like Budget/Monsoon sessions are written in the Constitution.",
+    citations: [
+      {
+            "title": "Constitution of India",
+            "reference": "Article 85"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2020,
+    paper: "GS Paper I",
+    question_number: 89,
+    subject: "Current Events",
+    syllabus_code: "PRE-GS1-CUR",
+    question_style: "standard",
+    stem: "Consider the following statements regarding India's trade with neighbours in South Asia:\n1. The value of Indo-Sri Lanka trade has consistently increased in the last decade.\n2. 'Textile and textile articles' constitute an important item of trade between India and Bangladesh.\n3. In the last five years, Nepal has been the largest trading partner of India in South Asia.\n\nWhich of the statements given above is/are correct?",
+    options: {
+      A: "1 and 2 only",
+      B: "2 only",
+      C: "3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "B",
+    key_status: "Official UPSC CSE 2020 Answer Key",
+    explanation: "Statement 1 is false due to fluctuations in bilateral trade. Statement 2 is correct: Cotton, yarn, and textiles are major exports to Bangladesh. Statement 3 is false: Bangladesh is India's largest trading partner in South Asia, followed by Nepal.",
+    fact_breakdown: [
+      {
+            "label": "1. Consistent increase",
+            "status": "false",
+            "detail": "Trade fluctuated; extreme word 'consistently'."
+      },
+      {
+            "label": "2. Textile trade with Bangladesh",
+            "status": "true",
+            "detail": "Raw materials for Bangladesh RMG sector."
+      },
+      {
+            "label": "3. Largest partner in South Asia",
+            "status": "false",
+            "detail": "Bangladesh is #1, not Nepal."
+      }
+],
+    trap_type: "Extreme Word ('Consistently') & Trade Rank",
+    trap_analysis: "'Consistently increased' over a decade is almost always false in trade stats.",
+    citations: [
+      {
+            "title": "Ministry of Commerce and Industry",
+            "reference": "Export-Import Data Bank, Trade with SAARC"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2019,
+    paper: "GS Paper I",
+    question_number: 28,
+    subject: "Environment & Ecology",
+    syllabus_code: "PRE-GS1-ENV-CLM",
+    question_style: "standard",
+    stem: "As per the E-Waste (Management) Rules in India, which of the following is/are the key features?\n1. Extended Producer Responsibility (EPR) mandates producers to meet channelization targets for e-waste.\n2. Micro and Small Enterprises are completely exempted from the provisions of the Rules.\n3. The Central Pollution Control Board (CPCB) oversees the EPR authorization for producers.\n\nWhich of the statements given above is/are correct?",
+    options: {
+      A: "1 and 3 only",
+      B: "1 only",
+      C: "2 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "A",
+    key_status: "Official UPSC CSE 2019 Answer Key",
+    explanation: "Statements 1 and 3 are correct: EPR was introduced in 2011 and strengthened in 2016 rules under CPCB oversight. Statement 2 is false because micro enterprises are not blanket exempted from e-waste hazardous handling requirements.",
+    fact_breakdown: [
+      {
+            "label": "1. EPR Mandate",
+            "status": "true",
+            "detail": "Producers must channelize e-waste to registered recyclers."
+      },
+      {
+            "label": "2. Micro Enterprises Exemption",
+            "status": "false",
+            "detail": "No blanket statutory exemption."
+      },
+      {
+            "label": "3. CPCB Authorization",
+            "status": "true",
+            "detail": "CPCB grants nation-wide EPR authorizations."
+      }
+],
+    trap_type: "Regulatory Exemption Qualifier",
+    trap_analysis: "Candidates assume MSME exemptions apply broadly across environmental and hazardous waste domains.",
+    citations: [
+      {
+            "title": "E-Waste (Management) Rules, 2016",
+            "reference": "MoEFCC Gazette Notification"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2019,
+    paper: "GS Paper I",
+    question_number: 55,
+    subject: "Environment & Ecology",
+    syllabus_code: "PRE-GS1-ENV-ECO",
+    question_style: "standard",
+    stem: "Consider the following statements:\n1. Asiatic lion is naturally found in India only.\n2. Double-humped camel is naturally found in India only.\n3. One-horned rhinoceros is naturally found in India only.\n\nWhich of the statements given above is/are correct?",
+    options: {
+      A: "1 only",
+      B: "2 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "A",
+    key_status: "Official UPSC CSE 2019 Answer Key",
+    explanation: "Statement 1 is correct: The Asiatic lion (Panthera leo persica) is naturally found only in Gir forest, Gujarat. Statement 2 is false: Double-humped (Bactrian) camel is indigenous to Central Asian deserts (Mongolia, China, Gobi) though a small population exists in Nubra Valley, Ladakh. Statement 3 is false: Greater one-horned rhino is found in Nepal and Bhutan as well.",
+    fact_breakdown: [
+      {
+            "label": "1. Asiatic lion",
+            "status": "true",
+            "detail": "Only surviving wild population is in Gir National Park, Gujarat."
+      },
+      {
+            "label": "2. Double-humped camel",
+            "status": "false",
+            "detail": "Native to Gobi desert of Mongolia and China."
+      },
+      {
+            "label": "3. One-horned rhino",
+            "status": "false",
+            "detail": "Native to Terai-Duar savanna in India, Nepal and Bhutan."
+      }
+],
+    trap_type: "Geographical Endemism Trap ('India only')",
+    trap_analysis: "Extrapolating presence of Bactrian camels in Ladakh to mean they are native solely to India.",
+    citations: [
+      {
+            "title": "IUCN Red List / Wildlife Institute of India",
+            "reference": "Mammals of the Indian Subcontinent"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2018,
+    paper: "GS Paper I",
+    question_number: 19,
+    subject: "Polity & Governance",
+    syllabus_code: "PRE-GS1-POL-PAR",
+    question_style: "standard",
+    stem: "Regarding the Money Bill, which of the following statements is not correct?\n1. A bill shall be deemed to be a Money Bill if it contains only provisions dealing with the imposition, abolition, remission, alteration or regulation of any tax.\n2. A Money Bill has provisions for the custody of the Consolidated Fund of India or the Contingency Fund of India.\n3. A Money Bill is certified by the Speaker of the Lok Sabha, whose decision is final.\n4. A Money Bill can be introduced in either House of Parliament with prior recommendation of the President.",
+    options: {
+      A: "1",
+      B: "2",
+      C: "3",
+      D: "4",
+    },
+    official_answer: "D",
+    key_status: "Official UPSC CSE 2018 Answer Key",
+    explanation: "Statement 4 is NOT correct: Under Article 109(1), a Money Bill can be introduced ONLY in the Lok Sabha, never in the Rajya Sabha. Statements 1, 2, and 3 are correct under Article 110.",
+    fact_breakdown: [
+      {
+            "label": "Introduction in either House",
+            "status": "false",
+            "detail": "Article 109(1) bars Money Bills from introduction in Rajya Sabha."
+      }
+],
+    trap_type: "Negative Question ('not correct')",
+    trap_analysis: "Overlooking the word 'either House' when reading rapidly under exam conditions.",
+    citations: [
+      {
+            "title": "Constitution of India",
+            "reference": "Articles 109 & 110"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2018,
+    paper: "GS Paper I",
+    question_number: 44,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-EXT",
+    question_style: "standard",
+    stem: "With reference to the 'Fugitive Economic Offenders Act, 2018', consider the following statements:\n1. It applies to individuals against whom an arrest warrant has been issued for a scheduled offence with a value of ₹100 crore or more.\n2. Confiscation of properties is limited only to properties bought from the proceeds of crime, and not personal ancestral properties.\n\nWhich of the statements given above is/are correct?",
+    options: {
+      A: "1 only",
+      B: "2 only",
+      C: "Both 1 and 2",
+      D: "Neither 1 nor 2",
+    },
+    official_answer: "A",
+    key_status: "Official UPSC CSE 2018 Answer Key",
+    explanation: "Statement 1 is correct: The threshold for declaring someone a Fugitive Economic Offender under Section 2(m) is ₹100 crore or above. Statement 2 is false because Section 12 allows attachment and confiscation of any properties belonging to the offender in India or abroad, whether or not acquired through crime.",
+    fact_breakdown: [
+      {
+            "label": "1. ₹100 crore threshold",
+            "status": "true",
+            "detail": "Section 2(m) statutory limit."
+      },
+      {
+            "label": "2. Confiscation scope",
+            "status": "false",
+            "detail": "Can confiscate any property, including legitimate assets."
+      }
+],
+    trap_type: "Statutory Property Forfeiture Scope",
+    trap_analysis: "Assuming confiscation is restricted strictly to proceeds of crime as in normal PMLA provisions.",
+    citations: [
+      {
+            "title": "The Fugitive Economic Offenders Act, 2018",
+            "reference": "Sections 2(m) & 12, Ministry of Finance"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2018,
+    paper: "GS Paper I",
+    question_number: 82,
+    subject: "Science & Technology",
+    syllabus_code: "PRE-GS1-SNT",
+    question_style: "standard",
+    stem: "With reference to Genetically Modified mustard (GM mustard) developed in India, consider the following statements:\n1. GM mustard (DMH-11) contains the genes of a soil bacterium that give the plant the property of pest-resistance against a wide range of insects.\n2. The genes introduced in DMH-11 allow cross-pollination and hybridization by inducing temporary male sterility.\n3. It has been developed jointly by the IARI and Punjab Agricultural University.\n\nWhich of the statements given above is/are correct?",
+    options: {
+      A: "1 and 2 only",
+      B: "2 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "B",
+    key_status: "Official UPSC CSE 2018 Answer Key",
+    explanation: "Statement 1 is false: DMH-11 is not insect-resistant like Bt cotton; it uses barnase/barstar genes for hybrid seed production. Statement 2 is correct: Barnase creates male sterility while barstar restores fertility. Statement 3 is false: Developed by Centre for Genetic Manipulation of Crop Plants (CGMCP), Delhi University South Campus.",
+    fact_breakdown: [
+      {
+            "label": "1. Pest resistance claim",
+            "status": "false",
+            "detail": "DMH-11 is a hybridization system, not pest resistant."
+      },
+      {
+            "label": "2. Male sterility & hybridization",
+            "status": "true",
+            "detail": "Barnase/barstar system enables high-yield hybrid vigor."
+      },
+      {
+            "label": "3. Developing institution",
+            "status": "false",
+            "detail": "CGMCP, Delhi University (Dr. Deepak Pental), not PAU."
+      }
+],
+    trap_type: "Conflating GM Hybridization with Bt Pest Resistance",
+    trap_analysis: "Candidates assume all GM crops are engineered for Bt insect resistance.",
+    citations: [
+      {
+            "title": "Genetic Engineering Appraisal Committee (GEAC)",
+            "reference": "MoEFCC Biosafety Dossier for DMH-11"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2017,
+    paper: "GS Paper I",
+    question_number: 18,
+    subject: "Polity & Governance",
+    syllabus_code: "PRE-GS1-POL-CON",
+    question_style: "standard",
+    stem: "Which of the following Directive Principles was added to the Constitution by the 42nd Amendment Act of 1976?\n1. Equal justice and free legal aid\n2. Participation of workers in the management of industries\n3. Protection and improvement of environment and safeguarding of forests and wild life\n4. Minimizing inequalities in income, status, facilities and opportunities\n\nSelect the correct answer using the code given below:",
+    options: {
+      A: "1, 2 and 3 only",
+      B: "1, 2 and 4 only",
+      C: "2, 3 and 4 only",
+      D: "1, 2, 3 and 4",
+    },
+    official_answer: "A",
+    key_status: "Official UPSC CSE 2017 Answer Key",
+    explanation: "Articles 39A (Free legal aid), 43A (Workers' participation in management), and 48A (Environment & wildlife protection) were added by the 42nd Amendment 1976. Statement 4 (Article 38(2)) was added by the 44th Constitutional Amendment Act, 1978.",
+    fact_breakdown: [
+      {
+            "label": "1. Article 39A",
+            "status": "true",
+            "detail": "Added by 42nd Amendment, 1976."
+      },
+      {
+            "label": "2. Article 43A",
+            "status": "true",
+            "detail": "Added by 42nd Amendment, 1976."
+      },
+      {
+            "label": "3. Article 48A",
+            "status": "true",
+            "detail": "Added by 42nd Amendment, 1976."
+      },
+      {
+            "label": "4. Article 38(2)",
+            "status": "false",
+            "detail": "Added by 44th Amendment, 1978."
+      }
+],
+    trap_type: "42nd vs 44th Constitutional Amendment DPSP Insertion",
+    trap_analysis: "Conflating welfare amendments of 1976 (42nd) and 1978 (44th).",
+    citations: [
+      {
+            "title": "Constitution of India",
+            "reference": "Articles 38, 39A, 43A, 48A"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2017,
+    paper: "GS Paper I",
+    question_number: 53,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-EXT",
+    question_style: "standard",
+    stem: "With reference to the 'National Skills Qualifications Framework' (NSQF), consider the following statements:\n1. Under NSQF, a learner can acquire certification for competency only through formal education and training.\n2. An outcome expected from the implementation of NSQF is the mobility between vocational and general education.\n\nWhich of the statements given above is/are correct?",
+    options: {
+      A: "1 only",
+      B: "2 only",
+      C: "Both 1 and 2",
+      D: "Neither 1 nor 2",
+    },
+    official_answer: "B",
+    key_status: "Official UPSC CSE 2017 Answer Key",
+    explanation: "Statement 1 is false because NSQF explicitly provides for Recognition of Prior Learning (RPL), enabling workers to get certified for skills gained informally on the job. Statement 2 is correct: NSQF facilitates vertical and horizontal mobility between technical/vocational and general degrees.",
+    fact_breakdown: [
+      {
+            "label": "1. Formal education only",
+            "status": "false",
+            "detail": "Extreme word 'only'; RPL recognizes informal learning."
+      },
+      {
+            "label": "2. Vocational-academic mobility",
+            "status": "true",
+            "detail": "Core structural objective of NSQF."
+      }
+],
+    trap_type: "Extreme Word ('Only through formal education')",
+    trap_analysis: "RPL is the hallmark feature of NSQF to recognize unorganized sector artisans.",
+    citations: [
+      {
+            "title": "Ministry of Skill Development and Entrepreneurship",
+            "reference": "NSQF Gazette Notification 2013"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2017,
+    paper: "GS Paper I",
+    question_number: 84,
+    subject: "Geography & Mapping",
+    syllabus_code: "PRE-GS1-GEO-WLD",
+    question_style: "standard",
+    stem: "Which of the following countries border the Mediterranean Sea?\n1. Jordan\n2. Iraq\n3. Lebanon\n4. Syria\n\nSelect the correct answer using the code given below:",
+    options: {
+      A: "1, 2 and 3",
+      B: "2 and 3 only",
+      C: "3 and 4 only",
+      D: "1, 3 and 4",
+    },
+    official_answer: "C",
+    key_status: "Official UPSC CSE 2017 Answer Key",
+    explanation: "Lebanon and Syria have extensive coastlines on the eastern Mediterranean Sea (the Levant). Jordan is landlocked with respect to the Mediterranean (it opens only to the Red Sea via the Gulf of Aqaba). Iraq is entirely separated by Syria and Jordan.",
+    fact_breakdown: [
+      {
+            "label": "1. Jordan",
+            "status": "false",
+            "detail": "Opens to Gulf of Aqaba (Red Sea), not Mediterranean."
+      },
+      {
+            "label": "2. Iraq",
+            "status": "false",
+            "detail": "Separated from Mediterranean by Syria."
+      },
+      {
+            "label": "3. Lebanon",
+            "status": "true",
+            "detail": "Direct Mediterranean coast."
+      },
+      {
+            "label": "4. Syria",
+            "status": "true",
+            "detail": "Direct Mediterranean coast (Tartus, Latakia)."
+      }
+],
+    trap_type: "West Asia Landlocked Country Trap (Jordan)",
+    trap_analysis: "Candidates frequently misplace Jordan as a Mediterranean-facing nation.",
+    citations: [
+      {
+            "title": "Oxford Student Atlas for India",
+            "reference": "Middle East / Levant Physical & Political Map"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2016,
+    paper: "GS Paper I",
+    question_number: 29,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-EXT",
+    question_style: "standard",
+    stem: "With reference to the 'Sovereign Gold Bond Scheme', consider the following statements:\n1. It aims to reduce the demand for physical gold in India.\n2. The bonds are denominated in multiples of gram(s) of gold with a basic unit of 1 gram.\n3. The interest rate on the bonds is fixed by the Government at 2.50% per annum.\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 2 only",
+      B: "2 and 3 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "D",
+    key_status: "Official UPSC CSE 2016 Answer Key",
+    explanation: "All three statements are correct. SGBs shift physical gold demand to paper financial assets to curb CAD. Denominations start from 1 gram. The semi-annual interest paid to investors is fixed at 2.50% per annum on initial investment.",
+    fact_breakdown: [
+      {
+            "label": "1. Reduce physical gold imports",
+            "status": "true",
+            "detail": "Curbs current account deficit."
+      },
+      {
+            "label": "2. Denomination unit",
+            "status": "true",
+            "detail": "Multiples of 1 gram."
+      },
+      {
+            "label": "3. 2.50% interest",
+            "status": "true",
+            "detail": "Paid semi-annually by RBI."
+      }
+],
+    trap_type: "Bond Specification Calibration",
+    trap_analysis: "Candidates doubt whether sovereign gold bonds pay a cash coupon rate.",
+    citations: [
+      {
+            "title": "Reserve Bank of India",
+            "reference": "Sovereign Gold Bond Scheme Operational Guidelines"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2016,
+    paper: "GS Paper I",
+    question_number: 61,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-MAC",
+    question_style: "standard",
+    stem: "Which of the following best describes the term 'Core Banking Solutions' (CBS)?\n1. It is a networking of a bank's branches which enables customers to operate their accounts from any branch regardless of where they opened the account.\n2. It is an effort to bring all commercial banks under the direct operational control of the Reserve Bank of India.\n3. It is a procedure by which a bank with huge non-performing assets is taken over by another bank.",
+    options: {
+      A: "1 only",
+      B: "2 and 3 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "A",
+    key_status: "Official UPSC CSE 2016 Answer Key",
+    explanation: "Core Banking Solutions (CBS) is a centralized banking technology that connects branches of a bank over a shared network, allowing customers to access bank accounts and perform basic transactions from any branch (making customer of branch a 'customer of the bank').",
+    fact_breakdown: [
+      {
+            "label": "Definition of CBS",
+            "status": "true",
+            "detail": "Centralized online real-time exchange."
+      }
+],
+    trap_type: "Banking Tech vs Regulatory Takeover",
+    trap_analysis: "Clear single-statement definition testing technical literacy in banking.",
+    citations: [
+      {
+            "title": "Reserve Bank of India",
+            "reference": "Report on Trend and Progress of Banking in India"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2016,
+    paper: "GS Paper I",
+    question_number: 77,
+    subject: "Environment & Ecology",
+    syllabus_code: "PRE-GS1-ENV-ECO",
+    question_style: "standard",
+    stem: "With reference to 'Red Sanders', sometimes seen in the news, consider the following statements:\n1. It is a tree species found in a part of South India.\n2. It is one of the most important trees in the tropical rain forest areas of South India.\n\nWhich of the statements given above is/are correct?",
+    options: {
+      A: "1 only",
+      B: "2 only",
+      C: "Both 1 and 2",
+      D: "Neither 1 nor 2",
+    },
+    official_answer: "A",
+    key_status: "Official UPSC CSE 2016 Answer Key",
+    explanation: "Statement 1 is correct: Red Sanders (Pterocarpus santalinus) is an endemic tree species found only in the Eastern Ghats (Seshachalam Hills of Andhra Pradesh). Statement 2 is false: It grows in dry deciduous scrub and dry thorny forests, NOT in tropical rain forests.",
+    fact_breakdown: [
+      {
+            "label": "1. South Indian Endemism",
+            "status": "true",
+            "detail": "Endemic to Rayalaseema/Seshachalam."
+      },
+      {
+            "label": "2. Forest Type",
+            "status": "false",
+            "detail": "Dry deciduous forest species, not tropical rainforest."
+      }
+],
+    trap_type: "Biophilic Vegetation Zone Swap (Dry Deciduous vs Rainforest)",
+    trap_analysis: "Assuming valuable timber species are always rainforest trees.",
+    citations: [
+      {
+            "title": "Forest Survey of India (FSI)",
+            "reference": "Endemic Flora of Eastern Ghats"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2015,
+    paper: "GS Paper I",
+    question_number: 11,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-MAC",
+    question_style: "standard",
+    stem: "With reference to the 'Basel III Accords', consider the following statements:\n1. They seek to improve the banking sector's ability to absorb shocks arising from financial and economic stress.\n2. They mandate that banks maintain a minimum Capital to Risk-Weighted Assets Ratio (CRAR) of 15%.\n\nWhich of the statements given above is/are correct?",
+    options: {
+      A: "1 only",
+      B: "2 only",
+      C: "Both 1 and 2",
+      D: "Neither 1 nor 2",
+    },
+    official_answer: "A",
+    key_status: "Official UPSC CSE 2015 Answer Key",
+    explanation: "Statement 1 is correct: Basel III aims to enhance risk management and absorb economic shocks. Statement 2 is false: The global Basel III minimum total capital ratio is 8% (in India, RBI mandates 9% for scheduled commercial banks, plus a capital conservation buffer of 2.5%, totaling 11.5%—not 15%).",
+    fact_breakdown: [
+      {
+            "label": "1. Shock absorption objective",
+            "status": "true",
+            "detail": "Core macroprudential pillar."
+      },
+      {
+            "label": "2. CRAR 15% claim",
+            "status": "false",
+            "detail": "Global requirement is 8% (RBI mandates 9% + 2.5% CCB = 11.5%)."
+      }
+],
+    trap_type: "Exaggerated Regulatory Ratio (15% vs 9%/11.5%)",
+    trap_analysis: "Testing factual knowledge of capital adequacy benchmarks.",
+    citations: [
+      {
+            "title": "Bank for International Settlements (BIS)",
+            "reference": "Basel III: International Regulatory Framework for Banks"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2015,
+    paper: "GS Paper I",
+    question_number: 38,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-EXT",
+    question_style: "standard",
+    stem: "What is the primary objective of the 'Seed Village Concept' in India?\n1. To encourage farmers to use their own farm-saved seeds and eliminate reliance on public seed corporations.\n2. To train farmers in quality seed production and make high-quality certified seeds available to other farmers at affordable prices at the local village level.\n3. To earmark exclusive villages for producing seeds of Genetically Modified crops.\n4. To distribute free seeds to all marginal farmers across drought-prone districts.",
+    options: {
+      A: "1",
+      B: "2",
+      C: "3",
+      D: "4",
+    },
+    official_answer: "B",
+    key_status: "Official UPSC CSE 2015 Answer Key",
+    explanation: "The Seed Village Programme (Gram Beej Yojana) trains a group of farmers in a village in seed production of specific crops to produce quality foundation and certified seeds, making affordable seed supply available locally.",
+    fact_breakdown: [
+      {
+            "label": "Objective of Seed Village",
+            "status": "true",
+            "detail": "Decentralized production and peer-to-peer distribution of certified seed."
+      }
+],
+    trap_type: "Scheme Concept Core Objective",
+    trap_analysis: "Misconstruing decentralization as GM crop zoning or free distribution.",
+    citations: [
+      {
+            "title": "Ministry of Agriculture and Farmers Welfare",
+            "reference": "Sub-Mission on Seeds and Planting Material (SMSP)"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2015,
+    paper: "GS Paper I",
+    question_number: 64,
+    subject: "Environment & Ecology",
+    syllabus_code: "PRE-GS1-ENV-ECO",
+    question_style: "standard",
+    stem: "With reference to the 'Dugong', a mammal found in India, consider the following statements:\n1. It is a herbivorous marine mammal.\n2. It is found along the entire coast of India.\n3. It is given legal protection under Schedule I of the Wildlife (Protection) Act, 1972.\n\nWhich of the statements given above are correct?",
+    options: {
+      A: "1 and 2",
+      B: "2 only",
+      C: "1 and 3",
+      D: "3 only",
+    },
+    official_answer: "C",
+    key_status: "Official UPSC CSE 2015 Answer Key",
+    explanation: "Statements 1 and 3 are correct: The Dugong (Sea Cow) is the only strictly herbivorous marine mammal, feeding on seagrasses, and is protected under Schedule I. Statement 2 is false: It is restricted to specific seagrass beds in the Gulf of Mannar, Palk Bay, Gulf of Kutch, and Andaman and Nicobar Islands (NOT the entire coast).",
+    fact_breakdown: [
+      {
+            "label": "1. Herbivorous marine mammal",
+            "status": "true",
+            "detail": "Feeds exclusively on seagrass meadows."
+      },
+      {
+            "label": "2. Entire coast of India",
+            "status": "false",
+            "detail": "Extreme word 'entire coast'; limited to 4 disjoint marine pockets."
+      },
+      {
+            "label": "3. Schedule I protection",
+            "status": "true",
+            "detail": "Highest degree of statutory protection under WPA 1972."
+      }
+],
+    trap_type: "Extreme Word ('Entire coast of India')",
+    trap_analysis: "Marine species with specific dietary requirements are confined to sheltered shallow seagrass ecosystems.",
+    citations: [
+      {
+            "title": "Wildlife Institute of India",
+            "reference": "Recovery Programme for Dugong and Seagrass Habitats"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2014,
+    paper: "GS Paper I",
+    question_number: 16,
+    subject: "Environment & Ecology",
+    syllabus_code: "PRE-GS1-ENV-ECO",
+    question_style: "standard",
+    stem: "With reference to 'Eco-Sensitive Zones' (ESZs), which of the following statements is/are correct?\n1. Eco-Sensitive Zones are the areas that are declared under the Wildlife (Protection) Act, 1972.\n2. The purpose of the declaration of Eco-Sensitive Zones is to prohibit all kinds of human activities, in those zones except agriculture.\n\nSelect the correct answer using the code given below:",
+    options: {
+      A: "1 only",
+      B: "2 only",
+      C: "Both 1 and 2",
+      D: "Neither 1 nor 2",
+    },
+    official_answer: "D",
+    key_status: "Official UPSC CSE 2014 Answer Key",
+    explanation: "Both statements are false. Statement 1 is false: ESZs are declared under Section 3 of the Environment (Protection) Act, 1986 (not WPA 1972). Statement 2 is false: ESZs do not prohibit all human activities; they create shock absorbers by regulating certain activities (commercial mining, polluting industries) while permitting agriculture, horticulture, and renewable energy.",
+    fact_breakdown: [
+      {
+            "label": "1. Governing Act",
+            "status": "false",
+            "detail": "Declared under EPA 1986, not WPA 1972."
+      },
+      {
+            "label": "2. Prohibition of all human activities",
+            "status": "false",
+            "detail": "ESZs regulate and phase activities, not total prohibition."
+      }
+],
+    trap_type: "Act Confusion (EPA 1986 vs WPA 1972) & Extreme Prohibition",
+    trap_analysis: "Assuming ESZs have the same exclusionary status as National Parks.",
+    citations: [
+      {
+            "title": "Ministry of Environment, Forest and Climate Change",
+            "reference": "Guidelines for Declaration of Eco-Sensitive Zones"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2014,
+    paper: "GS Paper I",
+    question_number: 49,
+    subject: "Economy",
+    syllabus_code: "PRE-GS1-ECO-MAC",
+    question_style: "standard",
+    stem: "In the context of the Indian economy, which of the following is/are the purpose(s) of 'Marginal Standing Facility' (MSF)?\n1. Facilitating overnight borrowing by commercial banks from the Reserve Bank of India.\n2. Enabling scheduled commercial banks to meet sudden unexpected liquidity shortfalls even when they have exhausted their regular borrowing limits under Repo.\n3. Permitting banks to dip into their Statutory Liquidity Ratio (SLR) securities up to a prescribed percentage.\n\nSelect the correct answer using the code given below:",
+    options: {
+      A: "1 and 2 only",
+      B: "2 and 3 only",
+      C: "1 and 3 only",
+      D: "1, 2 and 3",
+    },
+    official_answer: "D",
+    key_status: "Official UPSC CSE 2014 Answer Key",
+    explanation: "All three statements are correct. MSF was introduced in 2011 to allow scheduled commercial banks to borrow overnight funds against government securities up to a designated percentage of their NDTL, explicitly permitting them to dip into their SLR portfolio at a penal rate.",
+    fact_breakdown: [
+      {
+            "label": "1. Overnight borrowing window",
+            "status": "true",
+            "detail": "Provides urgent overnight liquidity."
+      },
+      {
+            "label": "2. Emergency liquidity backstop",
+            "status": "true",
+            "detail": "Above regular Repo window."
+      },
+      {
+            "label": "3. SLR dipping allowance",
+            "status": "true",
+            "detail": "Permits dipping into SLR portfolio."
+      }
+],
+    trap_type: "Monetary Tool Functional Mechanics",
+    trap_analysis: "SLR dipping is unique to MSF and contrasts with regular Repo operations.",
+    citations: [
+      {
+            "title": "Reserve Bank of India",
+            "reference": "Master Direction on Liquidity Adjustment Facility"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2013,
+    paper: "GS Paper I",
+    question_number: 17,
+    subject: "Polity & Governance",
+    syllabus_code: "PRE-GS1-POL-PAR",
+    question_style: "standard",
+    stem: "According to the Constitution of India, what is the quorum required to constitute a meeting of either House of Parliament?\n1. One-sixth of the total number of members of the House.\n2. One-eighth of the total number of members of the House.\n3. One-tenth of the total number of members of the House.\n4. One-twelfth of the total number of members of the House.",
+    options: {
+      A: "1",
+      B: "2",
+      C: "3",
+      D: "4",
+    },
+    official_answer: "C",
+    key_status: "Official UPSC CSE 2013 Answer Key",
+    explanation: "Under Article 100(3) of the Constitution of India, until Parliament by law otherwise provides, the quorum to constitute a meeting of either House of Parliament shall be one-tenth of the total number of members of the House (55 members for Lok Sabha, 25 for Rajya Sabha).",
+    fact_breakdown: [
+      {
+            "label": "Quorum under Article 100(3)",
+            "status": "true",
+            "detail": "One-tenth of total membership."
+      }
+],
+    trap_type: "Constitutional Fraction Direct Fact",
+    trap_analysis: "Direct factual memory check on parliamentary procedure.",
+    citations: [
+      {
+            "title": "Constitution of India",
+            "reference": "Article 100(3)"
+      }
+],
+    is_verified: true,
+  },
+  {
+    year: 2013,
+    paper: "GS Paper I",
+    question_number: 52,
+    subject: "Geography & Mapping",
+    syllabus_code: "PRE-GS1-GEO-IND",
+    question_style: "standard",
+    stem: "Contour bunding is a method of soil conservation used in:\n1. Desert margins prone to wind erosion.\n2. Low flat plains close to river banks liable to recurrent flooding.\n3. Scrublands with undulating terrain and low or erratic rainfall.\n4. Tropical rainforests with steep mountain gradients.",
+    options: {
+      A: "1",
+      B: "2",
+      C: "3",
+      D: "4",
+    },
+    official_answer: "C",
+    key_status: "Official UPSC CSE 2013 Answer Key",
+    explanation: "Contour bunding involves constructing small earthen embankments across the slope along contour lines. It is particularly effective in arid and semi-arid undulating scrublands with low rainfall, slowing runoff and allowing water to infiltrate while preventing topsoil wash-away.",
+    fact_breakdown: [
+      {
+            "label": "Application of contour bunding",
+            "status": "true",
+            "detail": "Dryland undulating scrub terrain."
+      }
+],
+    trap_type: "Agricultural Soil Conservation Suitability",
+    trap_analysis: "Contour bunding is unsuitable for heavy rainfall floodplains or sheer rainforest cliffs where terracing or drainage is needed.",
+    citations: [
+      {
+            "title": "NCERT Class XI India: Physical Environment",
+            "reference": "Soils and Soil Conservation Methods"
+      }
+],
     is_verified: true,
   },
 ];

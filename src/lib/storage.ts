@@ -542,6 +542,7 @@ export function saveLocalCustomPyqs(newQuestions: PyqQuestion[]): void {
 }
 
 export function getAllPyqs(filters?: {
+  paper?: string;
   subject?: string;
   syllabus_code?: string;
   year?: string;
@@ -600,6 +601,14 @@ export function getAllPyqs(filters?: {
   let combined = [...starterList, ...customList];
 
   // Apply filters
+  if (filters?.paper && filters.paper !== "ALL") {
+    if (filters.paper === "GS1") {
+      combined = combined.filter((q) => !q.paper.toLowerCase().includes("csat") && !q.paper.toLowerCase().includes("paper ii"));
+    } else if (filters.paper === "CSAT") {
+      combined = combined.filter((q) => q.paper.toLowerCase().includes("csat") || q.paper.toLowerCase().includes("paper ii") || q.subject.includes("CSAT"));
+    }
+  }
+
   if (filters?.syllabus_code && filters.syllabus_code !== "ALL") {
     combined = combined.filter((q) => q.syllabus_code === filters.syllabus_code);
   } else if (filters?.subject && filters.subject !== "ALL") {

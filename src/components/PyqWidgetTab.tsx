@@ -83,6 +83,7 @@ export default function PyqWidgetTab({
 }: PyqWidgetTabProps) {
   const [questions, setQuestions] = useState<PyqWithAttempt[]>([]);
   const [loading, setLoading] = useState(true);
+  const [paperFilter, setPaperFilter] = useState<"ALL" | "GS1" | "CSAT">("ALL");
   const [subjectFilter, setSubjectFilter] = useState("ALL");
   const [syllabusFilter, setSyllabusFilter] = useState(initialSyllabusCode || "ALL");
   const [yearFilter, setYearFilter] = useState("ALL");
@@ -127,19 +128,31 @@ export default function PyqWidgetTab({
     }
   }, [initialSyllabusCode, syllabus]);
 
-  // Dynamic syllabus unit filtering based on currently selected subject
-  const availableSyllabusUnits = syllabus.filter((s) => {
+  // Dynamic syllabus unit filtering based on currently selected paper & subject
+  const filteredSyllabus = syllabus.filter((s) => {
     if (s.stage === "MAINS") return false;
+    if (paperFilter === "GS1" && (s.subject.startsWith("CSAT") || s.paper.includes("CSAT"))) return false;
+    if (paperFilter === "CSAT" && !s.subject.startsWith("CSAT") && !s.paper.includes("CSAT")) return false;
+    return true;
+  });
+
+  const availableSyllabusUnits = filteredSyllabus.filter((s) => {
     if (subjectFilter !== "ALL" && s.subject !== subjectFilter) return false;
     return true;
   });
+
+  const handlePaperChange = (newPaper: "ALL" | "GS1" | "CSAT") => {
+    setPaperFilter(newPaper);
+    setSubjectFilter("ALL");
+    setSyllabusFilter("ALL");
+  };
 
   const handleSubjectChange = (newSubject: string) => {
     setSubjectFilter(newSubject);
     if (newSubject !== "ALL") {
       // If current syllabus unit doesn't belong to this subject, reset to ALL
-      const stillValid = syllabus.some(
-        (s) => s.code === syllabusFilter && s.subject === newSubject && s.stage !== "MAINS"
+      const stillValid = filteredSyllabus.some(
+        (s) => s.code === syllabusFilter && s.subject === newSubject
       );
       if (!stillValid) {
         setSyllabusFilter("ALL");
@@ -154,6 +167,11 @@ export default function PyqWidgetTab({
       const matched = syllabus.find((s) => s.code === newCode);
       if (matched) {
         setSubjectFilter(matched.subject);
+        if (matched.subject.startsWith("CSAT") || matched.paper.includes("CSAT")) {
+          setPaperFilter("CSAT");
+        } else {
+          setPaperFilter("GS1");
+        }
       }
     }
   };
@@ -162,6 +180,7 @@ export default function PyqWidgetTab({
     setLoading(true);
     try {
       const localResults = getAllPyqs({
+        paper: paperFilter,
         subject: subjectFilter,
         syllabus_code: syllabusFilter,
         year: yearFilter,
@@ -172,6 +191,7 @@ export default function PyqWidgetTab({
     } catch (err) {
       console.warn("Using network fallback:", err);
       const params = new URLSearchParams();
+      if (paperFilter !== "ALL") params.set("paper", paperFilter);
       if (subjectFilter !== "ALL") params.set("subject", subjectFilter);
       if (syllabusFilter !== "ALL") params.set("syllabus_code", syllabusFilter);
       if (yearFilter !== "ALL") params.set("year", yearFilter);
@@ -187,7 +207,7 @@ export default function PyqWidgetTab({
   useEffect(() => {
     fetchPyqs();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subjectFilter, syllabusFilter, yearFilter]);
+  }, [paperFilter, subjectFilter, syllabusFilter, yearFilter]);
 
   const currentQ = questions[currentIndex];
 
@@ -356,7 +376,7 @@ export default function PyqWidgetTab({
     }
   };
 
-  const subjects = Array.from(new Set(syllabus.filter((s) => s.stage !== "MAINS").map((s) => s.subject)));
+  const subjects = Array.from(new Set(filteredSyllabus.map((s) => s.subject)));
   const isAlreadyLogged = currentQ ? loggedPyqIds.includes(currentQ.id) : false;
 
   return (
@@ -389,6 +409,48 @@ export default function PyqWidgetTab({
             >
               <Upload className="h-3.5 w-3.5 text-amber-700" />
               Import Pack
+            </button>
+          </div>
+        </div>
+
+        {/* Paper 1 (GS) vs Paper 2 (CSAT) Segmented Selector */}
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <label className="text-[11px] font-bold uppercase tracking-wider text-stone-500 mr-1">
+            Exam Paper:
+          </label>
+          <div className="inline-flex rounded-full bg-stone-200/90 p-1 shadow-inner">
+            <button
+              type="button"
+              onClick={() => handlePaperChange("ALL")}
+              className={`rounded-full px-4 py-1 text-xs font-semibold transition-all ${
+                paperFilter === "ALL"
+                  ? "bg-stone-900 text-white shadow-sm"
+                  : "text-stone-700 hover:text-stone-900"
+              }`}
+            >
+              All Papers (GS + CSAT)
+            </button>
+            <button
+              type="button"
+              onClick={() => handlePaperChange("GS1")}
+              className={`rounded-full px-4 py-1 text-xs font-semibold transition-all ${
+                paperFilter === "GS1"
+                  ? "bg-amber-900 text-white shadow-sm"
+                  : "text-stone-700 hover:text-stone-900"
+              }`}
+            >
+              Paper 1: GS (100 Qs/yr)
+            </button>
+            <button
+              type="button"
+              onClick={() => handlePaperChange("CSAT")}
+              className={`rounded-full px-4 py-1 text-xs font-semibold transition-all ${
+                paperFilter === "CSAT"
+                  ? "bg-amber-900 text-white shadow-sm"
+                  : "text-stone-700 hover:text-stone-900"
+              }`}
+            >
+              Paper 2: CSAT (80 Qs/yr)
             </button>
           </div>
         </div>
@@ -515,11 +577,16 @@ export default function PyqWidgetTab({
         </div>
 
         {/* Active Filter Synchronization Feedback Bar */}
-        {(syllabusFilter !== "ALL" || subjectFilter !== "ALL" || yearFilter !== "ALL") && (
+        {(paperFilter !== "ALL" || syllabusFilter !== "ALL" || subjectFilter !== "ALL" || yearFilter !== "ALL") && (
           <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-amber-300/80 bg-amber-50/70 px-4 py-2 text-xs text-amber-950">
             <div className="flex flex-wrap items-center gap-1.5">
               <Sparkles className="h-3.5 w-3.5 text-amber-800 flex-shrink-0" />
               <span className="font-medium text-stone-700">Filter Scope:</span>
+              {paperFilter !== "ALL" && (
+                <span className="rounded-full bg-amber-200/90 px-2.5 py-0.5 text-[11px] font-bold text-amber-950">
+                  {paperFilter === "GS1" ? "Paper 1 (GS)" : "Paper 2 (CSAT)"}
+                </span>
+              )}
               {syllabusFilter !== "ALL" ? (
                 <span className="inline-flex items-center gap-1 rounded-full bg-amber-200/90 px-2.5 py-0.5 font-mono text-[11px] font-bold text-amber-950">
                   <Layers className="h-3 w-3" />
@@ -540,8 +607,10 @@ export default function PyqWidgetTab({
             </div>
             <button
               onClick={() => {
+                setPaperFilter("ALL");
                 setSubjectFilter("ALL");
                 handleSyllabusChange("ALL");
+                setYearFilter("ALL");
               }}
               className="text-xs font-semibold text-amber-900 underline hover:text-amber-950 whitespace-nowrap"
             >
@@ -627,10 +696,11 @@ export default function PyqWidgetTab({
               <button
                 type="button"
                 onClick={() => setYearFilter(String(currentQ.year))}
-                title={`Filter by Year: ${currentQ.year}`}
-                className="rounded-full bg-stone-900 px-3.5 py-1 text-xs font-bold text-white shadow-sm transition hover:bg-stone-800 active:scale-95 cursor-pointer"
+                title={`Filter questions by Year: ${currentQ.year}`}
+                className="inline-flex items-center gap-1.5 rounded-full bg-stone-900 px-3.5 py-1 text-xs font-bold text-white shadow-sm transition hover:bg-stone-800 active:scale-95 cursor-pointer ring-1 ring-stone-950"
               >
-                UPSC CSE {currentQ.year}
+                <Calendar className="h-3.5 w-3.5 text-amber-400" />
+                <span>UPSC CSE {currentQ.year}</span>
               </button>
               <button
                 type="button"
@@ -681,7 +751,7 @@ export default function PyqWidgetTab({
                 <ChevronLeft className="h-4 w-4" />
               </button>
               <span className="px-2 font-mono text-xs font-semibold text-stone-600">
-                {currentIndex + 1} / {questions.length}
+                {currentIndex + 1} of {questions.length} • <span className="font-bold text-stone-900">{currentQ.year}</span>
               </span>
               <button
                 onClick={() => setCurrentIndex((i) => Math.min(questions.length - 1, i + 1))}
@@ -690,6 +760,30 @@ export default function PyqWidgetTab({
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
+            </div>
+          </div>
+
+          {/* Prominent Question Header Banner: Explicit Year Asked Display */}
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-2.5 rounded-2xl border border-amber-200/90 bg-gradient-to-r from-amber-50/90 via-[#FDFBF7] to-amber-50/60 px-4 py-2.5 shadow-sm">
+            <div className="flex flex-wrap items-center gap-2 text-xs">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-900 px-3 py-1 font-mono font-bold text-white shadow-xs">
+                <Calendar className="h-3.5 w-3.5 text-amber-300" />
+                Year Asked: {currentQ.year}
+              </span>
+              <span className="font-semibold text-stone-800">
+                {currentQ.paper}
+              </span>
+              {currentQ.question_number ? (
+                <>
+                  <span className="text-stone-300">•</span>
+                  <span className="font-mono text-stone-600">Question #{currentQ.question_number}</span>
+                </>
+              ) : null}
+            </div>
+
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-2.5 py-0.5 text-[11px] font-semibold text-stone-600">
+              <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
+              Verified UPSC Key ({currentQ.year})
             </div>
           </div>
 
@@ -813,7 +907,7 @@ export default function PyqWidgetTab({
                       : `Incorrect (-0.66 marks) — You chose Option ${selectedOption}, Official Key: Option ${currentQ.official_answer}`}
                   </div>
                   <div className="mt-0.5 text-xs opacity-80">
-                    Source: <span className="font-semibold">{currentQ.key_status}</span>
+                    UPSC CSE {currentQ.year} ({currentQ.paper}) • Source: <span className="font-semibold">{currentQ.key_status}</span>
                   </div>
                 </div>
                 <span className="self-start rounded-full bg-white px-3 py-1 text-xs font-bold text-stone-800 shadow-sm sm:self-auto">
